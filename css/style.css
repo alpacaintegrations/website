@@ -826,7 +826,7 @@
     
     /* 4. Quick scan knop 50% opacity */
     .quick-scan-button-max {
-        background: rgba(96, 165, 250, 0.8) !important; /* 50% opacity */
+        background: rgba(96, 165, 250, 0.7) !important; /* 50% opacity */
     }
     
     .quick-scan-button-max:hover {
@@ -853,5 +853,28 @@
     .header-cta svg {
         width: 16px !important;
         height: 16px !important;
+    }
+}
+@media only screen and (max-width: 480px) {
+    /* Header logo 20% kleiner - hele logo container */
+    .logo-name {
+        font-size: 0.8rem !important; /* 80% van origineel */
+    }
+    
+    /* Highlight letters ook kleiner */
+    .highlight-letter.highlight-a,
+    .highlight-letter.highlight-i {
+        font-size: 1.12rem !important; /* 80% van 1.4rem */
+    }
+    
+    /* Highlight boxes kleiner */
+    .highlight-box {
+        width: 24px !important; /* 80% van 30px */
+        height: 24px !important;
+    }
+    
+    /* Logo parts dichter bij elkaar */
+    .logo-part:last-child {
+        margin-left: 0.3rem !important; /* Was 0.5rem */
     }
 }
