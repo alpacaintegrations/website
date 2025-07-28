@@ -807,12 +807,12 @@
     
     /* 2. Hero titel meer ruimte bovenaan */
     .hero-content {
-        padding-top: 80px !important; /* Extra ruimte voor header */
+        padding-top: 40px !important; /* Extra ruimte voor header */
     }
     
     /* Of als dat niet werkt: */
     .hero h1 {
-        margin-top: 80px !important;
+        margin-top: 40px !important;
     }
     
     /* 3. Plan kennismakingsgesprek knop smaller */
