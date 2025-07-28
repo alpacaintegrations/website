@@ -824,14 +824,6 @@
         margin: 0 auto;
     }
     
-    /* 4. Quick scan knop 50% opacity */
-    .quick-scan-button-max {
-        background: rgba(96, 165, 250, 0.5) !important; /* 50% opacity */
-    }
-    
-    .quick-scan-button-max:hover {
-        background: rgba(96, 165, 250, 0.7) !important; /* Iets meer bij hover */
-    }
 }
 @media only screen and (max-width: 480px) {
     /* Header CTA knop kleiner maken */
@@ -879,20 +871,15 @@
     }
 }
 @media only screen and (max-width: 480px) {
-    /* Quick scan knop donkerder blauw op mobiel */
+    /* Quick scan knop paars met opacity op mobiel */
     .quick-scan-button-max {
-        background: #3b82f6 !important; /* Donker blauw zoals process steps */
-        border-color: #3b82f6 !important;
+        background: rgba(168, 85, 247, 0.5) !important; /* Paars met 50% opacity */
+        border-color: #a855f7 !important; /* Rand blijft solide paars */
     }
     
     .quick-scan-button-max:hover {
-        background: #2563eb !important; /* Nog iets donkerder bij hover */
-        border-color: #2563eb !important;
-    }
-    
-    /* Tekst blijft wit voor contrast */
-    .quick-scan-button-max * {
-        color: #ffffff !important;
+        background: rgba(168, 85, 247, 0.7) !important; /* 70% opacity bij hover */
+        border-color: #a855f7 !important;
     }
 }
 @media only screen and (max-width: 480px) {
