@@ -826,10 +826,32 @@
     
     /* 4. Quick scan knop 50% opacity */
     .quick-scan-button-max {
-        background: rgba(96, 165, 250, 0.9) !important; /* 50% opacity */
+        background: rgba(96, 165, 250, 0.8) !important; /* 50% opacity */
     }
     
     .quick-scan-button-max:hover {
         background: rgba(96, 165, 250, 0.7) !important; /* Iets meer bij hover */
+    }
+}
+@media only screen and (max-width: 480px) {
+    /* Header CTA knop kleiner maken */
+    #header-cta,
+    .header-cta {
+        padding: 0.5rem 1rem !important; /* Kleiner in beide richtingen */
+        font-size: 0.85rem !important; /* Kleinere tekst */
+        line-height: 1.2 !important; /* 40% minder regel ruimte */
+    }
+    
+    /* Als de knop meerdere regels tekst heeft */
+    #header-cta span,
+    .header-cta span {
+        line-height: 1.2 !important;
+    }
+    
+    /* Icon in de knop ook kleiner */
+    #header-cta svg,
+    .header-cta svg {
+        width: 16px !important;
+        height: 16px !important;
     }
 }
