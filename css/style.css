@@ -798,9 +798,12 @@
 @media only screen and (max-width: 480px) {
     
     /* 1. Logo_glow weg op mobiel */
-    .logo::after {
+    @media only screen and (max-width: 480px) {
+    /* Logo in het midden verbergen op mobiel */
+    .center-logo {
         display: none !important;
     }
+}
     
     /* 2. Hero titel meer ruimte bovenaan */
     .hero-content {
