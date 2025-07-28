@@ -807,7 +807,7 @@
     
     /* 2. Hero titel meer ruimte bovenaan */
     .hero-content {
-        padding-top: 120px !important; /* Extra ruimte voor header */
+        padding-top: 80px !important; /* Extra ruimte voor header */
     }
     
     /* Of als dat niet werkt: */
