@@ -873,12 +873,12 @@
 @media only screen and (max-width: 480px) {
     /* Quick scan knop paars met opacity op mobiel */
     .quick-scan-button-max {
-        background: rgba(122, 14, 223, 0.65) !important; /* Paars met 50% opacity */
+        background: rgba(60, 2, 113, 0.65) !important; /* Paars met 50% opacity */
         border-color: #a855f7 !important; /* Rand blijft solide paars */
     }
     
     .quick-scan-button-max:hover {
-        background: rgba(112, 14, 223, 0.8) !important; /* 70% opacity bij hover */
+        background: rgba(60, 2, 223, 0.8) !important; /* 70% opacity bij hover */
         border-color: #a855f7 !important;
     }
 }
