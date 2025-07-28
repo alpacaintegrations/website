@@ -784,42 +784,8 @@
         font-size: 0.75rem !important;
         line-height: 1 !important;
     }
-    /* ===== MEER RUIMTE VOOR WIDGET RECHTS ===== */
-
-/* Tablet - geef alle content meer ruimte rechts */
-@media (max-width: 768px) {
-    body {
-        padding-right: 140px !important; /* Ruimte voor widget */
-    }
     
-    .container,
-    .hero-content,
-    section {
-        margin-right: 0 !important;
-        padding-right: 20px !important;
-    }
-}
 
-/* Mobiel - iets minder ruimte maar nog steeds genoeg */
-@media (max-width: 480px) {
-    body {
-        padding-right: 110px !important; /* Kleinere widget */
-    }
-    
-    .container,
-    .hero-content,
-    section {
-        margin-right: 0 !important;
-        padding-right: 15px !important;
-    }
-}
-
-/* Footer specifiek - die loopt vaak helemaal door */
-@media (max-width: 768px) {
-    footer .container {
-        max-width: calc(100% - 150px) !important;
-    }
-}
 }
 /* ===== EINDE QUICK SCAN WIDGET ===== */
 .center-logo img {
