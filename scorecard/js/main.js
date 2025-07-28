@@ -1804,7 +1804,7 @@ event.target.parentElement.innerHTML = `
     document.querySelector('.results-container').innerHTML = `
         <div style="text-align: center; padding: 100px 20px;">
             <div style="max-width: 696px; margin: 0 auto 40px;">
-    <img src="assets/images/alpaca_dashboard.jpg" 
+    <img src="/scorecard/assets/images/alpaca_dashboard.jpg" 
          alt="AI Processing" 
          style="width: 100%; height: auto; border-radius: 20px; box-shadow: 0 10px 40px rgba(168, 85, 247, 0.3);">
 </div>
