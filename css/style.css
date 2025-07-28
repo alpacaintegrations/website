@@ -856,9 +856,9 @@
     }
 }
 @media only screen and (max-width: 480px) {
-    /* Header logo 20% kleiner - hele logo container */
+    /* Header logo 10% kleiner - hele logo container */
     .logo-name {
-        font-size: 0.8rem !important; /* 80% van origineel */
+        font-size: 0.9rem !important; /* 90% van origineel */
     }
     
     /* Highlight letters ook kleiner */
