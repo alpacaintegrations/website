@@ -878,3 +878,43 @@
         margin-left: 0.3rem !important; /* Was 0.5rem */
     }
 }
+@media only screen and (max-width: 480px) {
+    /* Quick scan knop donkerder blauw op mobiel */
+    .quick-scan-button-max {
+        background: #3b82f6 !important; /* Donker blauw zoals process steps */
+        border-color: #3b82f6 !important;
+    }
+    
+    .quick-scan-button-max:hover {
+        background: #2563eb !important; /* Nog iets donkerder bij hover */
+        border-color: #2563eb !important;
+    }
+    
+    /* Tekst blijft wit voor contrast */
+    .quick-scan-button-max * {
+        color: #ffffff !important;
+    }
+}
+@media only screen and (max-width: 480px) {
+    /* Header button vaste grootte - niet meegroeien */
+    #header-cta,
+    .header-cta {
+        flex-grow: 0 !important; /* Niet groeien */
+        flex-shrink: 0 !important; /* Niet krimpen */
+        width: auto !important; /* Eigen breedte behouden */
+        max-width: fit-content !important;
+    }
+    
+    /* Nav container - ruimte tussen logo en knop */
+    nav {
+        justify-content: space-between !important;
+    }
+    
+    /* Of als nav container geen flex is */
+    .header-cta {
+        position: absolute !important;
+        right: 1rem !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+    }
+}
