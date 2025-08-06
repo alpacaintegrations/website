@@ -485,7 +485,7 @@
     object-fit: cover;
     transition: all 0.3s ease;
 }
-/* ===== VIDEO MODAL ===== */
+/* ===== VIDEO MODAL SIMPLE FIX ===== */
 .video-modal {
     display: none;
     position: fixed;
@@ -493,9 +493,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    z-index: 2000;
-    cursor: pointer;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999;
 }
 
 .modal-content {
@@ -503,9 +502,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 900px;
-    cursor: default;
+    width: 80%;
+    max-width: 1000px;
 }
 
 .close-button {
@@ -513,20 +511,13 @@
     top: -40px;
     right: 0;
     color: white;
-    font-size: 2rem;
+    font-size: 40px;
     cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.close-button:hover {
-    color: var(--pink);
 }
 
 #videoContainer {
     position: relative;
-    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-    height: 0;
-    overflow: hidden;
+    padding-bottom: 56.25%; /* 16:9 */
 }
 
 #videoContainer iframe {
