@@ -202,7 +202,7 @@
             <!-- Case 1 -->
             <div class="case-item" onclick="openVideo('inioTqJ7Wh0')">
                 <div class="case-thumbnail">
-                    <img src="images/cases/bso-thumbnail.png" alt="Excel Automatisering">
+                    <img src="images/bso-thumbnail.png" alt="Excel Automatisering">
                     <div class="play-button"></div>
                 </div>
                 <h3>Excel Chaos Opgelost</h3>
@@ -212,7 +212,7 @@
             <!-- Case 2 -->
             <div class="case-item" onclick="openVideo('_44J7l-AoBc')">
                 <div class="case-thumbnail">
-                    <img src="images/cases/e-com-thumbnail.png" alt="Email Workflow">
+                    <img src="images/e-com-thumbnail.png" alt="Email Workflow">
                     <div class="play-button"></div>
                 </div>
                 <h3>Email Jungle Getemd</h3>
@@ -365,7 +365,18 @@ function openVideo(videoId) {
     const modal = document.getElementById('videoModal');
     const container = document.getElementById('videoContainer');
     
-    container.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allowfullscreen></iframe>`;
+    // YouTube parameters om navigatie te blokkeren
+    const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}?` + 
+        'autoplay=1&' +
+        'modestbranding=1&' +  // Minimale YouTube branding
+        'showinfo=0&' +         // Geen video info
+        'rel=0&' +              // Geen gerelateerde videos
+        'iv_load_policy=3&' +   // Geen annotaties
+        'disablekb=1&' +        // Keyboard controls uit
+        'fs=0&' +               // Fullscreen knop uit
+        'controls=1';           // Basis controls aan
+    
+    container.innerHTML = `<iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>`;
     modal.style.display = 'block';
     document.body.style.overflow = 'hidden';
 }
