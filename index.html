@@ -358,6 +358,32 @@
             }
         });
     </script>
+
+    <script>
+// Video Modal Functions
+function openVideo(videoId) {
+    const modal = document.getElementById('videoModal');
+    const container = document.getElementById('videoContainer');
+    
+    container.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allowfullscreen></iframe>`;
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeVideo() {
+    const modal = document.getElementById('videoModal');
+    const container = document.getElementById('videoContainer');
+    
+    container.innerHTML = '';
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Sluit video met ESC key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeVideo();
+});
+</script>
     
     <!-- QUICK SCAN WIDGET MET MAXIMALE TEKST -->
     <div class="quick-scan-widget">
