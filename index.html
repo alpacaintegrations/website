@@ -341,13 +341,13 @@
             event.preventDefault();
             
             // Voor development/testing
-            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                // Lokale test URL
-                window.location.href = '/scorecard/index.html';
-            } else {
-                // Productie test URL (pas dit later aan)
-                window.location.href = 'https://www.alpacaintegrations.ai/scorecard';
-            }
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    // Lokale test URL
+    window.location.href = '/scorecard/index.html';
+} else {
+    // Productie - relatief pad werkt op elk domein
+    window.location.href = '/scorecard/';
+}
         }
 
         // Verberg widget op scorecard pagina zelf
