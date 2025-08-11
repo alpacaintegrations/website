@@ -1,0 +1,9 @@
+[[redirects]]
+  from = "/scorecard"
+  to = "/scorecard/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/scorecard/*"
+  to = "/scorecard/:splat"
+  status = 200
