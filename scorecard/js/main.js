@@ -290,11 +290,11 @@ if (!existingClient) {
     const { data: newClient, error: clientError } = await supabaseClient
         .from('clients')
         .insert({
-            contact_name: voornaam,
+            first_name: voornaam,
             contact_email: email,
             company_name: '', // Leeg laten
             industry: answers[4]?.branche || '',
-            company_size: parseInt(answers[5]) || null,
+            company_size: answers[5]?.toString() || '',
             is_active: true,
             slug: email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '-'),
             last_activity: new Date().toISOString(),
