@@ -294,7 +294,7 @@ if (!existingClient) {
             contact_email: email,
             company_name: '', // Leeg laten
             industry: answers[4]?.branche || '',
-            company_size: answers[5]?.toString() || '',
+            company_size: answers[5]?.toString() || '',  // Als string
             is_active: true,
             slug: email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '-'),
             last_activity: new Date().toISOString(),
