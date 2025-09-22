@@ -553,5 +553,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 rightGroup.style.gap = '0.2rem';
             }
         }
+    }
+    
+    // Run direct en bij resize
+    fixYouTubeMobile();
+    window.addEventListener('resize', fixYouTubeMobile);
+    setTimeout(fixYouTubeMobile, 500);
+});
+</script>        
 </body>
 </html>
