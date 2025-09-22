@@ -501,21 +501,27 @@ function adjustSocialIcons() {
     if (window.innerWidth <= 480 && window.innerHeight > window.innerWidth) {
         // Mobiel portrait mode
         if (youtube) {
-            youtube.style.width = '40px';
-            youtube.style.height = '40px';
+            // YouTube 30% groter dan de rest (45px ipv 35px)
+            youtube.style.width = '45px';
+            youtube.style.height = '45px';
+            youtube.style.minWidth = '45px';
             youtube.style.padding = '8px';
             youtube.style.borderRadius = '50%';
             youtube.style.margin = '0';
             
-            // Verberg tekst
+            // FORCEER tekst weg te halen
             const text = youtube.querySelector('span');
-            if (text) text.style.display = 'none';
+            if (text) {
+                text.style.display = 'none !important';
+                text.style.visibility = 'hidden';
+                text.remove(); // Nuclear option - verwijder het element helemaal
+            }
             
-            // SVG kleiner
+            // YouTube SVG ook 30% groter
             const svg = youtube.querySelector('svg');
             if (svg) {
-                svg.style.width = '24px';
-                svg.style.height = '24px';
+                svg.style.width = '29px';
+                svg.style.height = '29px';
             }
         }
         
@@ -523,33 +529,16 @@ function adjustSocialIcons() {
         if (leftGroup) leftGroup.style.position = 'static';
         if (rightGroup) rightGroup.style.position = 'static';
         
-        // Maak alle icons kleiner
-        socialLinks.querySelectorAll('a').forEach(icon => {
+        // Andere icons normaal (35px)
+        socialLinks.querySelectorAll('a:not(.youtube-main)').forEach(icon => {
             icon.style.width = '35px';
             icon.style.height = '35px';
             icon.style.padding = '6px';
         });
         
     } else {
-        // Reset naar normaal (desktop/landscape)
-        if (youtube) {
-            youtube.style.width = 'auto';
-            youtube.style.height = '45px';
-            youtube.style.padding = '0 20px';
-            youtube.style.borderRadius = '25px';
-            
-            const text = youtube.querySelector('span');
-            if (text) text.style.display = 'inline';
-            
-            const svg = youtube.querySelector('svg');
-            if (svg) {
-                svg.style.width = '28px';
-                svg.style.height = '28px';
-            }
-        }
-        
-        if (leftGroup) leftGroup.style.position = 'absolute';
-        if (rightGroup) rightGroup.style.position = 'absolute';
+        // Desktop/landscape - YouTube met tekst
+        location.reload(); // Simpelste manier om terug te resetten
     }
 }
 
@@ -558,7 +547,5 @@ adjustSocialIcons();
 window.addEventListener('resize', adjustSocialIcons);
 window.addEventListener('orientationchange', adjustSocialIcons);
 </script>
-</body>
-</html>
 </body>
 </html>
