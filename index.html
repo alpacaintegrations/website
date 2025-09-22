@@ -491,11 +491,11 @@ document.addEventListener('keydown', (e) => {
 // Wacht tot alles geladen is
 document.addEventListener('DOMContentLoaded', function() {
     function fixYouTubeMobile() {
-        // Zoek YouTube link op href in plaats van class
-        const youtubeLinks = document.querySelectorAll('a[href*="youtube.com/@AlpacaRick"]');
-        
-        youtubeLinks.forEach(youtube => {
-            if (window.innerWidth <= 480) {
+        if (window.innerWidth <= 480) {
+            // Alleen YouTube aanpakken
+            const youtubeLinks = document.querySelectorAll('a[href*="youtube.com/@AlpacaRick"]');
+            
+            youtubeLinks.forEach(youtube => {
                 // Verwijder de span met tekst
                 const textSpan = youtube.querySelector('span');
                 if (textSpan) {
@@ -503,27 +503,41 @@ document.addEventListener('DOMContentLoaded', function() {
                     textSpan.style.visibility = 'hidden';
                 }
                 
-                // YouTube button MEGA GROOT - 65px
-                youtube.style.width = '65px';
-                youtube.style.height = '65px';
+                // YouTube 60px groot
+                youtube.style.width = '60px';
+                youtube.style.height = '60px';
                 youtube.style.padding = '10px';
                 youtube.style.borderRadius = '50%';
-                youtube.style.minWidth = '65px';
+                youtube.style.minWidth = '60px';
                 
-                // SVG ook proportioneel groter
+                // YouTube SVG groot
                 const svg = youtube.querySelector('svg');
                 if (svg) {
-                    svg.style.width = '45px';
-                    svg.style.height = '45px';
+                    svg.style.width = '40px';
+                    svg.style.height = '40px';
                 }
+            });
+            
+            // ANDERE icons normaal houden (niet YouTube)
+            const otherIcons = document.querySelectorAll('.social-links a:not([href*="youtube"])');
+            otherIcons.forEach(icon => {
+                icon.style.width = '40px';
+                icon.style.height = '40px';
+                icon.style.padding = '8px';
                 
-                // Fix positioning
-                const leftGroup = document.querySelector('.social-links > div:first-child');
-                const rightGroup = document.querySelector('.social-links > div:last-child');
-                if (leftGroup) leftGroup.style.position = 'static';
-                if (rightGroup) rightGroup.style.position = 'static';
-            }
-        });
+                const svg = icon.querySelector('svg');
+                if (svg) {
+                    svg.style.width = '24px';
+                    svg.style.height = '24px';
+                }
+            });
+            
+            // Fix positioning
+            const leftGroup = document.querySelector('.social-links > div:first-child');
+            const rightGroup = document.querySelector('.social-links > div:last-child');
+            if (leftGroup) leftGroup.style.position = 'static';
+            if (rightGroup) rightGroup.style.position = 'static';
+        }
     }
     
     // Run direct en bij resize
