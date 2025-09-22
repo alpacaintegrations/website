@@ -750,7 +750,7 @@
     margin: 0 auto;
 }
 
-/* Normale social icons */
+/* Normale social icons - FIXED SIZES */
 .social-icon {
     display: flex;
     align-items: center;
@@ -760,6 +760,7 @@
     border-radius: 50%;
     transition: all 0.3s ease;
     opacity: 0.8;
+    flex-shrink: 0; /* Voorkom krimpen */
 }
 
 .social-icon:hover {
@@ -767,14 +768,18 @@
     transform: translateY(-2px);
 }
 
+/* BELANGRIJK: SVG grootte vastpinnen */
 .social-icon svg {
-    width: 24px;
-    height: 24px;
+    width: 24px !important;
+    height: 24px !important;
+    max-width: 24px !important;
+    max-height: 24px !important;
 }
 
 /* YouTube - GROOT EN PROMINENT */
 .youtube-main {
     width: auto !important;
+    min-width: 50px !important;
     height: 50px !important;
     padding: 0 1.5rem !important;
     border-radius: 25px !important;
@@ -783,18 +788,23 @@
     align-items: center !important;
     gap: 0.8rem !important;
     box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+    flex-shrink: 0;
 }
 
 .youtube-main svg {
     width: 30px !important;
     height: 30px !important;
+    max-width: 30px !important;
+    max-height: 30px !important;
     color: white !important;
+    flex-shrink: 0;
 }
 
 .youtube-text {
     color: white;
     font-weight: 600;
     font-size: 1rem;
+    white-space: nowrap;
 }
 
 .youtube-main:hover {
@@ -845,6 +855,7 @@ header {
     
     .social-links {
         gap: 0.75rem;
+        flex-wrap: wrap;
     }
     
     .social-icon {
@@ -853,8 +864,10 @@ header {
     }
     
     .social-icon svg {
-        width: 20px;
-        height: 20px;
+        width: 20px !important;
+        height: 20px !important;
+        max-width: 20px !important;
+        max-height: 20px !important;
     }
     
     .youtube-main {
@@ -865,6 +878,8 @@ header {
     .youtube-main svg {
         width: 25px !important;
         height: 25px !important;
+        max-width: 25px !important;
+        max-height: 25px !important;
     }
     
     .youtube-text {
@@ -883,8 +898,10 @@ header {
     }
     
     .social-icon svg {
-        width: 18px;
-        height: 18px;
+        width: 18px !important;
+        height: 18px !important;
+        max-width: 18px !important;
+        max-height: 18px !important;
     }
     
     .youtube-text {
@@ -893,6 +910,7 @@ header {
     
     .youtube-main {
         width: 45px !important;
+        min-width: 45px !important;
         padding: 0 !important;
         border-radius: 50% !important;
     }
