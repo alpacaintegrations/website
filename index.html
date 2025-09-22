@@ -492,61 +492,66 @@ document.addEventListener('keydown', (e) => {
 document.addEventListener('DOMContentLoaded', function() {
     function fixYouTubeMobile() {
         if (window.innerWidth <= 480) {
-            // Alleen YouTube aanpakken
-            const youtubeLinks = document.querySelectorAll('a[href*="youtube.com/@AlpacaRick"]');
+            // Social links container aanpassen
+            const socialLinks = document.querySelector('.social-links');
+            if (socialLinks) {
+                socialLinks.style.gap = '0.2rem'; // Minimale gap
+                socialLinks.style.padding = '0 0.3rem';
+                socialLinks.style.justifyContent = 'center';
+                socialLinks.style.flexWrap = 'nowrap'; // Alles op 1 regel forceren
+            }
             
+            // YouTube groot maar niet te groot
+            const youtubeLinks = document.querySelectorAll('a[href*="youtube.com/@AlpacaRick"]');
             youtubeLinks.forEach(youtube => {
-                // Verwijder de span met tekst
+                // Tekst weg
                 const textSpan = youtube.querySelector('span');
-                if (textSpan) {
-                    textSpan.style.display = 'none';
-                    textSpan.style.visibility = 'hidden';
-                }
+                if (textSpan) textSpan.remove();
                 
-                // YouTube 60px groot
-                youtube.style.width = '60px';
-                youtube.style.height = '60px';
-                youtube.style.padding = '10px';
+                // YouTube 50px (compromis)
+                youtube.style.width = '50px';
+                youtube.style.height = '50px';
+                youtube.style.minWidth = '50px';
+                youtube.style.padding = '8px';
                 youtube.style.borderRadius = '50%';
-                youtube.style.minWidth = '60px';
+                youtube.style.margin = '0';
                 
-                // YouTube SVG groot
                 const svg = youtube.querySelector('svg');
                 if (svg) {
-                    svg.style.width = '40px';
-                    svg.style.height = '40px';
+                    svg.style.width = '34px';
+                    svg.style.height = '34px';
                 }
             });
             
-            // ANDERE icons normaal houden (niet YouTube)
+            // ANDERE icons KLEINER maken
             const otherIcons = document.querySelectorAll('.social-links a:not([href*="youtube"])');
             otherIcons.forEach(icon => {
-                icon.style.width = '40px';
-                icon.style.height = '40px';
-                icon.style.padding = '8px';
+                icon.style.width = '32px';  // Kleiner!
+                icon.style.height = '32px'; // Kleiner!
+                icon.style.minWidth = '32px';
+                icon.style.padding = '6px';
+                icon.style.margin = '0';
                 
                 const svg = icon.querySelector('svg');
                 if (svg) {
-                    svg.style.width = '24px';
-                    svg.style.height = '24px';
+                    svg.style.width = '20px';
+                    svg.style.height = '20px';
                 }
             });
             
-            // Fix positioning
+            // Groepen positioning fixen
             const leftGroup = document.querySelector('.social-links > div:first-child');
             const rightGroup = document.querySelector('.social-links > div:last-child');
-            if (leftGroup) leftGroup.style.position = 'static';
-            if (rightGroup) rightGroup.style.position = 'static';
+            if (leftGroup) {
+                leftGroup.style.position = 'static';
+                leftGroup.style.display = 'flex';
+                leftGroup.style.gap = '0.2rem';
+            }
+            if (rightGroup) {
+                rightGroup.style.position = 'static';
+                rightGroup.style.display = 'flex';
+                rightGroup.style.gap = '0.2rem';
+            }
         }
-    }
-    
-    // Run direct en bij resize
-    fixYouTubeMobile();
-    window.addEventListener('resize', fixYouTubeMobile);
-    
-    // Extra check na kort wachten
-    setTimeout(fixYouTubeMobile, 500);
-});
-</script>
 </body>
 </html>
