@@ -733,3 +733,167 @@
             }
         }
     
+/* ===== SOCIAL MEDIA BAR ===== */
+.social-bar {
+    padding: 1rem 2rem;
+    border-top: 1px solid rgba(168, 85, 247, 0.1);
+    background: rgba(30, 27, 44, 0.5);
+    backdrop-filter: blur(10px);
+}
+
+.social-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Normale social icons */
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+}
+
+.social-icon:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.social-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* YouTube - GROOT EN PROMINENT */
+.youtube-main {
+    width: auto !important;
+    height: 50px !important;
+    padding: 0 1.5rem !important;
+    border-radius: 25px !important;
+    background: #FF0000 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.8rem !important;
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+}
+
+.youtube-main svg {
+    width: 30px !important;
+    height: 30px !important;
+    color: white !important;
+}
+
+.youtube-text {
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.youtube-main:hover {
+    background: #CC0000 !important;
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.4);
+    transform: translateY(-3px);
+}
+
+/* Brand kleuren voor social icons */
+.facebook {
+    background: #1877F2;
+    color: white;
+}
+
+.instagram {
+    background: linear-gradient(45deg, #F58529, #DD2A7B, #8134AF, #515BD4);
+    color: white;
+}
+
+.linkedin {
+    background: #0A66C2;
+    color: white;
+}
+
+.tiktok {
+    background: #000000;
+    color: white;
+}
+
+.x-twitter {
+    background: #000000;
+    color: white;
+}
+
+/* Header aanpassingen voor meer ruimte */
+header {
+    padding-bottom: 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .social-bar {
+        padding: 0.75rem 1rem;
+    }
+    
+    .social-links {
+        gap: 0.75rem;
+    }
+    
+    .social-icon {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .social-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .youtube-main {
+        height: 45px !important;
+        padding: 0 1rem !important;
+    }
+    
+    .youtube-main svg {
+        width: 25px !important;
+        height: 25px !important;
+    }
+    
+    .youtube-text {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .social-links {
+        gap: 0.5rem;
+    }
+    
+    .social-icon {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .social-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .youtube-text {
+        display: none; /* Verberg tekst op heel klein scherm */
+    }
+    
+    .youtube-main {
+        width: 45px !important;
+        padding: 0 !important;
+        border-radius: 50% !important;
+    }
+}
