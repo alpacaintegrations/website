@@ -327,26 +327,31 @@
 
     // Force Mailblue styling na laden
     function forceMailblueStyles() {
-        const labels = document.querySelectorAll('._form-label');
-        const required = document.querySelectorAll('._form-label .field-required');
-        const branding = document.querySelector('._form-branding');
-        
-        labels.forEach(label => {
-            label.style.setProperty('color', '#ffffff', 'important');
-        });
-        
-        required.forEach(star => {
-            star.style.setProperty('color', '#ec4899', 'important');
-        });
-        
-        if (branding) {
-            branding.style.setProperty('display', 'none', 'important');
-        }
-        
-        if (labels.length === 0) {
-            setTimeout(forceMailblueStyles, 500);
-        }
+    const labels = document.querySelectorAll('._form-label');
+    const required = document.querySelectorAll('._form-label .field-required');
+    const branding = document.querySelector('._form-branding');
+    const thankYou = document.querySelector('._form-thank-you');
+    
+    labels.forEach(label => {
+        label.style.setProperty('color', '#ffffff', 'important');
+    });
+    
+    required.forEach(star => {
+        star.style.setProperty('color', '#ec4899', 'important');
+    });
+    
+    if (branding) {
+        branding.style.setProperty('display', 'none', 'important');
     }
+    
+    if (thankYou) {
+        thankYou.style.setProperty('color', '#ffffff', 'important');
+    }
+    
+    if (labels.length === 0) {
+        setTimeout(forceMailblueStyles, 500);
+    }
+}
 
     window.addEventListener('load', function() {
         setTimeout(forceMailblueStyles, 1500);
