@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfecte Klant GPT - Alpaca Integrations</title>
+    <title>Product Perfecte Klant GPT - Alpaca Integrations</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <style>
         :root {
@@ -243,7 +243,7 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
+<!-- Header -->
 <header>
     <nav>
         <a href="https://alpacaintegrations.ai" class="logo" style="text-decoration: none;">
@@ -266,7 +266,7 @@
 </header>
 
     <!-- Main Content -->
-    <div class="main-container">
+   <div class="main-container">
         <div class="content-wrapper">
             <!-- Headline -->
             <h1>Ken je klant beter dan ze zichzelf kennen</h1>
@@ -321,6 +321,42 @@
         // Log voor debugging
         console.log('Leadmagnet: Perfecte Klant GPT');
         console.log('Video source van URL:', videoSource);
+         // Log voor debugging
+    console.log('Leadmagnet: Perfecte Klant GPT');
+    console.log('Video source van URL:', videoSource);
+
+    // Force Mailblue styling na laden
+    function forceMailblueStyles() {
+    const labels = document.querySelectorAll('._form-label');
+    const required = document.querySelectorAll('._form-label .field-required');
+    const branding = document.querySelector('._form-branding');
+    const thankYou = document.querySelector('._form-thank-you');
+    
+    labels.forEach(label => {
+        label.style.setProperty('color', '#ffffff', 'important');
+    });
+    
+    required.forEach(star => {
+        star.style.setProperty('color', '#ec4899', 'important');
+    });
+    
+    if (branding) {
+        branding.style.setProperty('display', 'none', 'important');
+    }
+    
+    if (thankYou) {
+        thankYou.style.setProperty('color', '#ffffff', 'important');
+    }
+    
+    if (labels.length === 0) {
+        setTimeout(forceMailblueStyles, 500); 
+    }
+}
+
+    window.addEventListener('load', function() {
+        setTimeout(forceMailblueStyles, 1500);
+        setTimeout(forceMailblueStyles, 3000);
+    });
     </script>
 </body>
 </html>
