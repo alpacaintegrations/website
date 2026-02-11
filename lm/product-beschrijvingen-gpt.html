@@ -149,22 +149,6 @@
             text-align: center;
         }
 
-        /* Alpaca image */
-        .alpaca-image {
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(168, 85, 247, 0.3);
-            overflow: hidden;
-        }
-
-        .alpaca-image img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
         /* Text content */
         h1 {
             font-size: clamp(2rem, 4vw, 2.8rem);
@@ -201,24 +185,17 @@
             font-weight: 600;
         }
 
-        /* Placeholder voor Mailblue form */
-        .mailblue-form-placeholder {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px dashed rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 30px;
-            color: var(--text-light);
-            font-size: 0.9rem;
+        /* Mailblue form overrides */
+        ._form-label {
+            color: #ffffff !important;
         }
 
-        .mailblue-form-placeholder code {
-            display: block;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-size: 0.8rem;
-            word-break: break-all;
+        .field-required {
+            color: #ec4899 !important;
+        }
+
+        ._form-branding {
+            display: none !important;
         }
 
         /* Footer */
@@ -265,7 +242,8 @@
         }
     </style>
 </head>
-<bod<!-- Header -->
+<body>
+<!-- Header -->
 <header>
     <nav>
         <a href="https://alpacaintegrations.ai" class="logo" style="text-decoration: none;">
