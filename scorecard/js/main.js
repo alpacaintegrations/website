@@ -2114,6 +2114,9 @@ function enableNextIfTripleFilled() {
         <h2 class="results-title" style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 5px;">
             ${answers[4]?.bedrijfsnaam || 'Jouw bedrijf'}
         </h2>
+        <h2 class="results-title" style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 20px;">
+            Automatiseringspotentieel
+        </h2>
         <p style="font-size: 18px; color: var(--text-light); margin-bottom: 20px;">Automatiseringspotentieel</p>
         
         ${hasAutomatiseerbareTaken ? `
