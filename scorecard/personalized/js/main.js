@@ -2029,7 +2029,7 @@ if (isPersonalized) {
 }
             
             // Bepaal minimum wachttijd (35-65 sec voor perceived value)
-            const minWaitTime = 35000 + Math.random() * 30000; // 35-65 seconden
+            const minWaitTime = 0;
             const startTime = Date.now();
             
             // Stuur naar N8N
