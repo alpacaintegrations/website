@@ -99,8 +99,9 @@
         async function sendToSupabase(data) {
             const submissionData = {
                 session_id: sessionId,
-                
+    
                 // Bedrijfsinfo
+                bedrijfsnaam: data.bedrijfsnaam,
                 branche: data.branche,
                 bedrijfs_omschrijving: data.bedrijfs_omschrijving,
                 team_size: data.teamSize.toString(),
@@ -442,11 +443,13 @@ event.target.parentElement.innerHTML = `
             },
             {
                 id: 5,
-                text: "In welke branche zit je?",
-                secondText: "Wat doet jullie bedrijf?",
-                type: "double-text-input",
-                placeholder1: "Bijv. E-commerce, Consultancy, Zorg, etc.",
-                placeholder2: "Beschrijf jullie diensten/producten"
+                 text: "Hoe heet je bedrijf?",
+                secondText: "In welke branche zit je?",
+                thirdText: "Wat doet jullie?",
+                type: "triple-text-input",
+                placeholder1: "Bijv. Van der Berg Installaties",
+                placeholder2: "Bijv. E-commerce, Consultancy, Zorg, etc.",
+                placeholder3: "Beschrijf jullie diensten/producten"
             },
             {
                 id: 6,
@@ -535,35 +538,50 @@ event.target.parentElement.innerHTML = `
             `;
 
             // Special handling for double-text-input questions
-            if (question.type === 'double-text-input' && question.secondText) {
+            if (question.type === 'triple-text-input' && question.secondText && question.thirdText) {
                 questionHTML += `
                     <div style="max-width: 500px; margin: 0 auto;">
                         <input type="text" 
                             class="text-input-field" 
                             id="text-input-1" 
-                            placeholder="${question.placeholder1 || 'Type je antwoord hier...'}"
+                            placeholder="${question.placeholder1 || 'Bedrijfsnaam...'}"
                             style="width: 100%; padding: 20px 30px; background: rgba(168, 85, 247, 0.1); 
                                    border: 3px solid rgba(168, 85, 247, 0.2); border-radius: 1rem; 
                                    color: var(--text-white); font-size: 18px; text-align: center;
-                                   transition: all 0.3s ease; margin-bottom: 60px;"
+                                   transition: all 0.3s ease; margin-bottom: 30px;"
                             onfocus="this.style.borderColor='#a855f7'; this.style.background='rgba(168, 85, 247, 0.15)';"
                             onblur="this.style.borderColor='rgba(168, 85, 247, 0.2)'; this.style.background='rgba(168, 85, 247, 0.1)';"
-                            oninput="enableNextIfDoubleFilled()"
+                            oninput="enableNextIfTripleFilled()"
                         >
                     </div>
-                    <h2 class="question-text" style="margin-top: 40px; margin-bottom: 50px;">${question.secondText}</h2>
+                    <h2 class="question-text" style="margin-top: 40px; margin-bottom: 30px;">${question.secondText}</h2>
                     <div style="max-width: 500px; margin: 0 auto;">
                         <input type="text" 
                             class="text-input-field" 
                             id="text-input-2" 
-                            placeholder="${question.placeholder2 || 'Type je antwoord hier...'}"
+                            placeholder="${question.placeholder2 || 'Branche...'}"
+                            style="width: 100%; padding: 20px 30px; background: rgba(168, 85, 247, 0.1); 
+                                   border: 3px solid rgba(168, 85, 247, 0.2); border-radius: 1rem; 
+                                   color: var(--text-white); font-size: 18px; text-align: center;
+                                   transition: all 0.3s ease; margin-bottom: 30px;"
+                            onfocus="this.style.borderColor='#a855f7'; this.style.background='rgba(168, 85, 247, 0.15)';"
+                            onblur="this.style.borderColor='rgba(168, 85, 247, 0.2)'; this.style.background='rgba(168, 85, 247, 0.1)';"
+                            oninput="enableNextIfTripleFilled()"
+                        >
+                    </div>
+                    <h2 class="question-text" style="margin-top: 40px; margin-bottom: 30px;">${question.thirdText}</h2>
+                    <div style="max-width: 500px; margin: 0 auto;">
+                        <input type="text" 
+                            class="text-input-field" 
+                            id="text-input-3" 
+                            placeholder="${question.placeholder3 || 'Beschrijving...'}"
                             style="width: 100%; padding: 20px 30px; background: rgba(168, 85, 247, 0.1); 
                                    border: 3px solid rgba(168, 85, 247, 0.2); border-radius: 1rem; 
                                    color: var(--text-white); font-size: 18px; text-align: center;
                                    transition: all 0.3s ease;"
                             onfocus="this.style.borderColor='#a855f7'; this.style.background='rgba(168, 85, 247, 0.15)';"
                             onblur="this.style.borderColor='rgba(168, 85, 247, 0.2)'; this.style.background='rgba(168, 85, 247, 0.1)';"
-                            oninput="enableNextIfDoubleFilled()"
+                            oninput="enableNextIfTripleFilled()"
                         >
                     </div>
                 `;
@@ -1332,7 +1350,24 @@ event.target.parentElement.innerHTML = `
                 nextBtn.disabled = input1.value.trim().length === 0 || input2.value.trim().length === 0;
             }
         }
-        
+        function enableNextIfDoubleFilled() {
+            const input1 = document.getElementById('text-input-1');
+            const input2 = document.getElementById('text-input-2');
+            const nextBtn = document.querySelector('.nav-button.next');
+            if (nextBtn && input1 && input2) {
+                nextBtn.disabled = input1.value.trim().length === 0 || input2.value.trim().length === 0;
+            }
+        }
+
+function enableNextIfTripleFilled() {
+    const input1 = document.getElementById('text-input-1');
+    const input2 = document.getElementById('text-input-2');
+    const input3 = document.getElementById('text-input-3');
+    const nextBtn = document.querySelector('.nav-button.next');
+    if (nextBtn && input1 && input2 && input3) {
+        nextBtn.disabled = input1.value.trim().length === 0 || input2.value.trim().length === 0 || input3.value.trim().length === 0;
+    }
+}
         function enableNextIfNumberFilled() {
             const input = document.getElementById('number-input');
             const nextBtn = document.querySelector('.nav-button.next');
@@ -1513,10 +1548,11 @@ event.target.parentElement.innerHTML = `
                 case 'text-input':
                     answers[currentQuestion] = document.getElementById('text-input').value;
                     break;
-                case 'double-text-input':
+                case 'triple-text-input':
                     answers[currentQuestion] = {
-                        branche: document.getElementById('text-input-1').value,
-                        description: document.getElementById('text-input-2').value
+                        bedrijfsnaam: document.getElementById('text-input-1').value,
+                        branche: document.getElementById('text-input-2').value,
+                        description: document.getElementById('text-input-3').value
                     };
                     break;
                 case 'number-input':
@@ -1759,17 +1795,21 @@ event.target.parentElement.innerHTML = `
                         enableNextIfFilled();
                     }
                     break;
-                case 'double-text-input':
+                case 'triple-text-input':
                     const textInput1 = document.getElementById('text-input-1');
                     const textInput2 = document.getElementById('text-input-2');
-                    if (textInput1 && answer.branche) {
-                        textInput1.value = answer.branche;
+                    const textInput3 = document.getElementById('text-input-3');
+                    if (textInput1 && answer.bedrijfsnaam) {
+                        textInput1.value = answer.bedrijfsnaam;
                     }
-                    if (textInput2 && answer.description) {
-                        textInput2.value = answer.description;
+                    if (textInput2 && answer.branche) {
+                        textInput2.value = answer.branche;
                     }
-                    if (textInput1 && textInput2) {
-                        enableNextIfDoubleFilled();
+                    if (textInput3 && answer.description) {
+                        textInput3.value = answer.description;
+                    }
+                    if (textInput1 && textInput2 && textInput3) {
+                        enableNextIfTripleFilled();
                     }
                     break;
                 case 'number-input':
@@ -1981,10 +2021,11 @@ event.target.parentElement.innerHTML = `
             const isOrientering = obstacles.includes("Niks, ik oriënteer me");
             
             return {
-                // Basis info
-                branche: answers[4]?.branche || "Niet opgegeven",
-                bedrijfs_omschrijving: answers[4]?.description || "Niet opgegeven",
-                teamSize: answers[5] || "Niet opgegeven",
+            // Basis info
+            bedrijfsnaam: answers[4]?.bedrijfsnaam || "Niet opgegeven",
+            branche: answers[4]?.branche || "Niet opgegeven",
+            bedrijfs_omschrijving: answers[4]?.description || "Niet opgegeven",
+            teamSize: answers[5] || "Niet opgegeven",
                 
                 // Source tracking
                 sourceType: detectSourceType(),
