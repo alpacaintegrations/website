@@ -571,7 +571,7 @@ event.target.parentElement.innerHTML = `
                     "Wisselende resultaten",
                     "Alles kost te veel tijd",
                     "Gegevens niet centraal op 1 plek",
-                    "Niks, ik ben zen 🧘"
+                    "Niks, ik ben zen"
                 ]
             },
             {

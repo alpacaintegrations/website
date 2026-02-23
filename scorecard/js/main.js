@@ -445,7 +445,7 @@ event.target.parentElement.innerHTML = `
                 id: 5,
                  text: "Hoe heet je bedrijf?",
                 secondText: "In welke branche zit je?",
-                thirdText: "Wat doet jullie?",
+                thirdText: "Wat doen jullie?",
                 type: "triple-text-input",
                 placeholder1: "Bijv. Van der Berg Installaties",
                 placeholder2: "Bijv. E-commerce, Consultancy, Zorg, etc.",
@@ -468,7 +468,7 @@ event.target.parentElement.innerHTML = `
                     "Wisselende resultaten",
                     "Alles kost te veel tijd",
                     "Gegevens niet centraal op 1 plek",
-                    "Niks, ik ben zen 🧘"
+                    "Niks, ik ben zen"
                 ]
             },
             {
