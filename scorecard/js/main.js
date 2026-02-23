@@ -1873,7 +1873,7 @@ function enableNextIfTripleFilled() {
     const rotatingTexts = [
         "welke processen het meeste opleveren",
         "hoeveel uren jij kan besparen",
-        "hoe je efficiënter te werk kan gaan",
+        "hoe je efficiënter kan werken",
         "hoe we jou aan meer omzet en minder hoofdpijn gaan helpen",
         "hoe hoog jouw automatiseringspotentieel is",
         "waar de grootste tijdvreters in je processen zitten",
@@ -2111,9 +2111,10 @@ function enableNextIfTripleFilled() {
     const hasAutomatiseerbareTaken = data.summary?.total_automatiseerbare_taken > 0;
     
     document.querySelector('.results-container').innerHTML = `
-        <h2 class="results-title" style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 20px;">
-            Jouw Automatiseringspotentieel
+        <h2 class="results-title" style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 5px;">
+            ${answers[4]?.bedrijfsnaam || 'Jouw bedrijf'}
         </h2>
+        <p style="font-size: 18px; color: var(--text-light); margin-bottom: 20px;">Automatiseringspotentieel</p>
         
         ${hasAutomatiseerbareTaken ? `
             <!-- 3 vakjes naast elkaar - COMPACTER -->
@@ -2191,7 +2192,7 @@ function enableNextIfTripleFilled() {
         
         <div class="email-section" style="margin-top: 25px; padding: 30px;">
             <h3 style="font-size: 22px; margin-bottom: 12px;">
-                ${hasAutomatiseerbareTaken ? 'Ontvang je complete automatiseringsrapport' : 'Wil je toch advies ontvangen?'}
+                ${hasAutomatiseerbareTaken ? `Ontvang het complete rapport voor ${answers[4]?.bedrijfsnaam || 'jouw bedrijf'}` : 'Wil je toch advies ontvangen?'}
             </h3>
             <p style="font-size: 15px; margin-bottom: 18px;">
                 ${hasAutomatiseerbareTaken ? 'Met een gedetailleerde analyse' : 'Onze experts kijken graag persoonlijk naar jouw situatie'}
