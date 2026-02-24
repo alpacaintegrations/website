@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automatiseringsrapport | Alpaca Integrations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --accent: #e84393;
+            --accent-light: #fd79a8;
+            --blue: #4a6cf7;
+            --blue-light: #6c8cff;
+            --text: #2d3436;
+            --text-light: #636e72;
+            --bg: #ffffff;
+            --bg-soft: #f8f9fa;
+            --bg-card: #ffffff;
+            --border: #e9ecef;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --shadow: 0 2px 12px rgba(0,0,0,0.06);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.08);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== STICKY HEADER ===== */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 0;
+        }
+
+        .header-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logo img {
+            height: 32px;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-light);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--text);
+            transform: translateY(-1px);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .rapport-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+
+        /* ===== LOADING STATE ===== */
+        .loading {
+            text-align: center;
+            padding: 120px 24px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            color: var(--text-light);
+            font-size: 15px;
+        }
+
+        /* ===== ERROR STATE ===== */
+        .error-state {
+            text-align: center;
+            padding: 120px 24px;
+        }
+
+        .error-state h2 {
+            margin-bottom: 8px;
+        }
+
+        /* ===== RAPPORT HEADER ===== */
+        .rapport-header {
+            margin-bottom: 48px;
+        }
+
+        .rapport-titel {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 24px;
+            line-height: 1.2;
+        }
+
+        .intro-tekst {
+            font-size: 17px;
+            color: var(--text);
+            margin-bottom: 16px;
+        }
+
+        .potentieel-context {
+            font-size: 16px;
+            color: var(--text-light);
+            padding: 20px 24px;
+            background: var(--bg-soft);
+            border-left: 3px solid var(--blue);
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        /* ===== SECTION STYLING ===== */
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--bg-soft);
+        }
+
+        /* ===== KERNGETALLEN ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .stat-card {
+            background: var(--bg-soft);
+            border-radius: var(--radius);
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-value.accent {
+            color: var(--accent);
+        }
+
+        .stat-value.blue {
+            color: var(--blue);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* ===== TOP 3 TAKEN ===== */
+        .top3-intro {
+            font-size: 16px;
+            color: var(--text);
+            margin-bottom: 24px;
+        }
+
+        .taak-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .taak-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .taak-naam {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .taak-rank {
+            background: var(--accent);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .taak-stats {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .taak-stat {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .taak-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .taak-stat-label {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .taak-bar {
+            height: 6px;
+            background: var(--bg-soft);
+            border-radius: 3px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .taak-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            border-radius: 3px;
+            transition: width 1s ease;
+        }
+
+        .taak-uitleg {
+            font-size: 15px;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .taak-euro {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+            font-size: 15px;
+            color: var(--success);
+            font-weight: 600;
+            display: none;
+        }
+
+        /* ===== EURO CALCULATOR ===== */
+        .euro-calculator {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: var(--radius);
+            padding: 28px;
+            margin: 32px 0 48px;
+            border: 1px solid var(--border);
+        }
+
+        .euro-calc-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .euro-calc-subtitle {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+
+        .euro-calc-input-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .euro-calc-input-row label {
+            font-size: 15px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .euro-input {
+            width: 120px;
+            padding: 10px 14px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .euro-input:focus {
+            border-color: var(--blue);
+        }
+
+        .euro-result {
+            display: none;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .euro-result-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .euro-result-label {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .euro-result-yearly {
+            font-size: 15px;
+            color: var(--text);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* ===== NIET AUTOMATISEERBAAR ===== */
+        .niet-auto-card {
+            background: var(--bg-soft);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            margin-bottom: 12px;
+        }
+
+        .niet-auto-naam {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .niet-auto-uitleg {
+            font-size: 15px;
+            color: var(--text-light);
+        }
+
+        /* ===== ERGERNISSEN ===== */
+        .ergernis-card {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ergernis-card:last-child {
+            border-bottom: none;
+        }
+
+        .ergernis-naam {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .ergernis-oplossing {
+            font-size: 15px;
+            color: var(--text-light);
+        }
+
+        /* ===== IMPACT CARDS ===== */
+        .impact-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        .impact-card {
+            background: var(--bg-soft);
+            border-radius: var(--radius);
+            padding: 24px;
+        }
+
+        .impact-card-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .impact-card-text {
+            font-size: 15px;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* ===== OBSTACLES ===== */
+        .obstacle-card {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .obstacle-card:last-child {
+            border-bottom: none;
+        }
+
+        .obstacle-naam {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .obstacle-oplossing {
+            font-size: 15px;
+            color: var(--text-light);
+        }
+
+        /* ===== CTA ===== */
+        .cta-section {
+            background: var(--primary);
+            color: white;
+            border-radius: var(--radius);
+            padding: 40px;
+            text-align: center;
+            margin-top: 48px;
+        }
+
+        .cta-titel {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .cta-tekst {
+            font-size: 16px;
+            opacity: 0.85;
+            margin-bottom: 24px;
+            line-height: 1.7;
+        }
+
+        .btn-cta {
+            background: var(--accent);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s;
+        }
+
+        .btn-cta:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+        }
+
+        /* ===== FOOTER ===== */
+        .rapport-footer {
+            text-align: center;
+            padding: 32px 0;
+            color: var(--text-light);
+            font-size: 13px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .rapport-titel {
+                font-size: 24px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                text-align: left;
+                padding: 16px 20px;
+            }
+
+            .stat-value {
+                font-size: 28px;
+            }
+
+            .header-buttons {
+                gap: 6px;
+            }
+
+            .btn {
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+
+            .taak-stats {
+                gap: 16px;
+            }
+
+            .euro-calc-input-row {
+                flex-wrap: wrap;
+            }
+
+            .cta-section {
+                padding: 28px 20px;
+            }
+
+            .header-logo img {
+                height: 24px;
+            }
+        }
+
+        /* ===== PDF EXPORT TWEAKS ===== */
+        .pdf-export .sticky-header {
+            position: relative;
+        }
+
+        .pdf-export .btn {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- STICKY HEADER -->
+    <header class="sticky-header">
+        <div class="header-inner">
+            <div class="header-logo">
+                <img src="../images/tekst_logo_blauw.png" alt="Alpaca Integrations">
+            </div>
+            <div class="header-buttons">
+                <button class="btn btn-outline" onclick="downloadPDF()">Download rapport</button>
+                <a href="https://outlook.office365.com/book/Alpacaintegrations1@alpacaintegrations.ai/" target="_blank" class="btn btn-primary">Plan een gesprek</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- LOADING STATE -->
+    <div id="loading" class="loading">
+        <div class="loading-spinner"></div>
+        <p>Rapport laden...</p>
+    </div>
+
+    <!-- ERROR STATE -->
+    <div id="error" class="error-state" style="display:none;">
+        <h2>Rapport niet gevonden</h2>
+        <p>Dit rapport bestaat niet of is nog niet klaar.</p>
+    </div>
+
+    <!-- RAPPORT CONTENT -->
+    <div id="rapport" class="rapport-container" style="display:none;">
+
+        <!-- RAPPORT HEADER -->
+        <div class="rapport-header">
+            <h1 class="rapport-titel" id="rapportTitel"></h1>
+            <p class="intro-tekst" id="introTekst"></p>
+            <div class="potentieel-context" id="potentieelContext"></div>
+        </div>
+
+        <!-- KERNGETALLEN -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value accent" id="statUren">-</div>
+                <div class="stat-label">uur/maand te besparen</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value blue" id="statPercentage">-</div>
+                <div class="stat-label">gemiddelde effici&euml;ntie</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="statTaken">-</div>
+                <div class="stat-label">automatiseerbare taken</div>
+            </div>
+        </div>
+
+        <!-- TOP 3 TAKEN -->
+        <div class="section">
+            <h2 class="section-title">Waar te beginnen</h2>
+            <p class="top3-intro" id="top3Intro"></p>
+            <div id="top3Container"></div>
+        </div>
+
+        <!-- EURO CALCULATOR -->
+        <div class="euro-calculator">
+            <div class="euro-calc-title">Wat betekent dit in euro's?</div>
+            <div class="euro-calc-subtitle">Vul je gemiddelde uurtarief of loonkosten in en zie direct wat je kunt besparen.</div>
+            <div class="euro-calc-input-row">
+                <label>&euro;</label>
+                <input type="number" class="euro-input" id="euroInput" placeholder="bijv. 45" min="1" max="500">
+                <label>per uur</label>
+            </div>
+            <div class="euro-result" id="euroResult">
+                <div class="euro-result-value" id="euroResultValue"></div>
+                <div class="euro-result-label">besparing per maand</div>
+                <div class="euro-result-yearly" id="euroResultYearly"></div>
+            </div>
+        </div>
+
+        <!-- NIET AUTOMATISEERBAAR -->
+        <div class="section" id="nietAutoSection" style="display:none;">
+            <h2 class="section-title" id="nietAutoIntro">Niet alles hoeft geautomatiseerd</h2>
+            <div id="nietAutoContainer"></div>
+        </div>
+
+        <!-- ERGERNISSEN -->
+        <div class="section" id="ergernissenSection" style="display:none;">
+            <h2 class="section-title" id="ergernissenIntro">Jouw frustraties aanpakken</h2>
+            <div id="ergernissenContainer"></div>
+        </div>
+
+        <!-- IMPACT ANALYSE -->
+        <div class="section">
+            <h2 class="section-title">Impact analyse</h2>
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <div class="impact-card-title">Systemen</div>
+                    <div class="impact-card-text" id="systemenAdvies"></div>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-card-title">Brandjes blussen</div>
+                    <div class="impact-card-text" id="brandjesAdvies"></div>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-card-title">Gemiste omzet</div>
+                    <div class="impact-card-text" id="omzetAdvies"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OBSTACLES -->
+        <div class="section" id="obstaclesSection" style="display:none;">
+            <h2 class="section-title">Wat houdt je tegen?</h2>
+            <div id="obstaclesContainer"></div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <div class="cta-titel" id="ctaTitel"></div>
+            <div class="cta-tekst" id="ctaTekst"></div>
+            <a href="https://outlook.office365.com/book/Alpacaintegrations1@alpacaintegrations.ai/" target="_blank" class="btn-cta">Plan een vrijblijvend gesprek</a>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="rapport-footer">
+            &copy; Alpaca Integrations &mdash; Dit rapport is een indicatie op basis van 10 vragen
+        </div>
+    </div>
+
+    <script>
+        // ===== SUPABASE CONFIG =====
+        const SUPABASE_URL = 'https://cxerydabgamthgjkbrao.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4ZXJ5ZGFiZ2FtdGhnamticmFvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI4NjI0ODIsImV4cCI6MjA2ODQzODQ4Mn0.W0p3O2fFgjQR9QJm6f7zIUKpnGAzqu3HwJGyJ35qDdA';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+
+        // ===== GLOBAL DATA =====
+        let rapportData = null;
+        let totalHoursSaved = 0;
+
+        // ===== INIT =====
+        async function init() {
+            const params = new URLSearchParams(window.location.search);
+            const sessionId = params.get('id');
+
+            if (!sessionId) {
+                showError();
+                return;
+            }
+
+            try {
+                const { data, error } = await supabase
+                    .from('scorecard_submissions')
+                    .select('*')
+                    .eq('session_id', sessionId)
+                    .single();
+
+                if (error || !data || !data.rapport_content) {
+                    showError();
+                    return;
+                }
+
+                rapportData = data;
+
+                // Parse rapport_content
+                let content = data.rapport_content;
+                if (typeof content === 'string') {
+                    try {
+                        content = JSON.parse(content);
+                    } catch(e) {
+                        // Try parsing raw_text if parse_error
+                        if (content.includes('raw_text')) {
+                            const parsed = JSON.parse(content);
+                            if (parsed.raw_text) {
+                                const cleaned = parsed.raw_text.replace(/[\r\n]+/g, ' ');
+                                content = JSON.parse(cleaned);
+                            }
+                        }
+                    }
+                }
+
+                // Handle nested rapport_content
+                if (content.rapport_content) {
+                    content = content.rapport_content;
+                }
+
+                renderRapport(data, content);
+
+            } catch (e) {
+                console.error(e);
+                showError();
+            }
+        }
+
+        // ===== SHOW ERROR =====
+        function showError() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+        }
+
+        // ===== RENDER RAPPORT =====
+        function renderRapport(data, content) {
+            // Hide loading, show rapport
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('rapport').style.display = 'block';
+
+            const summary = data.summary || {};
+            totalHoursSaved = summary.total_potential_hours_saved || 0;
+
+            // Header
+            document.getElementById('rapportTitel').textContent = content.rapport_titel || `${data.bedrijfsnaam}, jouw automatiseringsrapport`;
+            document.getElementById('introTekst').textContent = content.intro_tekst || '';
+            document.getElementById('potentieelContext').textContent = content.potentieel_context || '';
+
+            // Stats
+            document.getElementById('statUren').textContent = totalHoursSaved;
+            document.getElementById('statPercentage').textContent = (summary.gemiddelde_besparing_percentage || 0) + '%';
+            document.getElementById('statTaken').textContent = summary.total_automatiseerbare_taken || 0;
+
+            // Top 3
+            document.getElementById('top3Intro').textContent = content.top3_intro || '';
+            renderTop3(data.top_3_tasks || [], content.taak_uitleg || {});
+
+            // Niet automatiseerbaar
+            if (content.niet_auto_uitleg && Object.keys(content.niet_auto_uitleg).length > 0) {
+                document.getElementById('nietAutoSection').style.display = 'block';
+                if (content.niet_auto_intro) {
+                    document.getElementById('nietAutoIntro').textContent = content.niet_auto_intro;
+                }
+                renderNietAuto(content.niet_auto_uitleg);
+            }
+
+            // Ergernissen
+            if (content.ergernis_oplossingen && Object.keys(content.ergernis_oplossingen).length > 0) {
+                document.getElementById('ergernissenSection').style.display = 'block';
+                if (content.ergernissen_intro) {
+                    document.getElementById('ergernissenIntro').textContent = content.ergernissen_intro;
+                }
+                renderErgernissen(content.ergernis_oplossingen);
+            }
+
+            // Impact
+            document.getElementById('systemenAdvies').textContent = content.systemen_advies || '';
+            document.getElementById('brandjesAdvies').textContent = content.brandjes_advies || '';
+            document.getElementById('omzetAdvies').textContent = content.omzet_advies || '';
+
+            // Obstacles
+            if (content.obstacle_oplossing && Object.keys(content.obstacle_oplossing).length > 0) {
+                document.getElementById('obstaclesSection').style.display = 'block';
+                renderObstacles(content.obstacle_oplossing);
+            }
+
+            // CTA
+            document.getElementById('ctaTitel').textContent = content.cta_titel || '';
+            document.getElementById('ctaTekst').textContent = content.cta_tekst || '';
+        }
+
+        // ===== RENDER TOP 3 =====
+        function renderTop3(tasks, uitleg) {
+            const container = document.getElementById('top3Container');
+            container.innerHTML = '';
+
+            tasks.forEach((task, index) => {
+                const taakUitleg = uitleg[task.taskName] || '';
+                const card = document.createElement('div');
+                card.className = 'taak-card';
+                card.innerHTML = `
+                    <div class="taak-header">
+                        <div class="taak-naam">${task.taskName}</div>
+                        <div class="taak-rank">${index + 1}</div>
+                    </div>
+                    <div class="taak-stats">
+                        <div class="taak-stat">
+                            <div class="taak-stat-value">${task.hours} uur</div>
+                            <div class="taak-stat-label">per maand nu</div>
+                        </div>
+                        <div class="taak-stat">
+                            <div class="taak-stat-value">${task.savingPercentage}%</div>
+                            <div class="taak-stat-label">automatisering</div>
+                        </div>
+                        <div class="taak-stat">
+                            <div class="taak-stat-value" style="color: var(--success)">${task.potentialSaving} uur</div>
+                            <div class="taak-stat-label">besparing</div>
+                        </div>
+                    </div>
+                    <div class="taak-bar">
+                        <div class="taak-bar-fill" style="width: ${task.savingPercentage}%"></div>
+                    </div>
+                    <div class="taak-uitleg">${taakUitleg}</div>
+                    <div class="taak-euro" data-saving="${task.potentialSaving}"></div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ===== RENDER NIET AUTOMATISEERBAAR =====
+        function renderNietAuto(uitleg) {
+            const container = document.getElementById('nietAutoContainer');
+            container.innerHTML = '';
+
+            Object.entries(uitleg).forEach(([naam, tekst]) => {
+                const card = document.createElement('div');
+                card.className = 'niet-auto-card';
+                card.innerHTML = `
+                    <div class="niet-auto-naam">${naam}</div>
+                    <div class="niet-auto-uitleg">${tekst}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ===== RENDER ERGERNISSEN =====
+        function renderErgernissen(oplossingen) {
+            const container = document.getElementById('ergernissenContainer');
+            container.innerHTML = '';
+
+            Object.entries(oplossingen).forEach(([naam, tekst]) => {
+                const card = document.createElement('div');
+                card.className = 'ergernis-card';
+                card.innerHTML = `
+                    <div class="ergernis-naam">${naam}</div>
+                    <div class="ergernis-oplossing">${tekst}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ===== RENDER OBSTACLES =====
+        function renderObstacles(oplossingen) {
+            const container = document.getElementById('obstaclesContainer');
+            container.innerHTML = '';
+
+            Object.entries(oplossingen).forEach(([naam, tekst]) => {
+                const card = document.createElement('div');
+                card.className = 'obstacle-card';
+                card.innerHTML = `
+                    <div class="obstacle-naam">${naam}</div>
+                    <div class="obstacle-oplossing">${tekst}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ===== EURO CALCULATOR =====
+        document.getElementById('euroInput').addEventListener('input', function() {
+            const rate = parseFloat(this.value);
+            const resultDiv = document.getElementById('euroResult');
+            const taakEuros = document.querySelectorAll('.taak-euro');
+
+            if (rate > 0) {
+                const monthlyTotal = totalHoursSaved * rate;
+                const yearlyTotal = monthlyTotal * 12;
+
+                document.getElementById('euroResultValue').textContent = '€' + monthlyTotal.toLocaleString('nl-NL');
+                document.getElementById('euroResultYearly').textContent = 'Dat is €' + yearlyTotal.toLocaleString('nl-NL') + ' per jaar';
+                resultDiv.style.display = 'block';
+
+                // Update per taak
+                taakEuros.forEach(el => {
+                    const saving = parseFloat(el.dataset.saving);
+                    el.textContent = '€' + (saving * rate).toLocaleString('nl-NL') + ' besparing per maand';
+                    el.style.display = 'block';
+                });
+
+                // Save to Supabase
+                saveHourlyRate(rate);
+            } else {
+                resultDiv.style.display = 'none';
+                taakEuros.forEach(el => el.style.display = 'none');
+            }
+        });
+
+        // ===== SAVE HOURLY RATE =====
+        async function saveHourlyRate(rate) {
+            if (!rapportData) return;
+            try {
+                await supabase
+                    .from('scorecard_submissions')
+                    .update({ hourly_rate: rate })
+                    .eq('session_id', rapportData.session_id);
+            } catch(e) {
+                // Silent fail - niet kritiek
+            }
+        }
+
+        // ===== PDF DOWNLOAD =====
+        function downloadPDF() {
+            const element = document.getElementById('rapport');
+            const bedrijfsnaam = rapportData?.bedrijfsnaam || 'rapport';
+
+            document.body.classList.add('pdf-export');
+
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: `${bedrijfsnaam}-automatiseringsrapport.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: 'avoid-all', before: '.section' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                document.body.classList.remove('pdf-export');
+            });
+        }
+
+        // ===== START =====
+        init();
+    </script>
+</body>
+</html>
