@@ -1067,9 +1067,17 @@
         async function saveHourlyRate(rate) {
             if (!rapportData) return;
             try {
+                const { data: current } = await supabaseClient
+                    .from('scorecard_submissions')
+                    .select('hourly_rate_history')
+                    .eq('session_id', rapportData.session_id)
+                    .single();
+
+                const history = current?.hourly_rate_history ? current.hourly_rate_history + ', ' + rate : String(rate);
+
                 await supabaseClient
                     .from('scorecard_submissions')
-                    .update({ hourly_rate: rate })
+                    .update({ hourly_rate: rate, hourly_rate_history: history })
                     .eq('session_id', rapportData.session_id);
             } catch(e) {
                 // Silent fail - niet kritiek
