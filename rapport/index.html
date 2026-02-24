@@ -1097,12 +1097,14 @@
 
             document.body.classList.add('pdf-export');
 
+            const heightMm = element.scrollHeight * 0.264583;
+
             html2pdf().set({
                 margin: [10, 10, 10, 10],
                 filename: `${bedrijfsnaam}-automatiseringsrapport.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
-                jsPDF: { unit: 'px', format: [element.scrollWidth, element.scrollHeight + 40], orientation: 'portrait' },
+                jsPDF: { unit: 'mm', format: [210, heightMm + 20], orientation: 'portrait' },
                 pagebreak: { mode: [] }
             }).from(element).save().then(() => {
                 document.body.classList.remove('pdf-export');
