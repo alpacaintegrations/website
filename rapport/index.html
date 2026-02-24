@@ -1097,16 +1097,14 @@
 
             document.body.classList.add('pdf-export');
 
-            const opt = {
+            html2pdf().set({
                 margin: [10, 10, 10, 10],
                 filename: `${bedrijfsnaam}-automatiseringsrapport.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
-                jsPDF: { unit: 'mm', format: [210, 2000], orientation: 'portrait' },
+                jsPDF: { unit: 'px', format: [element.scrollWidth, element.scrollHeight + 40], orientation: 'portrait' },
                 pagebreak: { mode: [] }
-            };
-
-            html2pdf().set(opt).from(element).save().then(() => {
+            }).from(element).save().then(() => {
                 document.body.classList.remove('pdf-export');
             });
         }
