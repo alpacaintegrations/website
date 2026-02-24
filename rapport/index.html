@@ -531,6 +531,24 @@
             margin-bottom: 12px;
         }
 
+        .cta-headline {
+            font-size: 32px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .cta-green {
+            color: var(--success);
+        }
+
+        .cta-yearly {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+
         .cta-stats {
             display: flex;
             justify-content: center;
@@ -633,12 +651,12 @@
                 padding: 28px 20px;
             }
 
-            .cta-stats {
-                gap: 20px;
+            .cta-headline {
+                font-size: 24px;
             }
 
-            .cta-stat-value {
-                font-size: 28px;
+            .cta-yearly {
+                font-size: 22px;
             }
 
             .header-logo img {
@@ -772,17 +790,10 @@
 
         <!-- CTA -->
         <div class="cta-section">
-            <div class="cta-titel" id="ctaTitel"></div>
-            <div class="cta-stats">
-                <div>
-                    <div class="cta-stat-value" id="ctaUren">-</div>
-                    <div class="cta-stat-label">uur/maand besparing</div>
-                </div>
-                <div id="ctaEuroWrap" style="display:none;">
-                    <div class="cta-stat-value" id="ctaEuro">-</div>
-                    <div class="cta-stat-label">euro/maand besparing</div>
-                </div>
+            <div class="cta-headline">
+                <span class="cta-green" id="ctaUren">-</span> en <span class="cta-green" id="ctaEuro">-</span> per maand terugwinnen
             </div>
+            <div class="cta-yearly" id="ctaYearly"></div>
             <div class="cta-tekst" id="ctaTekst"></div>
             <a href="https://outlook.office365.com/book/Alpacaintegrations1@alpacaintegrations.ai/" target="_blank" class="btn-cta">Plan een vrijblijvend gesprek</a>
         </div>
@@ -874,7 +885,7 @@
             totalHoursSaved = summary.total_potential_hours_saved || 0;
 
             // Header
-            document.getElementById('rapportTitel').textContent = content.rapport_titel || `${data.bedrijfsnaam}, jouw automatiseringsrapport`;
+            document.getElementById('rapportTitel').textContent = content.rapport_titel || `${data.bedrijfsnaam}, automatiseringsrapport`;
             document.getElementById('introTekst').textContent = content.intro_tekst || '';
             document.getElementById('potentieelContext').textContent = content.potentieel_context || '';
 
@@ -884,7 +895,7 @@
             document.getElementById('statTaken').textContent = summary.total_automatiseerbare_taken || 0;
 
             // CTA uren
-            document.getElementById('ctaUren').textContent = totalHoursSaved;
+            document.getElementById('ctaUren').textContent = totalHoursSaved + ' uur';
 
             // Top 3
             document.getElementById('top3Intro').textContent = content.top3_intro || '';
@@ -920,7 +931,6 @@
             }
 
             // CTA
-            document.getElementById('ctaTitel').textContent = content.cta_titel || '';
             document.getElementById('ctaTekst').textContent = content.cta_tekst || '';
         }
 
@@ -1037,14 +1047,13 @@
 
                 // Update CTA
                 document.getElementById('ctaEuro').textContent = '\u20AC' + monthlyTotal.toLocaleString('nl-NL');
-                document.getElementById('ctaEuroWrap').style.display = 'block';
+                document.getElementById('ctaYearly').textContent = '\u20AC' + yearlyTotal.toLocaleString('nl-NL') + ' per jaar';
 
                 // Save to Supabase
                 saveHourlyRate(rate);
             } else {
                 resultDiv.style.display = 'none';
                 taakEuros.forEach(el => el.style.display = 'none');
-                document.getElementById('ctaEuroWrap').style.display = 'none';
             }
         }
 
