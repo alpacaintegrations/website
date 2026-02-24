@@ -745,7 +745,7 @@
             }
 
             try {
-                const { data, error } = await supabase
+                const { data, error } = await supabaseClient
                     .from('scorecard_submissions')
                     .select('*')
                     .eq('session_id', sessionId)
@@ -970,7 +970,7 @@
         async function saveHourlyRate(rate) {
             if (!rapportData) return;
             try {
-                await supabase
+                await supabaseClient
                     .from('scorecard_submissions')
                     .update({ hourly_rate: rate })
                     .eq('session_id', rapportData.session_id);
