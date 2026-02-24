@@ -1091,22 +1091,23 @@
         }
 
         // ===== PDF DOWNLOAD =====
+        // ===== PDF DOWNLOAD =====
         function downloadPDF() {
             const element = document.getElementById('rapport');
             const bedrijfsnaam = rapportData?.bedrijfsnaam || 'rapport';
 
             document.body.classList.add('pdf-export');
 
-            const heightMm = element.scrollHeight * 0.264583;
-
-            html2pdf().set({
+            const opt = {
                 margin: [10, 10, 10, 10],
                 filename: `${bedrijfsnaam}-automatiseringsrapport.pdf`,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
-                jsPDF: { unit: 'mm', format: [210, heightMm + 20], orientation: 'portrait' },
+                jsPDF: { unit: 'mm', format: [210, 2000], orientation: 'portrait' },
                 pagebreak: { mode: [] }
-            }).from(element).save().then(() => {
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
                 document.body.classList.remove('pdf-export');
             });
         }
