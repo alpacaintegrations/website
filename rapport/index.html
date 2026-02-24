@@ -45,8 +45,8 @@
         /* ===== STICKY HEADER ===== */
         .sticky-header {
             position: sticky;
-             top: 0;
-             z-index: 100;
+            top: 0;
+            z-index: 100;
             background: rgba(255,255,255,0.95);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
@@ -226,6 +226,11 @@
             color: var(--blue);
         }
 
+        .stat-arrow {
+            font-size: 28px;
+            vertical-align: middle;
+        }
+
         .stat-label {
             font-size: 13px;
             color: var(--text-light);
@@ -324,76 +329,91 @@
             margin-top: 12px;
             padding-top: 12px;
             border-top: 1px solid var(--border);
-            font-size: 15px;
-            color: var(--success);
-            font-weight: 600;
             display: none;
+        }
+
+        .taak-euro-amount {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .taak-euro-label {
+            font-size: 15px;
+            color: var(--text-light);
+            margin-left: 8px;
         }
 
         /* ===== EURO CALCULATOR ===== */
         .euro-calculator {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            background: var(--accent);
             border-radius: var(--radius);
-            padding: 28px;
+            padding: 32px;
             margin: 32px 0 48px;
-            border: 1px solid var(--border);
         }
 
         .euro-calc-title {
-            font-size: 17px;
+            font-size: 34px;
             font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 4px;
+            color: white;
+            margin-bottom: 8px;
         }
 
         .euro-calc-subtitle {
-            font-size: 14px;
-            color: var(--text-light);
-            margin-bottom: 16px;
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            line-height: 1.3;
         }
 
         .euro-calc-input-row {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .euro-calc-input-row label {
-            font-size: 15px;
-            font-weight: 500;
+            font-size: 20px;
+            font-weight: 700;
             white-space: nowrap;
+            color: white;
         }
 
         .euro-input {
             width: 120px;
-            padding: 10px 14px;
-            border: 2px solid var(--border);
+            padding: 12px 14px;
+            border: none;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 20px;
             font-family: 'DM Sans', sans-serif;
-            font-weight: 600;
+            font-weight: 700;
             text-align: center;
             outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .euro-input:focus {
-            border-color: var(--blue);
+            background: white;
+            color: var(--primary);
         }
 
         .euro-result {
             display: none;
             background: white;
             border-radius: 8px;
-            padding: 20px;
+            padding: 24px;
             text-align: center;
         }
 
         .euro-result-value {
-            font-size: 36px;
+            font-size: 42px;
             font-weight: 700;
             color: var(--success);
+        }
+
+        .euro-result-hours {
+            font-size: 18px;
+            color: var(--text);
+            font-weight: 600;
+            margin-top: 4px;
         }
 
         .euro-result-label {
@@ -402,10 +422,10 @@
         }
 
         .euro-result-yearly {
-            font-size: 15px;
+            font-size: 17px;
             color: var(--text);
-            margin-top: 4px;
-            font-weight: 500;
+            margin-top: 8px;
+            font-weight: 600;
         }
 
         /* ===== NIET AUTOMATISEERBAAR ===== */
@@ -511,6 +531,24 @@
             margin-bottom: 12px;
         }
 
+        .cta-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 20px;
+        }
+
+        .cta-stat-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .cta-stat-label {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
         .cta-tekst {
             font-size: 16px;
             opacity: 0.85;
@@ -583,8 +621,24 @@
                 flex-wrap: wrap;
             }
 
+            .euro-calc-title {
+                font-size: 24px;
+            }
+
+            .euro-calc-subtitle {
+                font-size: 20px;
+            }
+
             .cta-section {
                 padding: 28px 20px;
+            }
+
+            .cta-stats {
+                gap: 20px;
+            }
+
+            .cta-stat-value {
+                font-size: 28px;
             }
 
             .header-logo img {
@@ -646,8 +700,8 @@
                 <div class="stat-label">uur/maand te besparen</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value blue" id="statPercentage">-</div>
-                <div class="stat-label">gemiddelde effici&euml;ntie</div>
+                <div class="stat-value blue" id="statPercentage"><span class="stat-arrow">&#8593;</span> -</div>
+                <div class="stat-label">effici&euml;ntie winst</div>
             </div>
             <div class="stat-card">
                 <div class="stat-value" id="statTaken">-</div>
@@ -668,11 +722,12 @@
             <div class="euro-calc-subtitle">Vul je gemiddelde uurtarief of loonkosten in en zie direct wat je kunt besparen.</div>
             <div class="euro-calc-input-row">
                 <label>&euro;</label>
-                <input type="number" class="euro-input" id="euroInput" placeholder="bijv. 45" min="1" max="500">
+                <input type="number" class="euro-input" id="euroInput" value="43" min="1" max="500">
                 <label>per uur</label>
             </div>
             <div class="euro-result" id="euroResult">
                 <div class="euro-result-value" id="euroResultValue"></div>
+                <div class="euro-result-hours" id="euroResultHours"></div>
                 <div class="euro-result-label">besparing per maand</div>
                 <div class="euro-result-yearly" id="euroResultYearly"></div>
             </div>
@@ -718,6 +773,16 @@
         <!-- CTA -->
         <div class="cta-section">
             <div class="cta-titel" id="ctaTitel"></div>
+            <div class="cta-stats">
+                <div>
+                    <div class="cta-stat-value" id="ctaUren">-</div>
+                    <div class="cta-stat-label">uur/maand besparing</div>
+                </div>
+                <div id="ctaEuroWrap" style="display:none;">
+                    <div class="cta-stat-value" id="ctaEuro">-</div>
+                    <div class="cta-stat-label">euro/maand besparing</div>
+                </div>
+            </div>
             <div class="cta-tekst" id="ctaTekst"></div>
             <a href="https://outlook.office365.com/book/Alpacaintegrations1@alpacaintegrations.ai/" target="_blank" class="btn-cta">Plan een vrijblijvend gesprek</a>
         </div>
@@ -733,7 +798,6 @@
         const SUPABASE_URL = 'https://cxerydabgamthgjkbrao.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4ZXJ5ZGFiZ2FtdGhnamticmFvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI4NjI0ODIsImV4cCI6MjA2ODQzODQ4Mn0.W0p3O2fFgjQR9QJm6f7zIUKpnGAzqu3HwJGyJ35qDdA';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
 
         // ===== GLOBAL DATA =====
         let rapportData = null;
@@ -769,7 +833,6 @@
                     try {
                         content = JSON.parse(content);
                     } catch(e) {
-                        // Try parsing raw_text if parse_error
                         if (content.includes('raw_text')) {
                             const parsed = JSON.parse(content);
                             if (parsed.raw_text) {
@@ -787,6 +850,9 @@
 
                 renderRapport(data, content);
 
+                // Trigger calculator with default value
+                updateCalculator(43);
+
             } catch (e) {
                 console.error(e);
                 showError();
@@ -801,7 +867,6 @@
 
         // ===== RENDER RAPPORT =====
         function renderRapport(data, content) {
-            // Hide loading, show rapport
             document.getElementById('loading').style.display = 'none';
             document.getElementById('rapport').style.display = 'block';
 
@@ -815,8 +880,11 @@
 
             // Stats
             document.getElementById('statUren').textContent = totalHoursSaved;
-            document.getElementById('statPercentage').textContent = (summary.gemiddelde_besparing_percentage || 0) + '%';
+            document.getElementById('statPercentage').innerHTML = '<span class="stat-arrow">&#8593;</span> ' + (summary.gemiddelde_besparing_percentage || 0) + '%';
             document.getElementById('statTaken').textContent = summary.total_automatiseerbare_taken || 0;
+
+            // CTA uren
+            document.getElementById('ctaUren').textContent = totalHoursSaved;
 
             // Top 3
             document.getElementById('top3Intro').textContent = content.top3_intro || '';
@@ -888,7 +956,10 @@
                         <div class="taak-bar-fill" style="width: ${task.savingPercentage}%"></div>
                     </div>
                     <div class="taak-uitleg">${taakUitleg}</div>
-                    <div class="taak-euro" data-saving="${task.potentialSaving}"></div>
+                    <div class="taak-euro" data-saving="${task.potentialSaving}" style="display:none;">
+                        <span class="taak-euro-amount"></span>
+                        <span class="taak-euro-label">besparing per maand &mdash; vul je uurtarief in voor een exact bedrag</span>
+                    </div>
                 `;
                 container.appendChild(card);
             });
@@ -942,9 +1013,8 @@
             });
         }
 
-        // ===== EURO CALCULATOR =====
-        document.getElementById('euroInput').addEventListener('input', function() {
-            const rate = parseFloat(this.value);
+        // ===== UPDATE CALCULATOR =====
+        function updateCalculator(rate) {
             const resultDiv = document.getElementById('euroResult');
             const taakEuros = document.querySelectorAll('.taak-euro');
 
@@ -952,23 +1022,36 @@
                 const monthlyTotal = totalHoursSaved * rate;
                 const yearlyTotal = monthlyTotal * 12;
 
-                document.getElementById('euroResultValue').textContent = '€' + monthlyTotal.toLocaleString('nl-NL');
-                document.getElementById('euroResultYearly').textContent = 'Dat is €' + yearlyTotal.toLocaleString('nl-NL') + ' per jaar';
+                document.getElementById('euroResultValue').textContent = '\u20AC' + monthlyTotal.toLocaleString('nl-NL');
+                document.getElementById('euroResultHours').textContent = totalHoursSaved + ' uur per maand';
+                document.getElementById('euroResultYearly').textContent = 'Dat is \u20AC' + yearlyTotal.toLocaleString('nl-NL') + ' per jaar';
                 resultDiv.style.display = 'block';
 
                 // Update per taak
                 taakEuros.forEach(el => {
                     const saving = parseFloat(el.dataset.saving);
-                    el.textContent = '€' + (saving * rate).toLocaleString('nl-NL') + ' besparing per maand';
+                    const amount = saving * rate;
+                    el.querySelector('.taak-euro-amount').textContent = '\u20AC' + amount.toLocaleString('nl-NL');
                     el.style.display = 'block';
                 });
+
+                // Update CTA
+                document.getElementById('ctaEuro').textContent = '\u20AC' + monthlyTotal.toLocaleString('nl-NL');
+                document.getElementById('ctaEuroWrap').style.display = 'block';
 
                 // Save to Supabase
                 saveHourlyRate(rate);
             } else {
                 resultDiv.style.display = 'none';
                 taakEuros.forEach(el => el.style.display = 'none');
+                document.getElementById('ctaEuroWrap').style.display = 'none';
             }
+        }
+
+        // ===== EURO INPUT LISTENER =====
+        document.getElementById('euroInput').addEventListener('input', function() {
+            const rate = parseFloat(this.value);
+            updateCalculator(rate);
         });
 
         // ===== SAVE HOURLY RATE =====
