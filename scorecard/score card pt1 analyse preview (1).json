@@ -1,0 +1,304 @@
+{
+  "name": "score card pt1 analyse preview",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "149b03cf-8423-4298-96d9-2a9b81f54cbc",
+              "leftValue": "{{ $json.body.data.anders_tasks }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1424,
+        0
+      ],
+      "id": "9f182e81-8adf-4b3b-b13e-241d6425f9f8",
+      "name": "If andere taken ingevuld"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get tasks array from the webhook data\nconst tasks = $input.first().json.body.data.tasks;\n\n// Filter alleen tasks waar isPriority = true OF isAndersTask = true\nconst filteredTasks = tasks.filter(task => \n  task.isPriority === true || task.isAndersTask === true\n);\n\n// Return alleen de gefilterde taken\nreturn filteredTasks;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1248,
+        -96
+      ],
+      "id": "de11b2b0-c4f4-4630-91d2-cd1ac81f3e29",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the input data\nconst webhookData = $('Webhook invullen score card').first().json.body.data;\n\nlet llmResult = {};\ntry {\n  const llmRaw = $('anders taken kwalificeren').first().json.content[0].text;\n  const llmCleaned = llmRaw.replace(/```json\\n?/g, '').replace(/```/g, '').trim();\n  const llmParsed = JSON.parse(llmCleaned);\n  llmResult = Array.isArray(llmParsed) ? llmParsed[0] : llmParsed;\n} catch(e) {\n  llmResult = {};\n}\n\n// Define savings percentages based on automation score\nconst savingsPercentages = {\n  4: 0.92,\n  3: 0.81,\n  2: 0.67,\n  1: 0.50,\n  0: 0\n};\n\n// Label assignment based on automation score AND hours combination\nfunction getTaskLabel(automationScore, hours, score) {\n  if (automationScore === 4) {\n    if (hours > 100) return { label: \"Bulls Eye\", priority: 1, category: \"Absolute Toppers\", categoryPriority: 1 };\n    if (hours >= 51 && hours <= 100) return { label: \"No Brainer\", priority: 2, category: \"Absolute Toppers\", categoryPriority: 1 };\n    if (hours >= 26 && hours <= 50) return { label: \"Quick Win\", priority: 3, category: \"Zeer Hoge Prioriteit\", categoryPriority: 2 };\n    if (hours >= 11 && hours <= 25) return { label: \"Efficiency Booster\", priority: 6, category: \"Hoge Prioriteit\", categoryPriority: 3 };\n    if (hours <= 10) return { label: \"Mini Winst\", priority: 11, category: \"Net Onder Top 3\", categoryPriority: 5 };\n  }\n  \n  if (automationScore === 3) {\n    if (hours > 100) return { label: \"Laag Hangend Fruit\", priority: 4, category: \"Zeer Hoge Prioriteit\", categoryPriority: 2 };\n    if (hours >= 51 && hours <= 100) return { label: \"Tijdwinst Topper\", priority: 5, category: \"Hoge Prioriteit\", categoryPriority: 3 };\n    if (hours >= 26 && hours <= 50) return { label: \"Solide Keuze\", priority: 7, category: \"Hoge Prioriteit\", categoryPriority: 3 };\n    if (hours >= 11 && hours <= 25) return { label: \"Slimme Zet\", priority: 10, category: \"Net Onder Top 3\", categoryPriority: 5 };\n    if (hours <= 10) return { label: \"Kleine Versnelling\", priority: 14, category: \"Net Onder Top 3\", categoryPriority: 5 };\n  }\n  \n  if (automationScore === 2) {\n    if (hours > 100) return { label: \"Volume Voordeel\", priority: 8, category: \"Hoge Prioriteit\", categoryPriority: 3 };\n    if (hours >= 51 && hours <= 100) return { label: \"Substantiele Verbetering\", priority: 9, category: \"Top 3 Ondergrens\", categoryPriority: 4 };\n    if (hours >= 26 && hours <= 50) return { label: \"Degelijke Optie\", priority: 12, category: \"Net Onder Top 3\", categoryPriority: 5 };\n    if (hours >= 11 && hours <= 25) return { label: \"Basis Verbetering\", priority: 15, category: \"Overwegen Bij Specifieke Pijn\", categoryPriority: 6 };\n    if (hours <= 10) return { label: \"Eerste Stapje\", priority: 17, category: \"Overwegen Bij Specifieke Pijn\", categoryPriority: 6 };\n  }\n  \n  if (automationScore === 1) {\n    if (hours > 100) return { label: \"Bulk Uitdaging\", priority: 13, category: \"Net Onder Top 3\", categoryPriority: 5 };\n    if (hours >= 51 && hours <= 100) return { label: \"Complexe Massa\", priority: 16, category: \"Overwegen Bij Specifieke Pijn\", categoryPriority: 6 };\n    if (hours >= 26 && hours <= 50) return { label: \"Beperkt Potentieel\", priority: 18, category: \"Lage Prioriteit\", categoryPriority: 7 };\n    if (hours >= 11 && hours <= 25) return { label: \"Minimaal Effect\", priority: 19, category: \"Lage Prioriteit\", categoryPriority: 7 };\n    if (hours <= 10) return { label: \"Verwaarloosbaar\", priority: 20, category: \"Lage Prioriteit\", categoryPriority: 7 };\n  }\n  \n  return { label: \"Niet Gecategoriseerd\", priority: 99, category: \"Lage Prioriteit\", categoryPriority: 7 };\n}\n\n// Automation potential calculation\nfunction calculateAutomationPotential(top3Tasks, totalHoursSaved) {\n  if (top3Tasks.length === 0) return \"Slecht potentieel\";\n  \n  const superTasks = top3Tasks.filter(t => t.categoryPriority <= 2).length;\n  const topTask = top3Tasks[0];\n  \n  if (superTasks >= 2 && totalHoursSaved >= 100) return \"Extreem potentieel\";\n  \n  if (superTasks >= 2 ||\n      (superTasks === 1 && topTask.categoryPriority === 1 && totalHoursSaved >= 80) ||\n      (top3Tasks.length === 3 && top3Tasks[2].categoryPriority <= 3)) {\n    return \"Heel hoog potentieel\";\n  }\n  \n  if (superTasks >= 1 ||\n      (topTask.categoryPriority <= 3 && totalHoursSaved >= 60) ||\n      (top3Tasks.length === 3 && top3Tasks[2].categoryPriority <= 4)) {\n    return \"Hoog potentieel\";\n  }\n  \n  if (topTask.categoryPriority <= 4 || totalHoursSaved >= 40) return \"Redelijk potentieel\";\n  \n  return \"Slecht potentieel\";\n}\n\n// Process all tasks\nconst mergedTasks = webhookData.tasks.map(task => {\n  let finalTask = { ...task };\n  \n  const taskNameToCheck = task.taskName.toLowerCase();\n  const llmTaskName = llmResult.task_name?.toLowerCase();\n  \n  if (taskNameToCheck === llmTaskName) {\n    if (task.isAndersTask) {\n      const llmScore = llmResult.automation_score;\n      \n      if (llmScore !== null && llmScore > 0) {\n        let calculatedScore = Math.pow(llmScore, 2) * task.hoursMultiplier;\n        if (task.isPriority) calculatedScore *= 1.2;\n        \n        const savingPercentage = savingsPercentages[llmScore] || 0.7;\n        const potentialSaving = Math.round(task.hours * savingPercentage);\n        const actualSavingPercentage = Math.round(savingPercentage * 100);\n        \n        finalTask = {\n          ...task,\n          automationScore: llmScore,\n          score: calculatedScore,\n          potentialSaving: potentialSaving,\n          savingPercentage: actualSavingPercentage,\n          llmCategory: llmResult.category,\n          llmReasoning: llmResult.reasoning,\n          llmWarnings: llmResult.warnings || [],\n          isAutomatiseerbaar: true\n        };\n      } else {\n        finalTask = {\n          ...task,\n          automationScore: llmScore || 0,\n          score: 0,\n          potentialSaving: 0,\n          savingPercentage: 0,\n          llmCategory: llmResult.category,\n          llmReasoning: llmResult.reasoning,\n          llmWarnings: llmResult.warnings || [],\n          isAutomatiseerbaar: false\n        };\n      }\n    } else if (task.isPriority) {\n      finalTask = { ...finalTask, llmFeedback: llmResult.reasoning };\n    }\n  }\n  \n  if (finalTask.automationScore && finalTask.automationScore > 0 && !finalTask.isAndersTask) {\n    const savingPercentage = savingsPercentages[finalTask.automationScore] || 0.7;\n    const potentialSaving = Math.round(finalTask.hours * savingPercentage);\n    const actualSavingPercentage = Math.round(savingPercentage * 100);\n    \n    finalTask = {\n      ...finalTask,\n      potentialSaving: potentialSaving,\n      savingPercentage: actualSavingPercentage,\n      isAutomatiseerbaar: true\n    };\n  }\n  \n  if (finalTask.score > 0) {\n    const labelData = getTaskLabel(finalTask.automationScore, finalTask.hours, finalTask.score);\n    finalTask = {\n      ...finalTask,\n      taskLabel: labelData.label,\n      taskPriority: labelData.priority,\n      taskCategory: labelData.category,\n      categoryPriority: labelData.categoryPriority\n    };\n  }\n  \n  return finalTask;\n});\n\nconst sortedTasks = mergedTasks.sort((a, b) => {\n  if (a.score === null || a.score === 0) return 1;\n  if (b.score === null || b.score === 0) return -1;\n  return b.score - a.score;\n});\n\nconst rankedTasks = sortedTasks.map((task, index) => ({\n  ...task,\n  rank: index + 1\n}));\n\nconst top3Tasks = rankedTasks.filter(task => task.score > 0).slice(0, 3);\nconst priorityTask = rankedTasks.find(task => task.isPriority);\nconst priorityInTop3 = top3Tasks.some(task => task.taskName === priorityTask?.taskName);\nconst totalPotentialSaving = rankedTasks.filter(task => task.potentialSaving > 0).reduce((sum, task) => sum + task.potentialSaving, 0);\n\nreturn {\n  session_id: webhookData.session_id,\n  bedrijfsnaam: webhookData.bedrijfsnaam,\n  branche: webhookData.branche,\n  bedrijfs_omschrijving: webhookData.bedrijfs_omschrijving,\n  team_size: webhookData.team_size,\n  source_type: webhookData.source_type,\n  total_hours: webhookData.total_hours,\n  systems_count: webhookData.systems_count,\n  ergernissen: webhookData.ergernissen,\n  obstacles: webhookData.obstacles,\n  fire_percentage: webhookData.fire_percentage,\n  missed_revenue: webhookData.missed_revenue,\n  automation_potential: calculateAutomationPotential(top3Tasks, totalPotentialSaving),\n  anders_tasks: webhookData.anders_tasks || [],\n  anders_ergernissen: webhookData.anders_ergernissen || [],\n  anders_obstacles: webhookData.anders_obstacles || [],\n  all_tasks: rankedTasks,\n  top_3_tasks: top3Tasks,\n  priority_task_info: {\n    task_name: priorityTask?.taskName,\n    reason: webhookData.priority_reason,\n    in_top_3: priorityInTop3,\n    rank: priorityTask?.rank,\n    score: priorityTask?.score,\n    saving_percentage: priorityTask?.savingPercentage,\n    label: priorityTask?.taskLabel\n  },\n  summary: {\n    total_automatiseerbare_taken: rankedTasks.filter(t => t.score > 0).length,\n    total_potential_hours_saved: totalPotentialSaving,\n    percentage_time_saved: Math.round((totalPotentialSaving / webhookData.total_hours) * 100),\n    niet_automatiseerbare_taken: rankedTasks.filter(t => t.score === 0).map(t => t.taskName),\n    gemiddelde_besparing_percentage: Math.round(\n      rankedTasks.filter(t => t.savingPercentage > 0).reduce((sum, t) => sum + t.savingPercentage, 0) / \n      rankedTasks.filter(t => t.savingPercentage > 0).length\n    ) || 0\n  },\n  created_at: webhookData.created_at\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -784,
+        16
+      ],
+      "id": "6e87af63-8b41-48cb-9ff2-21873a1f06e3",
+      "name": "Code merge data samenvoegen, scores ,labels toevoegen"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "aad217b2-84d5-4705-862d-b62c7b763c1c",
+        "options": {
+          "responseData": "\"First Entry JSON\""
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1696,
+        0
+      ],
+      "id": "909d6fe8-d819-4199-ba2f-0ec32ccd731f",
+      "name": "Webhook invullen score card",
+      "webhookId": "aad217b2-84d5-4705-862d-b62c7b763c1c"
+    },
+    {
+      "parameters": {
+        "tableId": "scorecard_submissions",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "session_id",
+              "fieldValue": "={{ $json.session_id }}"
+            },
+            {
+              "fieldId": "branche",
+              "fieldValue": "={{ $json.branche }}"
+            },
+            {
+              "fieldId": "bedrijfs_omschrijving",
+              "fieldValue": "={{ $json.bedrijfs_omschrijving }}"
+            },
+            {
+              "fieldId": "team_size",
+              "fieldValue": "={{ $json.team_size }}"
+            },
+            {
+              "fieldId": "systems_count",
+              "fieldValue": "={{ $json.systems_count }}"
+            },
+            {
+              "fieldId": "ergernissen",
+              "fieldValue": "={{ $json.ergernissen }}"
+            },
+            {
+              "fieldId": "obstacles",
+              "fieldValue": "={{ $json.obstacles }}"
+            },
+            {
+              "fieldId": "fire_percentage",
+              "fieldValue": "={{ $json.fire_percentage }}"
+            },
+            {
+              "fieldId": "missed_revenue",
+              "fieldValue": "={{ $json.missed_revenue }}"
+            },
+            {
+              "fieldId": "automation_potential",
+              "fieldValue": "={{ $json.automation_potential }}"
+            },
+            {
+              "fieldId": "all_tasks",
+              "fieldValue": "={{ $json.all_tasks }}"
+            },
+            {
+              "fieldId": "top_3_tasks",
+              "fieldValue": "={{ $json.top_3_tasks }}"
+            },
+            {
+              "fieldId": "summary",
+              "fieldValue": "={{ $json.summary }}"
+            },
+            {
+              "fieldId": "total_hours",
+              "fieldValue": "={{ $json.total_hours }}"
+            },
+            {
+              "fieldId": "anders_tasks",
+              "fieldValue": "={{ $json.anders_tasks }}"
+            },
+            {
+              "fieldId": "anders_ergernissen",
+              "fieldValue": "={{ $json.anders_ergernissen }}"
+            },
+            {
+              "fieldId": "anders_obstacles",
+              "fieldValue": "={{ $json.anders_obstacles }}"
+            },
+            {
+              "fieldId": "session_id",
+              "fieldValue": "={{ $json.session_id }}"
+            },
+            {
+              "fieldId": "created_at",
+              "fieldValue": "={{ $json.created_at }}"
+            },
+            {
+              "fieldId": "source_type",
+              "fieldValue": "={{ $json.source_type }}"
+            },
+            {
+              "fieldId": "bedrijfsnaam",
+              "fieldValue": "={{ $json.bedrijfsnaam }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        -544,
+        16
+      ],
+      "id": "6defae11-1017-46a3-85ef-c6f55511f6db",
+      "name": "Supabase",
+      "credentials": {
+        "supabaseApi": {
+          "id": "fkcmvzJ1VMVkT9FC",
+          "name": "Supabase alpaca intern"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-opus-4-6",
+          "mode": "list",
+          "cachedResultName": "claude-opus-4-6"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Analyseer deze taken:\n\nBedrijf: {{ $('Webhook invullen score card').first().json.body.data.bedrijfsnaam }} ({{ $('Webhook invullen score card').first().json.body.data.branche }})\nOmschrijving: {{ $('Webhook invullen score card').first().json.body.data.bedrijfs_omschrijving }}\n\nTaken: {{ JSON.stringify($json, null, 2) }}\n\nGeef voor elke taak een score van 0-4. Als deze een isanderstask is moet je de score bepalen. Een ispriority heeft al een score, geef daar alleen feedback op.\nGebruik de bedrijfsinformatie alleen om de taken beter te begrijpen, niet om aannames te doen."
+            }
+          ]
+        },
+        "options": {
+          "system": "# Automatisering Expert - Taak Analyse  Je bent een data-gedreven analist die taken beoordeelt op automatiseringspotentieel. Je baseert je UITSLUITEND op de aangeleverde data. Geen aannames, geen loze beloftes.  Kernprincipe: spreken is zilver, zwijgen is goud. Als je iets niet weet, zeg je het niet.  Let op: enkel digitale taken kunnen worden geautomatiseerd. Geef als output \"category\": \"NIET DIGITAAL\" als de taak niet digitaal is.  ---  ## Wat je binnenkrijgt  Je krijgt een of meerdere taken die allemaal een automatiseringsscore krijgen van 0-4.  ### Twee soorten taken:  **isanderstask** - handmatig ingevuld door de gebruiker. Hier kan extra context bij staan. Als de gebruiker details heeft gegeven over wat de taak inhoudt, gebruik die dan in je reasoning. Verzin GEEN details die er niet staan.  **ispriority** - belangrijk voor de gebruiker, kan ook een anderstask zijn. Hier zit een uitleg bij (priority_reason) waarom de gebruiker denkt dat automatisering impact heeft: - Goede automatiseringsscore: bevestig kort op basis van hun eigen woorden - Slechte automatiseringsscore: leg kort uit waarom de score laag is - Goede score maar minder dan 8 uur per maand: benoem dat de tijdwinst beperkt is  ### Doel Bepaal het automatiseringspotentieel en geef een korte feitelijke uitleg.  ---  ## Stap 1: Vergelijk met bestaande taken  Kijk eerst of de taak lijkt op een van deze standaard taken. Let goed op: taken die op elkaar lijken kunnen heel verschillend zijn qua automatisering (bijv. email lezen vs email sturen).  \"Data invoeren/overzetten\": 3 \"Data analyse\": 3 \"Gegevens opzoeken\": 3 \"Rapporten maken\": 2 \"Emails/offertes versturen\": 2 \"Planning/roosters maken\": 2 \"Herhalende administratieve klussen\": 2 \"Werken met Excel bestanden\": 4 \"Klantgegevens bijwerken/opzoeken\": 2 \"Documenten archiveren/opslaan\": 1 \"Status updates geven\": 2 \"Contracten/documenten opstellen\": 2 \"KPI's/cijfers verzamelen\": 4 \"Agenda's/afspraken beheren\": 1  Staat er geen vergelijkbare taak tussen? Ga dan verder met stap 2.  ---  ## Stap 2: Bepaal de score  ### Score 4 - BEGINNER - Simpele input naar output, vaste regels - Vergelijkbaar met: naam splitsen, Excel rij naar database, email met vaste template  ### Score 3 - GEVORDERD - Input moet gefilterd of opgeschoond, kleine AI stappen - Vergelijkbaar met: data harmoniseren, logica met uitzonderingen  ### Score 2 - EXPERT - Meerdere bronnen/systemen, veel AI stappen, maatwerk nodig - Vergelijkbaar met: rapporten, emails/offertes, planning  ### Score 1 - ZEER COMPLEX - Te veel variaties, menselijk inzicht cruciaal - Vergelijkbaar met: archiveren, agenda beheer  ### Score 0 - NIET AUTOMATISEREN - Puur fysieke taken die niet digitaal uitgevoerd worden  ### Klantcontact en sales/support taken - Score 2 - AI kan ondersteunen bij voorbereiding, veelgestelde vragen en naverwerking - De menselijke touch blijft belangrijk, dit is maatwerk  ---  ## Reasoning regels  - STRIKT 1 zin. Maximaal 2 als de gebruiker zelf gedetailleerde input heeft gegeven - Baseer je ALLEEN op de data die je krijgt - Als de gebruiker een uitgebreide priority_reason of taakomschrijving heeft gegeven: gebruik hun eigen woorden en context. Dat maakt het persoonlijk - Als de gebruiker GEEN details heeft gegeven: benoem alleen de score en vergelijk met soortgelijke taken. Verzin geen voorbeelden - NOOIT gebruiken: \"met de juiste opzet\", \"goed te doen\", \"flink versnellen\", \"veel potentie\", \"grote kans\". Dit zijn loze beloftes - Zeg WAT er geautomatiseerd kan worden, niet HOE goed of makkelijk  ---  ## Output Format  Geef per taak dit JSON object terug:  ```json {   \"task_name\": \"originele naam\",   \"category\": \"matched_standard_task of custom categorisatie\",   \"automation_score\": 0-4,   \"reasoning\": \"feitelijke uitleg\",   \"warnings\": [],   \"needs_human_review\": true/false,   \"review_reason\": \"alleen bij needs_review=true\" } ```  ---  ## Voorbeelden  Input: \"Klanten bellen voor tevredenheidsonderzoek\" ```json {   \"task_name\": \"Klanten bellen voor tevredenheidsonderzoek\",   \"category\": \"Klantcommunicatie\",   \"automation_score\": 2,   \"warnings\": [],   \"reasoning\": \"AI kan de voorbereiding en resultaatverwerking overnemen, het gesprek zelf blijft menselijk.\",   \"needs_human_review\": false } ```  Input: \"Facturen uit email halen en in boekhouding zetten\" ```json {   \"task_name\": \"Facturen uit email halen en in boekhouding zetten\",   \"category\": \"Document verwerking\",   \"automation_score\": 3,   \"reasoning\": \"Facturen herkennen, uitlezen en doorboeken is vergelijkbaar met data invoeren/overzetten.\",   \"needs_human_review\": false } ```  Input: \"Product beschrijvingen schrijven voor webshop\" (isPriority, priority_reason: \"We hebben 500 producten en het kost ons 2 dagen per week\") ```json {   \"task_name\": \"Product beschrijvingen schrijven voor webshop\",   \"category\": \"Content generatie\",   \"automation_score\": 3,   \"reasoning\": \"Met 500 producten en 2 dagen per week is dit een duidelijke kandidaat. Beschrijvingen genereren op basis van productdata is vergelijkbaar met rapporten maken.\",   \"needs_human_review\": false } ```  ---  ## Belangrijke regels  - Bij klantcontact: score 2, maatwerk - Bij twijfel over complexiteit: needs_human_review = true - Reasoning: feitelijk, kort, geen aannames - Informele toon, geen technische termen - Als de gebruiker details geeft: gebruik ze. Als niet: verzin ze niet.",
+          "maxTokens": 8029
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [
+        -1072,
+        -96
+      ],
+      "id": "10dd2da5-82c0-4275-b195-b74d5a6ee00f",
+      "name": "anders taken kwalificeren",
+      "credentials": {
+        "anthropicApi": {
+          "id": "XGbio9GD28AJTN3W",
+          "name": "Anthropic account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If andere taken ingevuld": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code merge data samenvoegen, scores ,labels toevoegen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "anders taken kwalificeren",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code merge data samenvoegen, scores ,labels toevoegen": {
+      "main": [
+        [
+          {
+            "node": "Supabase",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook invullen score card": {
+      "main": [
+        [
+          {
+            "node": "If andere taken ingevuld",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase": {
+      "main": [
+        []
+      ]
+    },
+    "anders taken kwalificeren": {
+      "main": [
+        [
+          {
+            "node": "Code merge data samenvoegen, scores ,labels toevoegen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {},
+  "versionId": "40af903f-6e1b-4d0f-a20e-10f686b2e1a5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "197e3373f83fda44e0b7035dd69b207167d454dc1dd053c097ce4d6fbffbff08"
+  },
+  "id": "AGu7BsFLR4QPvqZc",
+  "tags": []
+}

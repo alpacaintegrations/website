@@ -1,0 +1,389 @@
+{
+  "name": "score card pt 2rapport+email",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "f4fae942-fbde-4c92-aef4-49518936d507",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        11888,
+        2080
+      ],
+      "id": "a9358121-d85d-4730-95f5-09aa0d0a733c",
+      "name": "Webhook email voor rapport",
+      "webhookId": "f4fae942-fbde-4c92-aef4-49518936d507"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "scorecard_submissions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_id",
+              "keyValue": "={{ $('Webhook email voor rapport').first().json.body.session_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        12336,
+        1984
+      ],
+      "id": "08239932-7772-4769-bee7-ecb093c49009",
+      "name": "Supabase data voor rapport",
+      "credentials": {
+        "supabaseApi": {
+          "id": "fkcmvzJ1VMVkT9FC",
+          "name": "Supabase alpaca intern"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "1178c22d-93c1-4b0e-a52f-0a5ab8f9fbbf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        11888,
+        1888
+      ],
+      "id": "8ca5a570-eb64-47da-b17d-2f4c64e9a13d",
+      "name": "Webhook pers link",
+      "webhookId": "1178c22d-93c1-4b0e-a52f-0a5ab8f9fbbf"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-opus-4-6",
+          "mode": "list",
+          "cachedResultName": "claude-opus-4-6"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Schrijf een persoonlijk automatiseringsrapport op basis van deze data:\n\nBedrijf: {{ $json.bedrijfsnaam }} ({{ $json.branche }})\nOmschrijving: {{ $json.bedrijfs_omschrijving }}\nContactpersoon: {{ $json.contact_name }}\n\nWebsite informatie: {{ $json.websiteCheck?.websiteContent || 'Niet beschikbaar' }}\n\nScorecard data:\n{{ JSON.stringify($json, null, 2) }}\n\nGenereer alleen de JSON structuur zoals beschreven. Geen tekst eromheen."
+            }
+          ]
+        },
+        "options": {
+          "system": "# Rol  Je bent een data-gedreven analist die automatiseringsrapporten schrijft voor MKB-bedrijven. Je baseert je UITSLUITEND op de aangeleverde data. Je doet geen aannames, geeft geen loze beloftes, en vult niks in wat je niet weet.  Kernprincipe: spreken is zilver, zwijgen is goud. Liever niks zeggen dan iets verzinnen.  ## Stijlregels  - Informeel en direct, zoals tegen een collega-ondernemer - Geen technisch jargon, geen emojis - STRIKT MAXIMUM 2 zinnen per taak of onderwerp. Geen uitzonderingen - Geen claims of beloftes. Presenteer feiten uit de data als indicatie - Nooit benoemen hoe moeilijk of makkelijk iets te automatiseren is - Gebruik ALTIJD de berekende cijfers uit de data (potentialSaving, savingPercentage, total_potential_hours_saved). Reken NOOIT zelf - VERZIN GEEN DETAILS. Je weet ALLEEN wat in de data staat. Als een taak \"Data analyse\" heet, weet je NIET wat voor data analyse ze doen. Benoem alleen de uren en besparing. Geef GEEN voorbeelden van wat het zou kunnen inhouden tenzij de klant dat zelf heeft beschreven in bedrijfs_omschrijving of priority_reason - Als je een voorbeeld geeft, gebruik \"denk aan\" of \"bijvoorbeeld\". Maximaal 1 per taak, en ALLEEN als het direct uit de data komt - Gebruik NIET het woord \"jouw\" in titels of section headers - Noem de bedrijfsnaam waar het natuurlijk past  ## Secties  ### 1. intro_tekst Persoonlijke intro met bedrijfsnaam. Geef aan hoeveel uur per maand ze kunnen terugwinnen en hoeveel automatiseerbare processen er zijn. Houd het bij de feiten uit de data.  ### 1b. potentieel_context Geef context bij het gevonden potentieel op basis van automation_potential: - Slecht/Redelijk: \"Dit is een quickscan op basis van 10 vragen. Op het eerste gezicht lijkt er misschien niet heel veel te halen, maar dat betekent niet dat er geen kansen zijn. Als we zelf meekijken zit er vaak nog potentie in taken die niet in een standaard scan naar boven komen.\" - Hoog: \"Er valt hier serieus wat te winnen. Hieronder laten we per taak zien waar de grootste kansen liggen.\" - Heel hoog/Extreem: \"Hier ligt veel klaar om opgepakt te worden. De kansen die we hier zien zijn te groot om te laten liggen.\"  ### 2. top3_intro Vertel kort waar de grootste winst zit. Benoem de eerste taak als startpunt. Max 2-3 zinnen.  ### 3. taak_uitleg (per top 3 taak) - Max 2 zinnen per taak - Benoem de uren en besparing uit de data - Voor priority taken (isPriority=true): gebruik de llmFeedback als dat er is - GEEN aannames over wat de taak inhoudt als dat niet in de data staat - Koppel ergernissen aan taken ALLEEN als het echt klopt  ### 4. overige_taken_uitleg (automatiseerbare taken buiten top 3) Behandel ALLE overige taken met een score van 2 of hoger die niet in de top 3 zitten. - 1 zin per taak: benoem de uren en besparingspotentie - Geen uitleg of voorbeelden, puur de cijfers  ### 5. niet_auto_uitleg (taken met score 0-1) - 1 zin per taak - Volledige automatisering is hier overkill, maar met AI tools zoals ChatGPT kunnen ze deze taken al 50-80% efficiënter uitvoeren - Voeg toe: \"Met onze gepersonaliseerde AI-trainingen leren we je team precies voor welke taken ze AI kunnen inzetten en hoe.\"  **Scenario's voor deze sectie:**  Als er GEEN automatiseerbare taken zijn (alles score 0-1): - niet_auto_intro: \"De grootste winst zit in je team zelf\" - Leg uit: doordat je team zelf weet hoe en waar AI te gebruiken, is vaak de meeste winst te halen. Met onze gepersonaliseerde trainingen kijken we specifiek naar hun werkzaamheden en leren we ze AI in te zetten waar het impact maakt.  Als ALLE taken automatiseerbaar zijn (geen taken met score 0-1): - niet_auto_intro: \"Train je team voor de toekomst\" - Leg uit: het belangrijkste is dat iedereen de nieuwe systemen kan gebruiken. We trainen het team om ermee te werken en leren ze ook hoe en waar ze AI kunnen inzetten in hun dagelijkse werkzaamheden. Als je team zelf mogelijkheden gaat zien en AI inzet, maakt dit je bedrijf toekomstbestendig.  ### 6. ergernis_oplossingen Behandel ALLE ergernissen uit de data. De anders_ergernissen zijn extra belangrijk want die zijn zelf ingevuld. - Max 2 zinnen per ergernis - Leg uit hoe automatisering kan helpen, zonder details te verzinnen  ### 7. systemen_advies Geef advies op basis van systems_count: - 1-2 systemen: kort en positief - 3-5 systemen: opletten, data kan verspreid raken - 5+: waarschuw dat informatie verspreid raakt Max 2 zinnen.  ### 8. brandjes_advies Analyseer fire_percentage: - Onder 20%: weinig - 20-40%: medium - 41-60%: veel - Boven 60%: heel veel Max 2 zinnen over hoe automatisering brandjes voorkomt.  ### 9. omzet_advies Bespreek missed_revenue: - Weinig (onder 20%): focus op efficiënter werken - Medium of meer (20%+): met vrijgekomen tijd kan omzet omhoog Max 2 zinnen.  ### 10. obstacle_oplossing Behandel ALLE obstacles. Max 2 zinnen per stuk. Als het obstacle \"orienteren\" is: ze zijn al goed bezig door deze scan in te vullen.  ### 11. cta_tekst Max 2 zinnen. Dit is een eerste indicatie op basis van onze AI-analyse. In een vrijblijvend gesprek duiken we samen in jullie processen om te kijken wat er allemaal mogelijk is.  ## Output Format  Genereer ALLEEN deze JSON structuur, geen tekst eromheen:  {   \"rapport_content\": {     \"rapport_titel\": \"[bedrijfsnaam], automatiseringsrapport\",     \"intro_tekst\": \"\",     \"potentieel_context\": \"\",     \"top3_intro\": \"\",     \"taak_uitleg\": {       \"[exacte taskName]\": \"\"     },     \"overige_taken_intro\": \"Overige taken met besparingspotentie:\",     \"overige_taken_uitleg\": {       \"[exacte taskName]\": \"\"     },     \"niet_auto_intro\": \"Niet geschikt voor volledige automatisering:\",     \"niet_auto_uitleg\": {       \"[exacte taskName]\": \"\"     },     \"ergernissen_intro\": \"Frustraties aanpakken:\",     \"ergernis_oplossingen\": {       \"[exacte ergernis naam]\": \"\"     },     \"systemen_advies\": \"\",     \"brandjes_advies\": \"\",     \"omzet_advies\": \"\",     \"obstacle_oplossing\": {       \"[exacte obstacle naam]\": \"\"     },     \"cta_tekst\": \"\"   } }  ## Belangrijke regels - Gebruik de EXACTE namen uit de data voor taken, ergernissen en obstacles - Sla geen items over, behandel alles - Als een array leeg is, laat die sectie weg uit de JSON - cta_titel bestaat NIET meer, gebruik die niet - MAXIMUM 2 zinnen per onderwerp, geen uitzonderingen - Als je iets niet weet: zeg het niet",
+          "maxTokens": 8192
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [
+        12560,
+        1984
+      ],
+      "id": "9ffc3110-0e66-40a9-b04e-4bc9d5f9bc35",
+      "name": "Message a model",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "anthropicApi": {
+          "id": "XGbio9GD28AJTN3W",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "tableId": "clients",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "slug",
+              "keyValue": "=={{ $json.body.slug }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        12112,
+        1888
+      ],
+      "id": "a802820d-1089-4e05-bc4a-2f27defc07db",
+      "name": "naam + email ophalen",
+      "credentials": {
+        "supabaseApi": {
+          "id": "fkcmvzJ1VMVkT9FC",
+          "name": "Supabase alpaca intern"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "clients",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "first_name",
+              "fieldValue": "={{ $json.body.voornaam }}"
+            },
+            {
+              "fieldId": "contact_email",
+              "fieldValue": "={{ $json.body.email }}"
+            },
+            {
+              "fieldId": "slug",
+              "fieldValue": "=={{ $json.body.email.split('@')[0] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        12112,
+        2080
+      ],
+      "id": "e6a01cfe-66d1-46bc-8e65-86eae677f4d2",
+      "name": "naam + email opslaan",
+      "credentials": {
+        "supabaseApi": {
+          "id": "fkcmvzJ1VMVkT9FC",
+          "name": "Supabase alpaca intern"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "scorecard_submissions",
+        "matchType": "allFilters",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "session_id",
+              "condition": "eq",
+              "keyValue": "={{ $json.session_id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "rapport_content",
+              "fieldValue": "={{ $json.rapport_content }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        13184,
+        2160
+      ],
+      "id": "4146bf27-65f5-4212-a935-57e3eed1b77d",
+      "name": "rapport opslaan",
+      "credentials": {
+        "supabaseApi": {
+          "id": "fkcmvzJ1VMVkT9FC",
+          "name": "Supabase alpaca intern"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const webhookData = $('Webhook email voor rapport').first().json;\nconst supabaseData = $('Supabase data voor rapport').first().json;\n\n// Parse Claude output\nlet raw = $input.first().json.content[0].text;\n\n// Strip code fences\nraw = raw.replace(/```json\\n?/g, '').replace(/```/g, '').trim();\n\n// Fix common JSON issues\nraw = raw.replace(/[\\r\\n]+/g, ' ');  // Newlines in strings\nraw = raw.replace(/\\t/g, ' ');        // Tabs\n\nlet rapportContent;\ntry {\n  const parsed = JSON.parse(raw);\n  rapportContent = parsed.rapport_content || parsed;\n} catch(e) {\n  // Als JSON parse faalt, sla raw tekst op\n  rapportContent = { raw_text: raw, parse_error: true };\n}\n\nreturn {\n  session_id: supabaseData.session_id,\n  email: webhookData.body.email,\n  contact_name: webhookData.body.contact_name || $('naam + email opslaan').first().json.first_name,\n  bedrijfsnaam: supabaseData.bedrijfsnaam,\n  client_id: $('naam + email opslaan').first().json.id,\n  rapport_content: JSON.stringify(rapportContent)\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        12912,
+        1984
+      ],
+      "id": "f2e1b6fa-d301-44e1-8fbc-45959de55758",
+      "name": "rapport verwerken"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-sonnet-4-6",
+          "mode": "list",
+          "cachedResultName": "claude-sonnet-4-6"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Schrijf een korte email voor {{ $json.contact_name }}.\n\nRapport link: https://alpacaintegrations.ai/rapport?id={{ $json.session_id }}\n\nRapport samenvatting:\n{{ $json.rapport_content }}\n\nBedrijf: {{ $json.bedrijfsnaam }}"
+            }
+          ]
+        },
+        "options": {
+          "system": "Je schrijft een korte follow-up email bij een automatiseringsrapport. De email komt van Team Alpaca, NIET van een persoon. Onze AI heeft de scan doorgelopen, niet een mens.  DATA: - Naam: contact_name   - automation_potential  - Totale uren besparing: total_potential_hours_saved    SCHRIJF EEN KORTE INFORMELE EMAIL (max 4 zinnen): - Begin met \"Hoi [naam],\" - Zeg: \"Onze AI heeft je automatiseringsscan doorgelopen, hier is je rapport\" - Als er een duidelijke positieve bevinding is (veel uren, hoog potentieel): geef een korte teaser. Bijv: \"Alleen al bij [grootste taak] zien we X uur per maand aan besparingspotentie\" - Als er GEEN duidelijke positieve bevinding is: geef gewoon het rapport zonder teaser. Geen negatieve woorden, geen \"eerste inschatting\", geen \"laag potentieel\" - Sluit af met CTA: Plan gerust een gesprek via de link: https://outlook.office.com/book/Alpacaintegrations1@alpacaintegrations.ai/?ismsaljsauthenabled of reageer gewoon op deze mail.  sluit af met:  Warme groet Team Alpaca  Dit is de exacte link om een gesprek in te plannen https://outlook.office.com/book/Alpacaintegrations1@alpacaintegrations.ai/?ismsaljsauthenabled  Belangrijk!!! - Zeg NOOIT \"ik heb gekeken\", \"ik heb doorgelopen\", \"ik zie dat\". Het is ALTIJD \"onze AI\" - Zeg GEEN dingen als: wat tof dat, heel gaaf dat, super vet, heel cool dat. Dit klinkt onvolwassen - Hou het informeel maar professioneel - NOOIT zeggen \"het rapport zit in de bijlage\", zeg gewoon \"hier is je rapport\" - Geen loze beloftes of aannames  output ALTIJD ALS  \"email_body\": dit wordt gebruikt in een workflow klopt dit niet exact dan loopt deze vast"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [
+        13184,
+        1984
+      ],
+      "id": "61d6fa01-e60b-4f7b-bdbb-698dc4ee383a",
+      "name": "email schrijven",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "anthropicApi": {
+          "id": "XGbio9GD28AJTN3W",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toRecipients": "={{ $('rapport verwerken').first().json.email }}",
+        "subject": "={{ $('rapport verwerken').first().json.bedrijfsnaam }}, je automatiseringsrapport is klaar",
+        "bodyContent": "={{ $('email schrijven').first().json.content[0].text }}",
+        "additionalFields": {
+          "bodyContentType": "Text"
+        }
+      },
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [
+        13536,
+        1984
+      ],
+      "id": "31316348-efbc-4cd7-87f2-ddc29ee8190b",
+      "name": "Send a message",
+      "webhookId": "a708ccf0-e2e8-407a-a48b-815c8ddb6e45",
+      "credentials": {
+        "microsoftOutlookOAuth2Api": {
+          "id": "iM2VpSnf0zfIQ7BI",
+          "name": "n8n outlook"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook email voor rapport": {
+      "main": [
+        [
+          {
+            "node": "naam + email opslaan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase data voor rapport": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook pers link": {
+      "main": [
+        [
+          {
+            "node": "naam + email ophalen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "rapport verwerken",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "naam + email ophalen": {
+      "main": [
+        [
+          {
+            "node": "Supabase data voor rapport",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "naam + email opslaan": {
+      "main": [
+        [
+          {
+            "node": "Supabase data voor rapport",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "rapport verwerken": {
+      "main": [
+        [
+          {
+            "node": "rapport opslaan",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "email schrijven",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "rapport opslaan": {
+      "main": [
+        []
+      ]
+    },
+    "email schrijven": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b066862b-7cdc-4b22-968d-5486fff24b67",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "197e3373f83fda44e0b7035dd69b207167d454dc1dd053c097ce4d6fbffbff08"
+  },
+  "id": "iEgjz6fZjrbYdDHe",
+  "tags": []
+}

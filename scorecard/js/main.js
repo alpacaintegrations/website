@@ -366,21 +366,92 @@ try {
     console.error('N8N webhook error:', err);
 }
 
-// Show success
+// Show waiting screen with polling
 event.target.parentElement.innerHTML = `
-    <div style="text-align: center; padding: 40px; background: rgba(34, 197, 94, 0.1); 
-                border: 2px solid rgba(34, 197, 94, 0.3); border-radius: 1rem;">
-        <div style="font-size: 48px; margin-bottom: 20px;">✅</div>
-        <h3 style="font-size: 24px; margin-bottom: 10px; color: var(--text-white);">
-            Gelukt!
-        </h3>
-        <p style="font-size: 18px; color: var(--text-light);">
-            Je ontvangt binnen enkele minuten je persoonlijke automatiseringsrapport op 
-            <strong>${email}</strong>
+    <div style="text-align: center; padding: 40px; background: rgba(168, 85, 247, 0.1); 
+                border: 2px solid rgba(168, 85, 247, 0.3); border-radius: 1rem;">
+        <div id="rapportStatus">
+            <div style="margin-bottom: 20px;">
+                <span class="loading-dots" style="font-size: 32px; color: var(--pink);">
+                    <span>.</span><span>.</span><span>.</span>
+                </span>
+            </div>
+            <h3 style="font-size: 22px; margin-bottom: 10px; color: var(--text-white);">
+                Onze AI is druk bezig met het opstellen van je rapport
+            </h3>
+            <p style="font-size: 16px; color: var(--text-light); margin-bottom: 25px;">
+                Dit duurt meestal 1-2 minuten
+            </p>
+        </div>
+        
+        <a id="rapportButton" 
+           href="#" 
+           onclick="return false;"
+           style="display: inline-block; padding: 14px 32px; border-radius: 8px; 
+                  font-size: 16px; font-weight: 700; text-decoration: none;
+                  background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.4);
+                  cursor: not-allowed; transition: all 0.3s ease;">
+            Bijna klaar...
+        </a>
+        
+        <p style="font-size: 14px; color: var(--text-light); margin-top: 20px;">
+            We sturen de link ook naar <strong>${email}</strong> als je niet wilt wachten
         </p>
     </div>
 `;
 
+// Add loading dots animation
+if (!document.getElementById('loadingDotsStyle')) {
+    const dotsStyle = document.createElement('style');
+    dotsStyle.id = 'loadingDotsStyle';
+    dotsStyle.textContent = `
+        .loading-dots span {
+            animation: dotPulse 1.4s infinite;
+            display: inline-block;
+        }
+        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes dotPulse {
+            0%, 80%, 100% { opacity: 0.2; transform: translateY(0); }
+            40% { opacity: 1; transform: translateY(-8px); }
+        }
+    `;
+    document.head.appendChild(dotsStyle);
+}
+
+// Poll Supabase every 5 seconds for rapport_content
+const rapportPollInterval = setInterval(async () => {
+    try {
+        const { data: checkData } = await supabaseClient
+            .from('scorecard_submissions')
+            .select('rapport_content')
+            .eq('session_id', sessionId)
+            .single();
+        
+        if (checkData && checkData.rapport_content) {
+            clearInterval(rapportPollInterval);
+            
+            const statusDiv = document.getElementById('rapportStatus');
+            statusDiv.innerHTML = `
+                <div style="font-size: 48px; margin-bottom: 15px;">✅</div>
+                <h3 style="font-size: 22px; margin-bottom: 10px; color: var(--text-white);">
+                    Je rapport is klaar!
+                </h3>
+            `;
+            
+            const btn = document.getElementById('rapportButton');
+            btn.href = 'https://alpacaintegrations.ai/rapport?id=' + sessionId;
+            btn.target = '_blank';
+            btn.onclick = null;
+            btn.style.background = 'var(--pink)';
+            btn.style.color = 'white';
+            btn.style.cursor = 'pointer';
+            btn.textContent = 'Bekijk je rapport';
+        }
+    } catch (e) {
+        console.error('Poll error:', e);
+    }
+}, 5000);
     } catch (error) {
         console.error('Error submitting email:', error);
         
