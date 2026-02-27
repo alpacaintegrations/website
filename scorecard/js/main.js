@@ -377,7 +377,7 @@ event.target.parentElement.innerHTML = `
                 </span>
             </div>
             <h3 style="font-size: 22px; margin-bottom: 10px; color: var(--text-white);">
-                Onze AI is druk bezig met het opstellen van je rapport
+                Onze AI maakt je rapport nu, die kan je direct bekijken.
             </h3>
             <p style="font-size: 16px; color: var(--text-light); margin-bottom: 25px;">
                 Dit duurt meestal 1-2 minuten
