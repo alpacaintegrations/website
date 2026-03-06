@@ -57,12 +57,17 @@
     <img src="images/logo_glow.png" alt="Alpaca Logo Klein">
 </div>
         
-        <a href="https://outlook.office365.com/book/Alpacaintegrations1@alpacaintegrations.ai/" target="_blank" class="cta-button" id="header-cta">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Plan een gesprek
-        </a>
+        <div class="header-buttons">
+            <a href="/training/" class="header-training-btn" id="header-training">
+                AI Trainingen
+            </a>
+            <a href="https://outlook.office365.com/book/Alpacaintegrations1@alpacaintegrations.ai/" target="_blank" class="cta-button visible" id="header-cta">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Plan een gesprek
+            </a>
+        </div>
     </nav>
     
  <!-- Kleine social bar die niet in de weg zit -->
@@ -84,12 +89,14 @@
    <div class="hero-content" style="padding-top: 80px;">
         <h1>AI kan je helpen, wij weten hoe</h1>
         <p>Wij automatiseren je werkprocessen zodat je weer kan focussen op waar je goed in bent.</p>
-        <a href="https://outlook.office365.com/book/Alpacaintegrations1@alpacaintegrations.ai/" target="_blank" class="schedule-button hero-button" id="hero-cta">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Plan een kennismakingsgesprek
-        </a>
+        <div class="hero-buttons" id="hero-buttons">
+            <a href="#herkenbaar" class="hero-btn hero-btn-auto" onclick="smoothScrollTo(event, 'herkenbaar')">
+                Automatiseringen
+            </a>
+            <a href="/training/" class="hero-btn hero-btn-training">
+                AI Trainingen
+            </a>
+        </div>
         
         <!-- Alpaca raket afbeelding - BINNEN hero-content! -->
         <div style="margin-top: 3rem; text-align: center;">
@@ -108,7 +115,7 @@
 </section>
 
     <!-- Problem Section -->
-    <section class="problem">
+    <section class="problem" id="herkenbaar">
         <div class="container">
             <h2 class="section-title">Herkenbaar?</h2>
             <div class="problem-grid">
@@ -345,10 +352,18 @@
     </footer>
 
     <script>
-    // Show/hide header CTA based on hero CTA visibility
-    const headerCTA = document.getElementById('header-cta');
-    const heroCTA = document.getElementById('hero-cta');
-    const header = document.getElementById('header');
+    // Smooth scroll functie voor automatiseringen knop
+    function smoothScrollTo(event, targetId) {
+        event.preventDefault();
+        const target = document.getElementById(targetId);
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    // Show/hide header training button based on hero buttons visibility
+    const headerTraining = document.getElementById('header-training');
+    const heroButtons = document.getElementById('hero-buttons');
     
     const observerOptions = {
         root: null,
@@ -356,40 +371,18 @@
         threshold: 0
     };
     
-    let heroVisible = true;
-    let finalVisible = false;
-    
-    // Observer voor hero CTA
+    // Observer voor hero buttons - als ze uit beeld zijn, toon training knop in header
     const heroObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            heroVisible = entry.isIntersecting;
-            updateHeaderCTA();
+            if (!entry.isIntersecting) {
+                headerTraining.classList.add('visible');
+            } else {
+                headerTraining.classList.remove('visible');
+            }
         });
     }, observerOptions);
     
-    // Observer voor final CTA
-    const finalCTA = document.querySelector('#contact');
-    const finalObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            finalVisible = entry.isIntersecting;
-            updateHeaderCTA();
-        });
-    }, observerOptions);
-    
-    // Update functie die bepaalt of header CTA zichtbaar moet zijn
-    function updateHeaderCTA() {
-        if (!heroVisible && !finalVisible) {
-            headerCTA.classList.add('visible');
-        } else {
-            headerCTA.classList.remove('visible');
-        }
-    }
-    
-    // Start observing
-    heroObserver.observe(heroCTA);
-    if (finalCTA) {
-        finalObserver.observe(finalCTA);
-    }
+    heroObserver.observe(heroButtons);
 </script>
     <script>
         // Quick Scan functie
@@ -526,16 +519,4 @@ document.addEventListener('DOMContentLoaded', function() {
             if (rightGroup) {
                 rightGroup.style.position = 'static';
                 rightGroup.style.display = 'flex';
-                rightGroup.style.gap = '0.2rem';
-            }
-        }
-    }
-    
-    // Run direct en bij resize
-    fixYouTubeMobile();
-    window.addEventListener('resize', fixYouTubeMobile);
-    setTimeout(fixYouTubeMobile, 500);
-});
-</script>        
-</body>
-</html>
+        

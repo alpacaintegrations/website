@@ -161,6 +161,40 @@
             position: relative;
         }
         
+        .header-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .header-training-btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background: rgba(96, 165, 250, 0.15);
+            border: 2px solid var(--light-blue);
+            border-radius: 50px;
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.4));
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .header-training-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .header-training-btn:hover {
+            transform: scale(1.05);
+            background: rgba(96, 165, 250, 0.25);
+            filter: drop-shadow(0 0 25px rgba(96, 165, 250, 0.6));
+        }
+
         .cta-button {
             display: inline-flex;
             align-items: center;
@@ -174,13 +208,6 @@
             font-weight: 700;
             transition: all 0.3s ease;
             filter: drop-shadow(0 0 15px rgba(236, 72, 153, 0.4));
-            opacity: 0;
-            visibility: hidden;
-        }
-        
-        .cta-button.visible {
-            opacity: 1;
-            visibility: visible;
         }
         
         .cta-button:hover {
@@ -233,6 +260,52 @@
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        /* Hero CTA buttons */
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            color: var(--text-white);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .hero-btn-auto {
+            background: rgba(236, 72, 153, 0.15);
+            border: 2px solid var(--pink);
+            filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.4));
+        }
+
+        .hero-btn-auto:hover {
+            transform: scale(1.05);
+            background: rgba(236, 72, 153, 0.25);
+            filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.6));
+        }
+
+        .hero-btn-training {
+            background: rgba(96, 165, 250, 0.15);
+            border: 2px solid var(--light-blue);
+            filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.4));
+        }
+
+        .hero-btn-training:hover {
+            transform: scale(1.05);
+            background: rgba(96, 165, 250, 0.25);
+            filter: drop-shadow(0 0 30px rgba(96, 165, 250, 0.6));
         }
         
         /* Floating Alpaca */
@@ -953,36 +1026,40 @@
         margin-top: 20px !important;
     }
     
-    /* 3. Plan kennismakingsgesprek knop smaller */
-    .schedule-button,
-    .hero-button {
-        padding: 0.8rem 1.2rem !important;
+    /* 3. Hero knoppen kleiner op mobiel */
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+    }
+
+    .hero-btn {
+        padding: 0.8rem 1.5rem !important;
         font-size: 0.9rem !important;
         max-width: 90%;
-        margin: 0 auto;
     }
     
 }
 @media only screen and (max-width: 480px) {
-    /* Header CTA knop kleiner maken */
-    #header-cta,
-    .header-cta {
-        padding: 0.5rem 1rem !important; /* Kleiner in beide richtingen */
-        font-size: 0.85rem !important; /* Kleinere tekst */
-        line-height: 1.2 !important; /* 40% minder regel ruimte */
+    /* Header knoppen kleiner maken op mobiel */
+    .header-buttons {
+        gap: 0.4rem;
     }
-    
-    /* Als de knop meerdere regels tekst heeft */
-    #header-cta span,
-    .header-cta span {
+
+    #header-cta {
+        padding: 0.5rem 0.8rem !important;
+        font-size: 0.8rem !important;
         line-height: 1.2 !important;
     }
     
-    /* Icon in de knop ook kleiner */
-    #header-cta svg,
-    .header-cta svg {
-        width: 16px !important;
-        height: 16px !important;
+    #header-cta svg {
+        width: 14px !important;
+        height: 14px !important;
+    }
+
+    .header-training-btn {
+        padding: 0.5rem 0.8rem !important;
+        font-size: 0.8rem !important;
     }
 }
 @media only screen and (max-width: 480px) {
@@ -1034,12 +1111,24 @@
     nav {
         justify-content: space-between !important;
     }
-    
-    /* Of als nav container geen flex is */
-    .header-cta {
-        position: absolute !important;
-        right: 1rem !important;
-        top: 50% !important;
-        transform: translateY(-50%) !important;
+
+    /* Header buttons kleiner op mobiel */
+    .header-buttons {
+        gap: 0.4rem !important;
+    }
+
+    .header-training-btn {
+        padding: 0.4rem 0.8rem !important;
+        font-size: 0.75rem !important;
+    }
+
+    #header-cta {
+        padding: 0.4rem 0.8rem !important;
+        font-size: 0.75rem !important;
+    }
+
+    #header-cta svg {
+        width: 14px !important;
+        height: 14px !important;
     }
 }
