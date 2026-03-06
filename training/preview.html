@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alpaca Integrations - AI Training</title>
+  <style>
+/* ============================================
+   TRAINING PAGINA - STYLING
+   ============================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --dark-bg: #0f0f23;
+  --darker-bg: #0a0a16;
+  --primary-blue: #3b82f6;
+  --light-blue: #60a5fa;
+  --purple: #a855f7;
+  --pink: #ec4899;
+  --text-light: #e2e8f0;
+  --text-white: #ffffff;
+  --text-muted: #94a3b8;
+  --border-subtle: rgba(168, 85, 247, 0.15);
+  --border-accent: rgba(168, 85, 247, 0.3);
+  --card-bg: rgba(168, 85, 247, 0.06);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--dark-bg);
+  color: var(--text-light);
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    linear-gradient(rgba(168, 85, 247, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 85, 247, 0.08) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: grid 20s linear infinite;
+  z-index: -1;
+}
+
+@keyframes grid {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--darker-bg); }
+::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 5px; }
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+section { padding: 80px 0; }
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border-subtle);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* HEADER */
+.site-header {
+  padding: 1.5rem 0;
+  text-align: center;
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(15, 15, 35, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-name {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-white);
+}
+
+.logo-part {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.logo-part + .logo-part { margin-left: 0.5rem; }
+
+.highlight-box {
+  position: absolute;
+  width: 35px;
+  height: 30px;
+  background: rgba(236, 72, 153, 0.15);
+  border: 2px solid var(--pink);
+  border-radius: 8px;
+  left: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  filter: drop-shadow(0 0 15px rgba(236, 72, 153, 0.4));
+}
+
+.highlight-box.blue {
+  width: 22px;
+  background: rgba(96, 165, 250, 0.15);
+  border-color: var(--light-blue);
+  filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.4));
+}
+
+.logo-full-text { position: relative; z-index: 2; }
+.highlight-letter { font-weight: 800; font-size: 1.8rem; }
+.highlight-a { color: var(--pink); }
+.highlight-i { color: var(--light-blue); }
+
+/* HERO */
+.hero { text-align: center; padding-top: 100px; padding-bottom: 40px; }
+
+.hero h1 {
+  font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+  font-weight: 700;
+  color: var(--text-white);
+  line-height: 1.3;
+  margin-bottom: 20px;
+}
+
+.hero .subtitle { font-size: 1.8rem; font-weight: 600; color: var(--text-light); }
+
+/* WAAROM WIJ */
+.waarom { text-align: center; padding-top: 50px; }
+
+.waarom .intro {
+  font-size: 1.35rem;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-bottom: 36px;
+}
+
+.punten-lijst {
+  list-style: none;
+  text-align: left;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.punten-lijst li {
+  margin-bottom: 18px;
+  padding-left: 24px;
+  position: relative;
+  font-size: 1.25rem;
+  color: var(--text-light);
+}
+
+.punten-lijst li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--pink);
+}
+
+/* PAKKETTEN */
+.pakketten-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.pakket-card {
+  border: 1px solid var(--border-accent);
+  border-radius: 12px;
+  padding: 36px;
+  background: var(--card-bg);
+  transition: border-color 0.3s ease;
+}
+
+.pakket-card:hover { border-color: rgba(236, 72, 153, 0.4); }
+
+.pakket-card h3 {
+  font-size: 1.4rem;
+  color: var(--text-white);
+  margin-bottom: 24px;
+  text-align: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.pakket-card ul { list-style: none; }
+
+.pakket-card ul li {
+  margin-bottom: 14px;
+  padding-left: 24px;
+  position: relative;
+  color: var(--text-light);
+}
+
+.pakket-card ul li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--pink);
+}
+
+.pakket-closer {
+  margin-top: 24px;
+  font-style: italic;
+  font-size: 0.95em;
+  color: var(--text-muted);
+}
+
+/* DETAILS */
+.details-section { padding-top: 0; }
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.detail-blok {
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 36px;
+  background: rgba(168, 85, 247, 0.03);
+}
+
+.detail-blok h3 {
+  display: none;
+}
+
+.detail-blok table { width: 100%; border-collapse: collapse; }
+
+.detail-blok td {
+  padding: 8px 0;
+  vertical-align: top;
+  border-bottom: 1px solid rgba(168, 85, 247, 0.08);
+}
+
+.detail-blok tr:last-child td { border-bottom: none; }
+
+.detail-blok td:first-child {
+  font-weight: 600;
+  width: 35%;
+  color: var(--pink);
+  font-size: 0.9rem;
+}
+
+.detail-blok td:last-child { color: var(--text-light); }
+
+/* PRIJS */
+.prijs-section { text-align: center; }
+
+.prijs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 10px;
+}
+
+.prijs-blok {
+  border: 2px solid var(--pink);
+  border-radius: 12px;
+  padding: 40px;
+  background: rgba(236, 72, 153, 0.05);
+  transition: all 0.3s ease;
+}
+
+.prijs-blok:hover {
+  background: rgba(236, 72, 153, 0.1);
+  filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.2));
+}
+
+.prijs-blok h3 {
+  font-size: 1.3rem;
+  color: var(--text-white);
+  margin-bottom: 12px;
+}
+
+.prijs-bedrag {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--text-white);
+  margin-bottom: 12px;
+}
+
+.prijs-garantie { font-size: 0.9rem; color: var(--text-muted); }
+
+/* CTA */
+.cta-section { text-align: center; }
+
+.cta-section h2 {
+  font-size: 1.8rem;
+  color: var(--text-white);
+  margin-bottom: 16px;
+}
+
+.cta-section .cta-tekst {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+.cta-vraag {
+  color: var(--text-white);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.cta-opties {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.cta-optie {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 1rem 2rem;
+  background: rgba(236, 72, 153, 0.08);
+  border: 1.5px solid rgba(236, 72, 153, 0.3);
+  border-radius: 50px;
+  color: var(--text-white);
+  text-decoration: none;
+  font-size: 1.05rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.cta-optie:hover {
+  background: rgba(236, 72, 153, 0.2);
+  border-color: var(--pink);
+  transform: scale(1.03);
+  filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.4));
+}
+
+.cta-optie svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+/* FAQ */
+.faq-section h2 {
+  text-align: center;
+  font-size: 1.6rem;
+  color: var(--text-white);
+  margin-bottom: 40px;
+}
+
+.faq-item { border-bottom: 1px solid var(--border-subtle); }
+.faq-item:first-child { border-top: 1px solid var(--border-subtle); }
+
+.faq-vraag {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.3s ease;
+}
+
+.faq-vraag:hover { color: var(--text-white); }
+
+.faq-vraag h4 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-white);
+  margin: 0;
+  padding-right: 20px;
+}
+
+.faq-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.faq-icon::before,
+.faq-icon::after {
+  content: '';
+  position: absolute;
+  background: var(--pink);
+  border-radius: 2px;
+}
+
+.faq-icon::before {
+  width: 16px; height: 2px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.faq-icon::after {
+  width: 2px; height: 16px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.faq-item.open .faq-icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+  opacity: 0;
+}
+
+.faq-antwoord {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.faq-item.open .faq-antwoord { max-height: 300px; }
+
+.faq-antwoord p {
+  padding: 0 0 24px 0;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.footer-spacer { height: 60px; }
+
+@media (max-width: 768px) {
+  section { padding: 50px 0; }
+  .container { padding: 0 1.5rem; }
+  .pakketten-grid, .details-grid, .prijs-grid { grid-template-columns: 1fr; }
+  .hero { padding-top: 60px; padding-bottom: 50px; }
+  .hero h1 { font-size: 1.5rem; }
+  .hero .subtitle { font-size: 1.1rem; }
+  .logo-name { font-size: 1.2rem; }
+  .highlight-letter { font-size: 1.4rem; }
+  .highlight-box { width: 28px; height: 24px; }
+  .highlight-box.blue { width: 18px; }
+  .pakket-card, .detail-blok { padding: 24px; }
+  .prijs-bedrag { font-size: 2rem; }
+  .cta-button { padding: 1rem 2rem; font-size: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 1.3rem; }
+  .detail-blok td:first-child { width: 40%; }
+}
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a href="https://alpacaintegrations.ai" class="logo-link">
+    <div class="logo-name">
+      <div class="logo-part">
+        <div class="highlight-box"></div>
+        <div class="logo-full-text">
+          <span><span class="highlight-letter highlight-a">A</span>lpaca</span>
+        </div>
+      </div>
+      <div class="logo-part">
+        <div class="highlight-box blue"></div>
+        <div class="logo-full-text">
+          <span><span class="highlight-letter highlight-i">i</span>ntegrations</span>
+        </div>
+      </div>
+    </div>
+  </a>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="container">
+    <h1 class="hero-title"></h1>
+    <p class="subtitle"></p>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- WAAROM WIJ -->
+<section class="waarom" id="waarom">
+  <div class="container">
+    <p class="intro"></p>
+    <ul class="punten-lijst"></ul>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PAKKETTEN OVERZICHT -->
+<section>
+  <div class="container">
+    <div class="pakketten-grid" id="pakketten-grid"></div>
+  </div>
+</section>
+
+<!-- PAKKETDETAILS - direct onder pakketten -->
+<section class="details-section">
+  <div class="container">
+    <div class="details-grid" id="details-grid"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PRIJS + GARANTIE -->
+<section class="prijs-section">
+  <div class="container">
+    <div class="prijs-grid" id="prijs-grid"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <h2 class="cta-titel"></h2>
+    <p class="cta-tekst"></p>
+    <p class="cta-vraag"></p>
+    <div class="cta-opties" id="cta-opties"></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="container">
+    <h2>Veelgestelde vragen</h2>
+    <div id="faq-lijst"></div>
+  </div>
+</section>
+
+<div class="footer-spacer"></div>
+
+<script>
+// ============================================
+// CONFIG - ALLE CONTENT
+// ============================================
+const CONFIG = {
+  bookingUrl: "https://outlook.office365.com/book/Alpacaintegrations1@alpacaintegrations.ai/",
+  homepageUrl: "https://alpacaintegrations.ai",
+
+  hero: {
+    title: "AI theorie heeft iedereen.<br>Garantie dat het ook echt wat oplevert, niet.",
+    subtitle: "Wij wel. Voor jou en je team."
+  },
+
+  waarom: {
+    intro: "AI en automatiseringen is onze business. Je leert niet uit een boek, maar uit ervaring.",
+    punten: [
+      "Geen standaard verhaal, maar aangemeten op jouw bedrijf",
+      "Wij doen ons huiswerk en zorgen dat jij dat ook doet",
+      "Je bouwt zelf AI-assistenten die de volgende dag al tijd besparen"
+    ]
+  },
+
+  pakketten: [
+    {
+      id: "ninja",
+      naam: "AI Ninja in een Dag",
+      punten: [
+        "Iedereen kent de theorie, maar veel belangrijker, iedereen gebruikt het",
+        "Werkende tools die direct winst opleveren op jullie afdelingen",
+        "Omdat we weken van tevoren beginnen, niet op de dag zelf",
+        "Blijvend effect door persoonlijke follow-up na 2 weken"
+      ],
+      closer: "Informatie die niet wordt toegepast is entertainment. Wij zijn geen Netflix.",
+      details: [
+        { label: "Format", waarde: "Dagtraining, op locatie of digitaal" },
+        { label: "Deelnemers", waarde: "Ideaal 10-15 (ander aantal mogelijk)" },
+        { label: "Modulair", waarde: "Programma aangepast op niveau en behoefte" },
+        { label: "Voorbereiding", waarde: "Ideaal programma samenstellen in overleg" },
+        { label: "Resultaat", waarde: "Bruikbare AI-kennis, zelf werkende AI-assistenten gebouwd, direct inzetbaar" },
+        { label: "Na afloop", waarde: "Implementatieplan + huiswerkopdracht + follow-up met alle deelnemers" },
+        { label: "Inclusief", waarde: "Presentatie, resources, universele en persoonlijke AI-assistenten, AI-assistent die de hele training heeft bijgewoond" }
+      ],
+      prijs: "3.500",
+      garantie: "Tevredenheidsgarantie"
+    },
+    {
+      id: "ceo",
+      naam: "CEO Pakket",
+      punten: [
+        "Intensief 1-op-1 met een aangemeten programma dat past als een maatpak",
+        "Niet alleen gebruiken, maar ook het grote plaatje: AI strategisch denken",
+        "Zodat je een leger van AI ninjas kan aanvoeren, want je team is inbegrepen"
+      ],
+      closer: null,
+      details: [
+        { label: "Format", waarde: "10x 90 min wekelijkse 1-op-1 sessies, digitaal" },
+        { label: "Programma", waarde: "Volledig aangemeten naar jouw behoefte" },
+        { label: "Kern", waarde: "AI echt beheersen en oplossingen voor jou als CEO en je bedrijf implementeren" },
+        { label: "Strategie", waarde: "AI strategisch denken voor mogelijkheden en toepassingen in het grote plaatje" },
+        { label: "Je team", waarde: "Alles uit AI Ninja in een Dag inbegrepen, zodat iedereen mee is" },
+        { label: "Resultaat", waarde: "Jij hebt het AI-overzicht en je team kan het uitvoeren" }
+      ],
+      prijs: "7.500",
+      garantie: "Tevredenheidsgarantie"
+    }
+  ],
+
+  cta: {
+    titel: "Plan een gesprek",
+    tekst: "Vertel ons waar je staat, dan kijken we wat je nodig hebt.",
+    vraag: "Om welke training gaat het?",
+    opties: [
+      { label: "AI Ninja in een Dag", url: "https://outlook.office.com/bookwithme/user/d52fd36296834a36a6f3a1f9f548233f@alpacaintegrations.ai/meetingtype/3EpGXjGZTUullkdi9aIVxw2?anonymous&ismsaljsauthenabled" },
+      { label: "CEO Pakket", url: "https://outlook.office.com/bookwithme/user/d52fd36296834a36a6f3a1f9f548233f@alpacaintegrations.ai/meetingtype/YZerlhkjDEq5m2dAZZnfzQ2?anonymous&ismsaljsauthenabled" },
+      { label: "Weet ik nog niet", url: "https://outlook.office.com/bookwithme/user/d52fd36296834a36a6f3a1f9f548233f@alpacaintegrations.ai/meetingtype/GFZdRZMwBkGxLnKg-iEV4w2?anonymous&ismsaljsauthenabled" }
+    ]
+  },
+
+  faq: [
+    { vraag: "Hoe werkt de tevredenheidsgarantie?", antwoord: "We factureren achteraf. Ben je niet tevreden? Dan hoef je niet te betalen. Bij het CEO Pakket betaal je achteraf per 4 weken. Stop je binnen die tijd, dan betaal je niet. In beide gevallen, no questions asked." },
+    { vraag: "Wat zit er allemaal in de training?", antwoord: "We hebben verschillende modules van beginner en compliance tot complete automatiseringen bouwen. Maar het grootste deel van de dag focussen we ons op specifieke toepassingen voor jouw bedrijf en leren we je team deze zelf te implementeren. Daarom hebben we vooraf contact over de details." },
+    { vraag: "Voldoet mijn team daarna aan de AI Act? (AI compliance / AI-geletterdheid)", antwoord: "Ja. AI compliance is onderdeel van de training. Iedereen ontvangt een certificaat." },
+    { vraag: "Wat is het verschil tussen AI Ninja in een Dag en het CEO Pakket?", antwoord: "AI Ninja in een Dag is voor je team: na een dag kan iedereen werken met AI. Het CEO Pakket gaat verder \u2014 intensieve 1-op-1 sessies, volledig op maat, zodat jij kunt denken en handelen als een AI-gedreven leider. De teamtraining zit inbegrepen. Zodat jij en je team dezelfde koers varen." },
+    { vraag: "Wat als mijn team nog nooit met AI heeft gewerkt?", antwoord: "Dan is een AI training net aan te raden. We beginnen bij de basis." },
+    { vraag: "Wat als sommige teamleden al verder zijn dan anderen?", antwoord: "Het ligt aan de verdeling. Bij de intake komen we daar achter en passen we de opdrachten daarop aan." },
+    { vraag: "Kan dit uit ons opleidingsbudget?", antwoord: "Normaal wel. De training valt onder scholing en digitale vaardigheden en komt mogelijk in aanmerking voor de SLIM-subsidie." },
+    { vraag: "Wat als ik meer dan 15 deelnemers heb?", antwoord: "Dat kan zeker, maar dan werken we bijvoorbeeld per afdeling. We bespreken in het gesprek wat het beste werkt." },
+    { vraag: "Hoe werkt de voorbereiding?", antwoord: "Iedereen vult een vragenlijst in. Aan de hand daarvan vragen we verdere details voor het bouwen van de tools op maat." },
+    { vraag: "Wat hebben deelnemers nodig?", antwoord: "Een laptop en een AI-account. Welke tool we gebruiken bepalen we in het gesprek. Op locatie een beamer of scherm." },
+    { vraag: "Hoe snel kan ik starten?", antwoord: "Minimaal 3 weken vanwege de voorbereiding, verder hangt het af van de planning." },
+    { vraag: "Kan de training ook digitaal?", antwoord: "Ja, zowel op locatie als digitaal." }
+  ]
+};
+
+// ============================================
+// MAIN - RENDER + FAQ ACCORDION
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+  // HERO
+  document.querySelector('.hero-title').innerHTML = CONFIG.hero.title;
+  document.querySelector('.subtitle').textContent = CONFIG.hero.subtitle;
+
+  // WAAROM WIJ
+  document.querySelector('.intro').textContent = CONFIG.waarom.intro;
+  document.querySelector('.punten-lijst').innerHTML = CONFIG.waarom.punten
+    .map(p => `<li>${p}</li>`).join('');
+
+  // PAKKETTEN
+  document.getElementById('pakketten-grid').innerHTML = CONFIG.pakketten.map(pak => `
+    <div class="pakket-card">
+      <h3>${pak.naam}</h3>
+      <ul>${pak.punten.map(p => `<li>${p}</li>`).join('')}</ul>
+      ${pak.closer ? `<p class="pakket-closer">${pak.closer}</p>` : ''}
+    </div>
+  `).join('');
+
+  // DETAILS
+  document.getElementById('details-grid').innerHTML = CONFIG.pakketten.map(pak => `
+    <div class="detail-blok">
+      <h3>${pak.naam}</h3>
+      <table>${pak.details.map(d => `
+        <tr><td>${d.label}</td><td>${d.waarde}</td></tr>
+      `).join('')}</table>
+    </div>
+  `).join('');
+
+  // PRIJS
+  document.getElementById('prijs-grid').innerHTML = CONFIG.pakketten.map(pak => `
+    <div class="prijs-blok">
+      <h3>${pak.naam}</h3>
+      <div class="prijs-bedrag">&euro;${pak.prijs}</div>
+      <p class="prijs-garantie">${pak.garantie}</p>
+    </div>
+  `).join('');
+
+  // CTA
+  document.querySelector('.cta-titel').textContent = CONFIG.cta.titel;
+  document.querySelector('.cta-tekst').textContent = CONFIG.cta.tekst;
+  document.querySelector('.cta-vraag').textContent = CONFIG.cta.vraag;
+  const phoneIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  document.getElementById('cta-opties').innerHTML = CONFIG.cta.opties.map(opt => `
+    <a href="${opt.url}" target="_blank" class="cta-optie">${phoneIcon} ${opt.label}</a>
+  `).join('');
+
+  // FAQ
+  const faqContainer = document.getElementById('faq-lijst');
+  faqContainer.innerHTML = CONFIG.faq.map((item, i) => `
+    <div class="faq-item" data-index="${i}">
+      <div class="faq-vraag">
+        <h4>${item.vraag}</h4>
+        <span class="faq-icon"></span>
+      </div>
+      <div class="faq-antwoord">
+        <p>${item.antwoord}</p>
+      </div>
+    </div>
+  `).join('');
+
+  // FAQ ACCORDION
+  faqContainer.addEventListener('click', (e) => {
+    const vraag = e.target.closest('.faq-vraag');
+    if (!vraag) return;
+    const item = vraag.parentElement;
+    const wasOpen = item.classList.contains('open');
+    faqContainer.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+</script>
+
+</body>
+</html>
