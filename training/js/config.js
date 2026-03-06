@@ -48,7 +48,7 @@ const CONFIG = {
         { label: "Inclusief", waarde: "Presentatie, resources, universele en persoonlijke AI-assistenten, AI-assistent die de hele training heeft bijgewoond" }
       ],
       prijs: "3.500",
-      garantie: "Tevredenheidsgarantie"
+      garantie: "100% tevredenheidsgarantie"
     },
     {
       id: "ceo",
@@ -68,7 +68,7 @@ const CONFIG = {
         { label: "Resultaat", waarde: "Jij hebt het AI-overzicht en je team kan het uitvoeren" }
       ],
       prijs: "7.500",
-      garantie: "Tevredenheidsgarantie"
+      garantie: "100% tevredenheidsgarantie"
     }
   ],
 
@@ -76,6 +76,7 @@ const CONFIG = {
   cta: {
     titel: "Plan een gesprek",
     tekst: "Vertel ons waar je staat, dan kijken we wat je nodig hebt.",
+    knopTekst: "Plan een gesprek",
     vraag: "Om welke training gaat het?",
     opties: [
       { label: "AI Ninja in een Dag", url: "https://outlook.office.com/bookwithme/user/d52fd36296834a36a6f3a1f9f548233f@alpacaintegrations.ai/meetingtype/3EpGXjGZTUullkdi9aIVxw2?anonymous&ismsaljsauthenabled" },

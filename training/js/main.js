@@ -91,6 +91,7 @@ function renderCta() {
 
   el.querySelector('.cta-titel').textContent = CONFIG.cta.titel;
   el.querySelector('.cta-tekst').textContent = CONFIG.cta.tekst;
+  el.querySelector('.cta-knop-tekst').textContent = CONFIG.cta.knopTekst;
   el.querySelector('.cta-vraag').textContent = CONFIG.cta.vraag;
 
   const phoneIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
@@ -98,6 +99,11 @@ function renderCta() {
   document.getElementById('cta-opties').innerHTML = CONFIG.cta.opties.map(opt => `
     <a href="${opt.url}" target="_blank" class="cta-optie">${phoneIcon} ${opt.label}</a>
   `).join('');
+
+  // Toggle - klik op knop toont opties
+  document.getElementById('cta-trigger').addEventListener('click', () => {
+    document.getElementById('cta-keuze').classList.toggle('open');
+  });
 }
 
 // --- FAQ ---

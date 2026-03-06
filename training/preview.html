@@ -312,6 +312,43 @@ section { padding: 80px 0; }
   margin-bottom: 30px;
 }
 
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 2.5rem;
+  background: rgba(236, 72, 153, 0.15);
+  border: 2px solid var(--pink);
+  border-radius: 50px;
+  color: var(--text-white);
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.4));
+}
+
+.cta-button:hover {
+  transform: scale(1.05);
+  background: rgba(236, 72, 153, 0.25);
+  filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.6));
+}
+
+.cta-button svg { width: 24px; height: 24px; }
+
+.cta-keuze {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, margin 0.5s ease;
+  margin-top: 0;
+}
+
+.cta-keuze.open {
+  max-height: 400px;
+  margin-top: 30px;
+}
+
 .cta-vraag {
   color: var(--text-white);
   font-size: 1.15rem;
@@ -527,8 +564,16 @@ section { padding: 80px 0; }
   <div class="container">
     <h2 class="cta-titel"></h2>
     <p class="cta-tekst"></p>
-    <p class="cta-vraag"></p>
-    <div class="cta-opties" id="cta-opties"></div>
+    <button class="cta-button" id="cta-trigger">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="cta-knop-tekst"></span>
+    </button>
+    <div class="cta-keuze" id="cta-keuze">
+      <p class="cta-vraag"></p>
+      <div class="cta-opties" id="cta-opties"></div>
+    </div>
   </div>
 </section>
 
@@ -587,7 +632,7 @@ const CONFIG = {
         { label: "Inclusief", waarde: "Presentatie, resources, universele en persoonlijke AI-assistenten, AI-assistent die de hele training heeft bijgewoond" }
       ],
       prijs: "3.500",
-      garantie: "Tevredenheidsgarantie"
+      garantie: "100% tevredenheidsgarantie"
     },
     {
       id: "ceo",
@@ -607,13 +652,14 @@ const CONFIG = {
         { label: "Resultaat", waarde: "Jij hebt het AI-overzicht en je team kan het uitvoeren" }
       ],
       prijs: "7.500",
-      garantie: "Tevredenheidsgarantie"
+      garantie: "100% tevredenheidsgarantie"
     }
   ],
 
   cta: {
     titel: "Plan een gesprek",
     tekst: "Vertel ons waar je staat, dan kijken we wat je nodig hebt.",
+    knopTekst: "Plan een gesprek",
     vraag: "Om welke training gaat het?",
     opties: [
       { label: "AI Ninja in een Dag", url: "https://outlook.office.com/bookwithme/user/d52fd36296834a36a6f3a1f9f548233f@alpacaintegrations.ai/meetingtype/3EpGXjGZTUullkdi9aIVxw2?anonymous&ismsaljsauthenabled" },
@@ -682,11 +728,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // CTA
   document.querySelector('.cta-titel').textContent = CONFIG.cta.titel;
   document.querySelector('.cta-tekst').textContent = CONFIG.cta.tekst;
+  document.querySelector('.cta-knop-tekst').textContent = CONFIG.cta.knopTekst;
   document.querySelector('.cta-vraag').textContent = CONFIG.cta.vraag;
   const phoneIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   document.getElementById('cta-opties').innerHTML = CONFIG.cta.opties.map(opt => `
     <a href="${opt.url}" target="_blank" class="cta-optie">${phoneIcon} ${opt.label}</a>
   `).join('');
+
+  // CTA toggle - klik op knop toont opties
+  document.getElementById('cta-trigger').addEventListener('click', () => {
+    document.getElementById('cta-keuze').classList.toggle('open');
+  });
 
   // FAQ
   const faqContainer = document.getElementById('faq-lijst');

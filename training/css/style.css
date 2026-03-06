@@ -348,6 +348,43 @@ section {
   margin-bottom: 30px;
 }
 
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 2.5rem;
+  background: rgba(236, 72, 153, 0.15);
+  border: 2px solid var(--pink);
+  border-radius: 50px;
+  color: var(--text-white);
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 20px rgba(236, 72, 153, 0.4));
+}
+
+.cta-button:hover {
+  transform: scale(1.05);
+  background: rgba(236, 72, 153, 0.25);
+  filter: drop-shadow(0 0 30px rgba(236, 72, 153, 0.6));
+}
+
+.cta-button svg { width: 24px; height: 24px; }
+
+.cta-keuze {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, margin 0.5s ease;
+  margin-top: 0;
+}
+
+.cta-keuze.open {
+  max-height: 400px;
+  margin-top: 30px;
+}
+
 .cta-vraag {
   color: var(--text-white);
   font-size: 1.15rem;
