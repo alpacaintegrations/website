@@ -139,7 +139,7 @@
             // Only trigger N8N webhook (N8N will create Supabase record)
             try {
                 console.log('Triggering N8N webhook with session_id:', sessionId);
-                const n8nResponse = await fetch('https://hjemj85.app.n8n.cloud/webhook/aad217b2-84d5-4705-862d-b62c7b763c1c', {
+                const n8nResponse = await fetch('https://alpacaintegrations.n8p1.hostingsecure.com/webhook/aad217b2-84d5-4705-862d-b62c7b763c1c', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -346,7 +346,7 @@ await supabaseClient
 
 // Trigger N8N webhook voor email/PDF generatie
 try {
-    const n8nEmailResponse = await fetch('https://hjemj85.app.n8n.cloud/webhook/f4fae942-fbde-4c92-aef4-49518936d507', {
+    const n8nEmailResponse = await fetch('https://alpacaintegrations.n8p1.hostingsecure.com/webhook/f4fae942-fbde-4c92-aef4-49518936d507', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
