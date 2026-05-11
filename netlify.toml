@@ -7,3 +7,9 @@
   from = "/scorecard/*"
   to = "/scorecard/:splat"
   status = 200
+
+# Clean URLs voor blog-pagina's: /blog/slug -> /blog/slug.html
+[[redirects]]
+  from = "/blog/:slug"
+  to = "/blog/:slug.html"
+  status = 200
