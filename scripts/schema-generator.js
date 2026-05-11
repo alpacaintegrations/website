@@ -1,5 +1,5 @@
 const SITE = 'https://alpacaintegrations.ai';
-const RICK_LINKEDIN = 'https://www.linkedin.com/in/rickalpacaintegrations';
+const RICK_PROFILE = 'https://www.youtube.com/@AlpacaRick';
 
 function wrap(obj) {
   return `<script type="application/ld+json">\n${JSON.stringify(obj, null, 2)}\n</script>`;
@@ -14,7 +14,7 @@ function blogPosting(cfg) {
     author: {
       '@type': 'Person',
       name: 'Rick',
-      url: RICK_LINKEDIN
+      url: RICK_PROFILE
     },
     publisher: {
       '@type': 'Organization',
