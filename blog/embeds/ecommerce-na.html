@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, 'Segoe UI', sans-serif; color: #1a1a1f; line-height: 1.5; padding: 24px 16px; max-width: 760px; margin: 0 auto; }
+
+.section { margin-bottom: 36px; }
+.section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.section-num { width: 28px; height: 28px; border-radius: 50%; background: #E8F5F0; border: 1px solid #5DCAA5; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #0F6E56; flex-shrink: 0; }
+.section-title { font-size: 17px; font-weight: 600; letter-spacing: -0.3px; }
+.section-sub { font-size: 13px; color: #666; margin-left: 38px; margin-bottom: 16px; }
+
+.channels { display: flex; gap: 6px; flex-wrap: wrap; }
+.channel { background: #F5F5F3; border: 1px solid #D3D1C7; border-radius: 6px; padding: 8px 12px; font-size: 12px; font-weight: 500; color: #5F5E5A; text-align: center; flex: 1; min-width: 80px; }
+
+.arrow-down { display: flex; flex-direction: column; align-items: center; padding: 4px 0; }
+.arrow-down svg { width: 16px; height: 16px; color: #5DCAA5; }
+.arrow-label { font-size: 10px; color: #1D9E75; text-align: center; font-weight: 500; }
+
+.box { border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; }
+.box-teal { background: #E8F5F0; border: 1px solid #5DCAA5; }
+.box-teal .box-title { color: #0F6E56; }
+.box-teal .box-sub { color: #1D9E75; }
+.box-icon { flex-shrink: 0; width: 20px; height: 20px; }
+.box-title { font-size: 14px; font-weight: 500; }
+.box-sub { font-size: 11px; margin-top: 2px; opacity: 0.8; }
+
+.hub { background: #E8F5F0; border: 2px solid #5DCAA5; border-radius: 14px; padding: 16px 20px; display: flex; align-items: center; gap: 14px; justify-content: center; }
+.hub-title { font-size: 18px; font-weight: 600; color: #0F6E56; }
+.hub-sub { font-size: 12px; color: #1D9E75; }
+
+.flow-steps { display: flex; flex-direction: column; gap: 8px; }
+
+.split { display: flex; gap: 12px; margin-top: 8px; }
+.split-col { flex: 1; }
+.split-divider { width: 1px; background: #e0e0e0; flex-shrink: 0; }
+
+.confidence { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.conf-box { flex: 1; min-width: 140px; border-radius: 10px; padding: 12px 14px; }
+.conf-high { background: #E8F5F0; border: 1px solid #5DCAA5; }
+.conf-high .conf-label { color: #0F6E56; }
+.conf-high .conf-desc { color: #1D9E75; }
+.conf-low { background: #FAEEDA; border: 1px solid #FAC775; }
+.conf-low .conf-label { color: #854F0B; }
+.conf-low .conf-desc { color: #BA7517; }
+.conf-label { font-size: 13px; font-weight: 500; margin-bottom: 2px; }
+.conf-desc { font-size: 11px; }
+
+.win { display: flex; align-items: flex-start; gap: 8px; padding: 10px 14px; background: rgba(29, 158, 117, 0.06); border-left: 3px solid #1D9E75; border-radius: 0 8px 8px 0; font-size: 12px; color: #0F6E56; line-height: 1.5; margin-top: 12px; }
+.win svg { flex-shrink: 0; margin-top: 2px; }
+.win-icon { width: 14px; height: 14px; }
+
+.feedback { background: #E8F5F0; border: 1px dashed #5DCAA5; border-radius: 10px; padding: 12px 16px; margin-top: 12px; display: flex; align-items: center; gap: 10px; }
+.feedback-icon { flex-shrink: 0; }
+.feedback-title { font-size: 13px; font-weight: 500; color: #0F6E56; }
+.feedback-sub { font-size: 11px; color: #1D9E75; }
+
+.divider { height: 1px; background: #e8e8e8; margin: 32px 0; }
+
+.page-title { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: #666; margin-bottom: 24px; }
+
+.result { display: flex; align-items: flex-start; gap: 12px; padding: 16px 20px; background: rgba(29, 158, 117, 0.08); border-radius: 12px; border: 1px solid #5DCAA5; margin-top: 24px; }
+.result-title { font-size: 15px; font-weight: 600; color: #0F6E56; margin-bottom: 4px; }
+.result-text { font-size: 13px; color: #0F6E56; line-height: 1.6; }
+
+.cat-row { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 8px; }
+.cat { background: #E8F5F0; border: 1px solid #5DCAA5; border-radius: 6px; padding: 5px 10px; font-size: 11px; font-weight: 500; color: #0F6E56; text-align: center; }
+.cat-amber { background: #FAEEDA; border-color: #FAC775; color: #854F0B; }
+
+@media (max-width: 560px) {
+  .split { flex-direction: column; }
+  .split-divider { width: 100%; height: 1px; }
+  .confidence { flex-direction: column; }
+  .channel { min-width: 60px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-title">Na automatisering</div>
+<div class="page-sub">Alle kanalen samengebracht, AI handelt de standaardvragen af, medewerker doet alleen de uitzonderingen</div>
+
+<!-- Stap 1: Alles naar Zendesk -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div class="section-title">Alle kanalen op een plek</div>
+  </div>
+  <div class="section-sub">Geen losse inboxen meer, alles komt samen in Zendesk</div>
+
+  <div class="channels">
+    <div class="channel">bol.com</div>
+    <div class="channel">Merk A</div>
+    <div class="channel">Merk B</div>
+    <div class="channel">Merk C</div>
+    <div class="channel">Webshop</div>
+  </div>
+
+  <div class="arrow-down">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    <span class="arrow-label">Automatisch doorgestuurd</span>
+  </div>
+
+  <div class="hub">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+    <div>
+      <div class="hub-title">Zendesk</div>
+      <div class="hub-sub">Centraal ticketsysteem, per merk getagd</div>
+    </div>
+  </div>
+
+  <div class="win">
+    <svg class="win-icon" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+    <div>Geen inboxen meer checken. Alles op een plek, automatisch getagd per merk en kanaal.</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- Stap 2: Classificatie + context -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div class="section-title">AI leest, classificeert en zoekt op</div>
+  </div>
+  <div class="section-sub">Het systeem begrijpt de vraag en haalt automatisch de juiste orderinfo op</div>
+
+  <div class="split">
+    <div class="split-col">
+      <div class="box box-teal">
+        <svg class="box-icon" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <div>
+          <div class="box-title">AI classificatie</div>
+          <div class="box-sub">Herkent type vraag automatisch</div>
+        </div>
+      </div>
+      <div class="cat-row">
+        <div class="cat">Levertijd 35%</div>
+        <div class="cat">Retour 20%</div>
+        <div class="cat">Schade 12%</div>
+        <div class="cat">Annulering 8%</div>
+        <div class="cat">Productinfo 8%</div>
+        <div class="cat cat-amber">Overig 17%</div>
+      </div>
+      <div style="display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap;">
+        <div style="font-size: 10px; color: #1D9E75;">Levertijd is direct gekoppeld aan track & trace van de vervoerder</div>
+        <div style="font-size: 10px; color: #BA7517;">Overig gaat direct naar een medewerker</div>
+      </div>
+    </div>
+    <div class="split-divider"></div>
+    <div class="split-col">
+      <div class="box box-teal">
+        <svg class="box-icon" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4.03 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/></svg>
+        <div>
+          <div class="box-title">Context ophalen</div>
+          <div class="box-sub">Orderinfo via bol API of webshop</div>
+        </div>
+      </div>
+      <div class="win" style="margin-top: 8px;">
+        <svg class="win-icon" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <div>Geen handmatig opzoeken meer in dashboards</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- Stap 3: Antwoord + confidence -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div class="section-title">Antwoord in de juiste toon per merk</div>
+  </div>
+  <div class="section-sub">AI genereert het antwoord op basis van de vraag, orderdata en merktoon</div>
+
+  <div class="box box-teal" style="margin-bottom: 12px;">
+    <svg class="box-icon" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <div>
+      <div class="box-title">AI genereert conceptantwoord</div>
+      <div class="box-sub">Per merk in de juiste tone-of-voice, met de juiste orderdata</div>
+    </div>
+  </div>
+
+  <div class="arrow-down">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    <span class="arrow-label">Betrouwbaarheidsscore</span>
+  </div>
+
+  <div class="confidence">
+    <div class="conf-box conf-high">
+      <div class="conf-label">Hoge zekerheid</div>
+      <div class="conf-desc">Standaardvraag, antwoord klopt. Automatisch verstuurd.</div>
+    </div>
+    <div class="conf-box conf-low">
+      <div class="conf-label">Lagere zekerheid</div>
+      <div class="conf-desc">Complex of gevoelig. Concept klaar in Zendesk, medewerker checkt en verstuurt.</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- Stap 4: Feedback loop -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div class="section-title">Systeem wordt beter over tijd</div>
+  </div>
+  <div class="section-sub">Automatische feedback na elke afgehandelde vraag</div>
+
+  <div class="feedback">
+    <svg class="feedback-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+    <div>
+      <div class="feedback-title">Ongewijzigd verstuurd = goed, antwoord is aangepast = nog niet goed genoeg</div>
+      <div class="feedback-sub">Het systeem leert per merk en per vraagtype, zonder handmatig bijsturen</div>
+    </div>
+  </div>
+</div>
+
+<!-- Result -->
+<div class="result">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.5" style="flex-shrink: 0; margin-top: 2px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+  <div>
+    <div class="result-title">Medewerker verschuift van afhandelen naar reviewen</div>
+    <div class="result-text">Meer vragen afhandelen zonder extra mensen. Snellere responstijden. Consistente antwoorden per merk. En het systeem wordt beter naarmate het langer draait.</div>
+  </div>
+</div>
+
+</body>
+</html>

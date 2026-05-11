@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, 'Segoe UI', sans-serif; color: #1a1a1f; line-height: 1.5; padding: 24px 16px; max-width: 760px; margin: 0 auto; }
+
+.section { margin-bottom: 36px; }
+.section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.section-num { width: 28px; height: 28px; border-radius: 50%; background: #FFF1EE; border: 1px solid #F0997B; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #993C1D; flex-shrink: 0; }
+.section-title { font-size: 17px; font-weight: 600; letter-spacing: -0.3px; }
+.section-sub { font-size: 13px; color: #666; margin-left: 38px; margin-bottom: 16px; }
+
+.channels { display: flex; gap: 6px; flex-wrap: wrap; }
+.channel { background: #F5F5F3; border: 1px solid #D3D1C7; border-radius: 6px; padding: 8px 12px; font-size: 12px; font-weight: 500; color: #5F5E5A; text-align: center; flex: 1; min-width: 80px; }
+.channel small { display: block; font-size: 10px; color: #888; margin-top: 2px; }
+
+.arrow-down { display: flex; flex-direction: column; align-items: center; padding: 4px 0; }
+.arrow-down svg { width: 16px; height: 16px; color: #B4B2A9; }
+.arrow-label { font-size: 10px; color: #888; text-align: center; }
+
+.box { border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; }
+.box-coral { background: #FFF1EE; border: 1px solid #F0997B; }
+.box-coral .box-title { color: #993C1D; }
+.box-coral .box-sub { color: #D85A30; }
+.box-icon { flex-shrink: 0; width: 20px; height: 20px; }
+.box-title { font-size: 14px; font-weight: 500; }
+.box-sub { font-size: 11px; margin-top: 2px; opacity: 0.8; }
+
+.steps { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.step { background: #FFF1EE; border: 1px solid #F0997B; border-radius: 8px; padding: 10px 14px; flex: 1; min-width: 120px; }
+.step-num { font-size: 10px; font-weight: 600; color: #D85A30; margin-bottom: 2px; }
+.step-text { font-size: 12px; color: #993C1D; font-weight: 500; }
+.step-sub { font-size: 10px; color: #D85A30; opacity: 0.7; margin-top: 1px; }
+
+.pain { display: flex; align-items: flex-start; gap: 8px; padding: 10px 14px; background: rgba(216, 90, 48, 0.06); border-left: 3px solid #D85A30; border-radius: 0 8px 8px 0; font-size: 12px; color: #993C1D; line-height: 1.5; margin-top: 12px; }
+.pain svg { flex-shrink: 0; margin-top: 2px; }
+
+.warn-icon { width: 14px; height: 14px; }
+
+.divider { height: 1px; background: #e8e8e8; margin: 32px 0; }
+
+.page-title { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: #666; margin-bottom: 24px; }
+
+.repeat-label { text-align: center; font-size: 11px; color: #D85A30; font-weight: 500; padding: 6px 0; }
+
+.tone-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.tone-box { background: #FFF1EE; border: 1px solid #F0997B; border-radius: 6px; padding: 6px 10px; font-size: 11px; font-weight: 500; color: #993C1D; text-align: center; flex: 1; min-width: 70px; }
+.tone-box small { display: block; font-size: 9px; color: #D85A30; margin-top: 1px; }
+
+@media (max-width: 560px) {
+  .steps { flex-direction: column; }
+  .step { min-width: 0; }
+  .tone-box { min-width: 60px; }
+  .channel { min-width: 60px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-title">Voor automatisering</div>
+<div class="page-sub">Elke klantvraag is een handmatige cyclus van inbox openen, context opzoeken, antwoord typen</div>
+
+<!-- Kanalen -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div class="section-title">Vragen komen overal binnen</div>
+  </div>
+  <div class="section-sub">Elke inbox apart in de gaten houden</div>
+
+  <div class="channels">
+    <div class="channel">bol.com<small>Via verkopersplatform</small></div>
+    <div class="channel">Merk A<small>info@merka.nl</small></div>
+    <div class="channel">Merk B<small>info@merkb.nl</small></div>
+    <div class="channel">Merk C<small>info@merkc.nl</small></div>
+    <div class="channel">Webshop<small>info@webshop.nl</small></div>
+  </div>
+
+  <div class="pain">
+    <svg class="warn-icon" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <div>Constant schakelen tussen inboxen. Vergeten een inbox te checken = klant die wacht. Bij bol.com moet 90% binnen 8 kantooruren beantwoord zijn, anders daalt je prestatiescore.</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- Per vraag -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div class="section-title">Per vraag hetzelfde rondje</div>
+  </div>
+  <div class="section-sub">Elke vraag dezelfde handmatige stappen, ongeacht het kanaal</div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">Stap 1</div>
+      <div class="step-text">Lezen</div>
+      <div class="step-sub">Waar gaat het over?</div>
+    </div>
+    <div class="step">
+      <div class="step-num">Stap 2</div>
+      <div class="step-text">Uitzoeken</div>
+      <div class="step-sub">Welk merk, welk kanaal?</div>
+    </div>
+    <div class="step">
+      <div class="step-num">Stap 3</div>
+      <div class="step-text">Opzoeken</div>
+      <div class="step-sub">Order in bol of webshop</div>
+    </div>
+    <div class="step">
+      <div class="step-num">Stap 4</div>
+      <div class="step-text">Antwoord typen</div>
+      <div class="step-sub">In de juiste toon per merk</div>
+    </div>
+  </div>
+
+  <div class="repeat-label">x elke vraag, x elk merk, x elke dag</div>
+</div>
+
+<div class="divider"></div>
+
+<!-- Tone of voice per merk -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div class="section-title">Elk merk communiceert anders</div>
+  </div>
+  <div class="section-sub">Dezelfde vraag, maar per merk een andere toon en stijl</div>
+
+  <div class="tone-row">
+    <div class="tone-box">Merk A<small>Formeel, zakelijk</small></div>
+    <div class="tone-box">Merk B<small>Informeel, vlot</small></div>
+    <div class="tone-box">Merk C<small>Premium, persoonlijk</small></div>
+    <div class="tone-box">Webshop<small>Eigen huisstijl</small></div>
+  </div>
+
+  <div class="pain">
+    <svg class="warn-icon" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <div>80% van de vragen zijn standaard: waar is mijn pakket, hoe retourneer ik, product is beschadigd. Maar elke keer opnieuw typen, in de juiste toon, met de juiste orderinfo erbij. De bottleneck is niet de complexiteit maar de hoeveelheid.</div>
+  </div>
+</div>
+
+</body>
+</html>

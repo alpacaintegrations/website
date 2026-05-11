@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, 'Segoe UI', sans-serif; color: #1a1a1f; line-height: 1.5; padding: 24px 16px; max-width: 760px; margin: 0 auto; }
+
+.section { margin-bottom: 36px; }
+.section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 4px; }
+.section-num { width: 28px; height: 28px; border-radius: 50%; background: #FFF1EE; border: 1px solid #F0997B; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #993C1D; flex-shrink: 0; }
+.section-title { font-size: 17px; font-weight: 600; letter-spacing: -0.3px; }
+.section-sub { font-size: 13px; color: #666; margin-left: 38px; margin-bottom: 16px; }
+
+.portals { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 4px; }
+.portal { background: #F5F5F3; border: 1px solid #D3D1C7; border-radius: 6px; padding: 6px 12px; font-size: 12px; font-weight: 500; color: #5F5E5A; text-align: center; flex: 1; min-width: 80px; }
+.portal-note { font-size: 10px; color: #999; text-align: center; margin-bottom: 4px; }
+
+.arrow-down { display: flex; justify-content: center; padding: 4px 0; }
+.arrow-down svg { width: 16px; height: 16px; color: #B4B2A9; }
+.arrow-label { font-size: 10px; color: #888; text-align: center; }
+
+.box { border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; }
+.box-coral { background: #FFF1EE; border: 1px solid #F0997B; }
+.box-teal { background: #E8F5F0; border: 1px solid #5DCAA5; }
+.box-gray { background: #F5F5F3; border: 1px solid #D3D1C7; }
+.box-icon { flex-shrink: 0; width: 20px; height: 20px; }
+.box-title { font-size: 14px; font-weight: 500; }
+.box-sub { font-size: 11px; margin-top: 2px; opacity: 0.8; }
+.box-coral .box-title { color: #993C1D; }
+.box-coral .box-sub { color: #D85A30; }
+.box-teal .box-title { color: #0F6E56; }
+.box-teal .box-sub { color: #1D9E75; }
+.box-gray .box-title { color: #5F5E5A; }
+
+.box-small { padding: 10px 14px; flex: 1; min-width: 0; }
+
+.mail-icons { display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; }
+.mail-icon { width: 44px; height: 44px; background: #FFF1EE; border: 1px solid #F0997B; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+.mail-label { font-size: 12px; font-weight: 500; color: #666; text-align: center; margin-bottom: 8px; }
+
+.pain { display: flex; align-items: flex-start; gap: 8px; padding: 10px 14px; background: rgba(216, 90, 48, 0.06); border-left: 3px solid #D85A30; border-radius: 0 8px 8px 0; font-size: 12px; color: #993C1D; line-height: 1.5; margin-top: 12px; }
+.pain svg { flex-shrink: 0; margin-top: 2px; }
+
+.split { display: flex; gap: 16px; margin-top: 12px; }
+.split-col { flex: 1; }
+.split-divider { width: 1px; background: #e0e0e0; flex-shrink: 0; }
+.split-label { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; font-size: 12px; font-weight: 500; }
+
+.portal-coral { background: #FFF1EE; border: 1px solid #F0997B; border-radius: 6px; padding: 6px 10px; font-size: 11px; font-weight: 500; color: #993C1D; text-align: center; flex: 1; min-width: 70px; }
+.portal-coral small { display: block; font-size: 9px; opacity: 0.7; margin-top: 1px; }
+
+.decision { background: #F5F5F3; border: 1px solid #D3D1C7; border-radius: 10px; padding: 12px 18px; text-align: center; font-size: 14px; font-weight: 500; color: #5F5E5A; }
+
+.planning-row { display: flex; align-items: center; gap: 8px; }
+.arrows-icon { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.arrows-icon span { font-size: 9px; color: #D85A30; }
+
+.col-label { font-size: 12px; font-weight: 500; color: #666; margin-bottom: 8px; }
+
+.divider { height: 1px; background: #e8e8e8; margin: 32px 0; }
+
+.page-title { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; margin-bottom: 4px; }
+.page-sub { font-size: 13px; color: #666; margin-bottom: 24px; }
+
+@media (max-width: 560px) {
+  .split { flex-direction: column; }
+  .split-divider { width: 100%; height: 1px; }
+  .portal-coral { min-width: 60px; font-size: 10px; }
+  .portal { min-width: 60px; font-size: 11px; }
+  .mail-icon { width: 38px; height: 38px; }
+  .planning-row { flex-wrap: wrap; justify-content: center; }
+  .box-small { min-width: 120px; }
+}
+</style>
+</head>
+<body>
+
+<div class="page-title">Voor automatisering</div>
+<div class="page-sub">Drie losse processen, allemaal handmatig, allemaal foutgevoelig</div>
+
+<!-- WORKFLOW 1 -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div class="section-title">Boekingen en communicatie</div>
+  </div>
+  <div class="section-sub">Elke boeking handmatig, elke mail handmatig</div>
+
+  <div class="portals">
+    <div class="portal">Springest</div>
+    <div class="portal">Edubookers</div>
+    <div class="portal">StudyTube</div>
+    <div class="portal">Bloomville</div>
+    <div class="portal">Eigen site</div>
+  </div>
+  <div class="portal-note">Elk portaal stuurt boekingen in een ander format</div>
+
+  <div class="arrow-down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+
+  <div class="box box-coral">
+    <svg class="box-icon" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    <div>
+      <div class="box-title">Handmatig invoeren</div>
+      <div class="box-sub">Gegevens uit mails knippen en plakken</div>
+    </div>
+  </div>
+
+  <div class="arrow-down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+
+  <div class="mail-label">Per deelnemer 6x handmatig versturen:</div>
+  <div class="mail-icons">
+    <div class="mail-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
+    <div class="mail-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
+    <div class="mail-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
+    <div class="mail-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
+    <div class="mail-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
+    <div class="mail-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><circle cx="12" cy="8" r="2"/><path d="M12 10v6"/><path d="m9 18 3-2 3 2"/></svg></div>
+  </div>
+
+  <div class="pain">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <div>Bijhouden wie welke mail al heeft gehad: handmatig vinkjes zetten. Vergeten = deelnemer die zonder info naar een training gaat.</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- WORKFLOW 2 -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div class="section-title">Planning en cursusinfo</div>
+  </div>
+  <div class="section-sub">Structureel: elke training, elke update, elke keer opnieuw</div>
+
+  <div class="split">
+    <div class="split-col">
+      <div class="col-label">Planning met trainers</div>
+      <div class="planning-row">
+        <div class="box box-coral box-small">
+          <svg class="box-icon" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <div><div class="box-title">Planner</div></div>
+        </div>
+        <div class="arrows-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+          <span>mail</span>
+        </div>
+        <div class="box box-coral box-small">
+          <svg class="box-icon" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <div><div class="box-title">Trainer</div></div>
+        </div>
+      </div>
+      <div class="pain" style="margin-top: 8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div>8 drukke trainers, allemaal via mail. Geen overzicht wie wanneer beschikbaar is.</div>
+      </div>
+    </div>
+    <div class="split-divider"></div>
+    <div class="split-col" style="flex: 1.2;">
+      <div class="col-label">Cursusinfo naar portalen</div>
+      <div class="box box-coral">
+        <svg class="box-icon" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <div>
+          <div class="box-title">Cursusdata en informatie</div>
+          <div class="box-sub">Datums, prijzen, beschrijvingen, plekken</div>
+        </div>
+      </div>
+      <div class="arrow-down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+      <div class="arrow-label">5x apart handmatig doorvoeren</div>
+      <div class="portals" style="margin-top: 6px;">
+        <div class="portal-coral">Springest<small>handmatig</small></div>
+        <div class="portal-coral">Edubookers<small>handmatig</small></div>
+        <div class="portal-coral">StudyTube<small>handmatig</small></div>
+        <div class="portal-coral">Bloomville<small>handmatig</small></div>
+        <div class="portal-coral">Eigen site<small>handmatig</small></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pain">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <div>Datums niet overal gelijk? Deelnemers boeken op de verkeerde datum. Training vol maar nog open op een ander portaal? Overboekingen.</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- WORKFLOW 3 -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div class="section-title">Administratie</div>
+  </div>
+  <div class="section-sub">Deelnemers bijhouden, beslissingen nemen, factureren</div>
+
+  <div class="box box-coral">
+    <svg class="box-icon" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    <div>
+      <div class="box-title">Deelnemers tellen over alle portalen</div>
+      <div class="box-sub">Elke boeking zit in een ander systeem</div>
+    </div>
+  </div>
+
+  <div class="arrow-down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+
+  <div class="decision">3+ deelnemers?</div>
+
+  <div class="split">
+    <div class="split-col">
+      <div class="split-label" style="color: #0F6E56;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Ja: doorgaan
+      </div>
+      <div class="box box-coral" style="margin-bottom: 8px;">
+        <svg class="box-icon" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        <div>
+          <div class="box-title">Trainer bevestigen</div>
+          <div class="box-sub">Deelnemerslijst handmatig</div>
+        </div>
+      </div>
+      <div class="arrow-down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+      <div class="box box-coral">
+        <svg class="box-icon" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <div>
+          <div class="box-title">Facturatie</div>
+          <div class="box-sub">Per training handmatig</div>
+        </div>
+      </div>
+    </div>
+    <div class="split-divider"></div>
+    <div class="split-col">
+      <div class="split-label" style="color: #993C1D;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Nee: annuleren
+      </div>
+      <div class="box box-coral" style="margin-bottom: 8px;">
+        <svg class="box-icon" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        <div>
+          <div class="box-title">Deelnemers mailen</div>
+          <div class="box-sub">Annulering + compensatie</div>
+        </div>
+      </div>
+      <div class="arrow-down"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+      <div class="box box-coral">
+        <svg class="box-icon" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        <div>
+          <div class="box-title">Trainer mailen</div>
+          <div class="box-sub">Annulering communiceren</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down" style="margin-top: 12px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+  <div class="arrow-label">In beide gevallen</div>
+
+  <div class="box box-coral" style="margin-top: 6px;">
+    <svg class="box-icon" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    <div>
+      <div class="box-title">Training dichtzetten op alle portalen</div>
+      <div class="box-sub">5x apart handmatig sluiten of annuleren</div>
+    </div>
+  </div>
+
+  <div class="portals" style="margin-top: 8px;">
+    <div class="portal-coral">Springest<small>handmatig</small></div>
+    <div class="portal-coral">Edubookers<small>handmatig</small></div>
+    <div class="portal-coral">StudyTube<small>handmatig</small></div>
+    <div class="portal-coral">Bloomville<small>handmatig</small></div>
+    <div class="portal-coral">Eigen site<small>handmatig</small></div>
+  </div>
+
+  <div class="pain">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D85A30" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    <div>Te laat ontdekken dat er te weinig deelnemers zijn = last-minute annulering. Training vol maar nog open op een ander portaal? Overboekingen.</div>
+  </div>
+</div>
+
+</body>
+</html>
