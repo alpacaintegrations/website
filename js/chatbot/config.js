@@ -1,6 +1,4 @@
-// Bij eerste import is WEBHOOK_URL leeg — Rick vult deze na n8n activate
-// in (SETUP.md stap 7). Daarna `npm run build` en commit.
-export const WEBHOOK_URL = '';
+export const WEBHOOK_URL = 'https://alpacaintegrations.n8p1.hostingsecure.com/webhook/chatbot';
 
 // Zet op true voor lokale UI-tests zonder n8n. Antwoorden zijn dan
 // nep-responses uit mock.js.
