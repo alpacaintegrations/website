@@ -127,15 +127,21 @@
             align-items: center;
         }
         nav a.logo {
-            color: var(--text-white);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+        nav a.logo img {
+            height: 32px;
+            width: auto;
+            display: block;
         }
         nav a.book {
             color: var(--light-blue);
             text-decoration: none;
             font-size: 0.95rem;
+        }
+        @media (max-width: 600px) {
+            nav a.logo img { height: 26px; }
         }
         .blog-article {
             max-width: 760px;
@@ -237,6 +243,10 @@
             color: var(--light-blue);
             text-decoration: none;
         }
+        .author-bio a.company-link {
+            color: var(--pink);
+            font-weight: 600;
+        }
         footer {
             max-width: 1200px;
             margin: 0 auto;
@@ -259,7 +269,7 @@
 <body>
     <header>
         <nav>
-            <a href="/" class="logo">Alpaca Integrations</a>
+            <a href="/" class="logo" aria-label="Alpaca Integrations home"><img src="/images/tekst_logo_wit.png" alt="Alpaca Integrations"></a>
             <a href="https://outlook.office365.com/book/Alpacaintegrations1@alpacaintegrations.ai/" target="_blank" rel="noopener" class="book">Plan een gesprek</a>
         </nav>
     </header>
@@ -366,7 +376,7 @@
     <aside class="author-bio">
         <img src="/images/rick-avatar.png" alt="Rick van Alpaca Integrations">
         <div>
-            <p><strong>Rick</strong> &mdash; Alpaca Integrations</p>
+            <p><strong>Rick</strong> &mdash; <a href="https://www.alpacaintegrations.ai" class="company-link">Alpaca Integrations</a></p>
             <p>Helpt MKB-bedrijven met automatisering en AI-implementatie.</p>
             <a href="https://www.youtube.com/@AlpacaRick" target="_blank" rel="noopener">YouTube kanaal &rarr;</a>
         </div>
