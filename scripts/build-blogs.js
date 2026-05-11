@@ -70,6 +70,9 @@ async function buildBlog(blog, template) {
 
   html = html.replace(/<h1[^>]*>[\s\S]*?<\/h1>/, '');
 
+  // Mount-point waar de chatbot widget z'n CTA-blok inplugt
+  html = html + '\n<div data-chatbot-cta-mount></div>\n';
+
   const schemaBlocks = generateSchemas(blog).join('\n');
 
   const finalHtml = fillTemplate(template, {
