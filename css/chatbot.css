@@ -131,6 +131,15 @@
   border-bottom-left-radius: 4px;
 }
 .chatbot-msg a { color: var(--chat-pink); text-decoration: underline; }
+.chatbot-msg strong { color: var(--chat-text-white); font-weight: 600; }
+.chatbot-msg ul {
+  margin: 0.5em 0;
+  padding-left: 1.4em;
+}
+.chatbot-msg li {
+  margin-bottom: 0.3em;
+}
+.chatbot-msg-user strong { color: var(--chat-text-white); }
 
 /* Typing indicator */
 .chatbot-typing {

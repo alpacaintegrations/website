@@ -72,20 +72,50 @@ export function createPanel({ onClose, onSend }) {
   return panel;
 }
 
+function renderInline(text) {
+  return text
+    .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (full, txt, url) => {
+      const isInternal = url.startsWith('/') || url.startsWith('#');
+      const attrs = isInternal ? '' : ' target="_blank" rel="noopener"';
+      return `<a href="${url}"${attrs}>${txt}</a>`;
+    });
+}
+
+function renderMessage(content) {
+  const escaped = escapeHtml(content);
+  const lines = escaped.split('\n');
+  const blocks = [];
+  let i = 0;
+
+  while (i < lines.length) {
+    if (/^[-*]\s+/.test(lines[i])) {
+      const items = [];
+      while (i < lines.length && /^[-*]\s+/.test(lines[i])) {
+        items.push(`<li>${renderInline(lines[i].replace(/^[-*]\s+/, ''))}</li>`);
+        i++;
+      }
+      blocks.push(`<ul>${items.join('')}</ul>`);
+    } else {
+      const paraLines = [];
+      while (i < lines.length && !/^[-*]\s+/.test(lines[i])) {
+        paraLines.push(renderInline(lines[i]));
+        i++;
+      }
+      if (paraLines.length > 0) {
+        blocks.push(paraLines.join('<br>'));
+      }
+    }
+  }
+
+  return blocks.join('');
+}
+
 export function appendMessage(panel, role, content) {
   const messages = panel.querySelector('.chatbot-messages');
   const div = document.createElement('div');
   div.className = `chatbot-msg chatbot-msg-${role}`;
-
-  // Escape eerst, dan markdown-link rendering toepassen op escaped text
-  const escaped = escapeHtml(content);
-  const html = escaped.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (full, txt, url) => {
-    const isInternal = url.startsWith('/') || url.startsWith('#');
-    const attrs = isInternal ? '' : ' target="_blank" rel="noopener"';
-    return `<a href="${url}"${attrs}>${txt}</a>`;
-  }).replace(/\n/g, '<br>');
-
-  div.innerHTML = html;
+  div.innerHTML = renderMessage(content);
   messages.appendChild(div);
   messages.scrollTop = messages.scrollHeight;
 }
