@@ -8,9 +8,12 @@ CREATE TABLE IF NOT EXISTS chatbot_sessions (
   user_agent text
 );
 
+-- session_id is tracking-string die client-side wordt gegenereerd. Geen FK
+-- naar chatbot_sessions: de widget creeert geen session-rij vooraf en de
+-- chatbot is ephemeraal — referentiele integriteit voegt hier niets toe.
 CREATE TABLE IF NOT EXISTS chatbot_messages (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  session_id uuid NOT NULL REFERENCES chatbot_sessions(id) ON DELETE CASCADE,
+  session_id uuid NOT NULL,
   role text NOT NULL CHECK (role IN ('user', 'assistant')),
   content text NOT NULL,
   tool_use_json jsonb,
@@ -19,7 +22,7 @@ CREATE TABLE IF NOT EXISTS chatbot_messages (
 
 CREATE TABLE IF NOT EXISTS chatbot_leads (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  session_id uuid REFERENCES chatbot_sessions(id),
+  session_id uuid,
   naam text NOT NULL,
   contact_voorkeur text NOT NULL CHECK (contact_voorkeur IN ('email', 'telefoon')),
   email text,
