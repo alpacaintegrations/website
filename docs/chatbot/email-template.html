@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, sans-serif; color: #1a1a2e; max-width: 600px; margin: 0 auto; padding: 20px; }
+  h1 { color: #ec4899; font-size: 20px; margin-bottom: 20px; }
+  .card { background: #f9fafb; border-left: 4px solid #ec4899; padding: 16px; margin: 16px 0; border-radius: 4px; }
+  .label { font-weight: 600; color: #6b7280; font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .value { font-size: 16px; margin-top: 4px; }
+  .history { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 4px; padding: 16px; margin-top: 16px; font-size: 14px; line-height: 1.6; }
+  .history .msg-user { color: #1e40af; margin-bottom: 12px; }
+  .history .msg-assistant { color: #4b5563; margin-bottom: 12px; padding-left: 12px; border-left: 2px solid #ec4899; }
+  .footer { font-size: 12px; color: #6b7280; margin-top: 24px; padding-top: 16px; border-top: 1px solid #e5e7eb; }
+  a { color: #ec4899; }
+</style>
+</head>
+<body>
+  <h1>Nieuwe lead via AI subsidie assistent</h1>
+
+  <div class="card">
+    <div class="label">Naam</div>
+    <div class="value">{{naam}}</div>
+  </div>
+
+  <div class="card">
+    <div class="label">Voorkeur contact</div>
+    <div class="value">{{contact_voorkeur}}</div>
+  </div>
+
+  {{#if email}}
+  <div class="card">
+    <div class="label">E-mailadres</div>
+    <div class="value"><a href="mailto:{{email}}">{{email}}</a></div>
+  </div>
+  {{/if}}
+
+  {{#if telefoon}}
+  <div class="card">
+    <div class="label">Telefoon</div>
+    <div class="value"><a href="tel:{{telefoon}}">{{telefoon}}</a></div>
+  </div>
+  {{/if}}
+
+  {{#if beste_moment}}
+  <div class="card">
+    <div class="label">Beste moment voor contact</div>
+    <div class="value">{{beste_moment}}</div>
+  </div>
+  {{/if}}
+
+  <div class="card">
+    <div class="label">Context (samenvatting door bot)</div>
+    <div class="value">{{context}}</div>
+  </div>
+
+  <h2 style="color: #1a1a2e; font-size: 16px; margin-top: 24px;">Volledige chathistorie</h2>
+  <div class="history">
+    {{#each messages}}
+      {{#if (eq role "user")}}
+        <div class="msg-user"><strong>[{{timestamp}}] Bezoeker:</strong> {{content}}</div>
+      {{else}}
+        <div class="msg-assistant"><strong>[{{timestamp}}] AI assistent:</strong> {{content}}</div>
+      {{/if}}
+    {{/each}}
+  </div>
+
+  <div class="footer">
+    Sessie-ID: {{session_id}}<br>
+    Bekijk in Supabase: <a href="https://supabase.com/dashboard/project/_/editor/chatbot_leads?id={{lead_id}}">chatbot_leads</a><br>
+    Automatisch verzonden door n8n workflow chatbot-flow.
+  </div>
+</body>
+</html>
