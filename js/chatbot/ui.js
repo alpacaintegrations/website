@@ -3,6 +3,18 @@ import {
   CTA_TITLE, CTA_SUBTITLE, CTA_BUTTON
 } from './config.js';
 
+// Robot-hoofd SVG — duidelijker signaal dan een emoji
+const ROBOT_SVG = `<svg class="chatbot-robot" viewBox="0 0 32 32" width="28" height="28" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <line x1="16" y1="3" x2="16" y2="7"/>
+  <circle cx="16" cy="2" r="1.2" fill="currentColor"/>
+  <rect x="5" y="9" width="22" height="17" rx="3"/>
+  <circle cx="11" cy="16" r="1.8" fill="currentColor" stroke="none"/>
+  <circle cx="21" cy="16" r="1.8" fill="currentColor" stroke="none"/>
+  <line x1="12" y1="21" x2="20" y2="21"/>
+  <line x1="3" y1="14" x2="5" y2="14"/>
+  <line x1="27" y1="14" x2="29" y2="14"/>
+</svg>`;
+
 function escapeHtml(text) {
   const div = document.createElement('div');
   div.textContent = text;
@@ -15,6 +27,7 @@ export function createFab(onClick) {
   btn.setAttribute('aria-label', 'Open chat met AI subsidie assistent');
   btn.type = 'button';
   btn.innerHTML = `
+    ${ROBOT_SVG}
     <span class="chatbot-fab-text-long">${escapeHtml(FAB_TEXT_LONG)}</span>
     <span class="chatbot-fab-text-short">${escapeHtml(FAB_TEXT_SHORT)}</span>
   `;
