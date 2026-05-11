@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprintsubsidie voorbeeld: de complete administratie van een zakelijke opleider automatiseren | Alpaca Integrations</title>
+    <meta name="description" content="Hoe we de complete administratie van een zakelijke opleider hebben geautomatiseerd. Van twee dagtaken naar minuten per week, zonder AI.">
+    <link rel="canonical" href="https://alpacaintegrations.ai/blog/sprintsubsidie-voorbeeld-administratie-automatiseren">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <meta property="og:title" content="Sprintsubsidie voorbeeld: de complete administratie van een zakelijke opleider automatiseren">
+    <meta property="og:description" content="Hoe we de complete administratie van een zakelijke opleider hebben geautomatiseerd. Van twee dagtaken naar minuten per week, zonder AI.">
+    <meta property="og:image" content="https://alpacaintegrations.ai/images/og/og-sprintsubsidie-voorbeeld-administratie-automatiseren.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://alpacaintegrations.ai/blog/sprintsubsidie-voorbeeld-administratie-automatiseren">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sprintsubsidie voorbeeld: de complete administratie van een zakelijke opleider automatiseren">
+    <meta name="twitter:description" content="Hoe we de complete administratie van een zakelijke opleider hebben geautomatiseerd. Van twee dagtaken naar minuten per week, zonder AI.">
+    <meta name="twitter:image" content="https://alpacaintegrations.ai/images/og/og-sprintsubsidie-voorbeeld-administratie-automatiseren.png">
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Sprintsubsidie voorbeeld: de complete administratie van een zakelijke opleider automatiseren",
+  "description": "Hoe we de complete administratie van een zakelijke opleider hebben geautomatiseerd. Van twee dagtaken naar minuten per week, zonder AI.",
+  "author": {
+    "@type": "Person",
+    "name": "Rick",
+    "url": "https://www.linkedin.com/in/rickalpacaintegrations"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Alpaca Integrations",
+    "url": "https://alpacaintegrations.ai"
+  },
+  "datePublished": "2026-05-12T11:00:00+02:00",
+  "dateModified": "2026-05-12T11:00:00+02:00",
+  "image": "https://alpacaintegrations.ai/images/og/og-sprintsubsidie-voorbeeld-administratie-automatiseren.png",
+  "mainEntityOfPage": "https://alpacaintegrations.ai/blog/sprintsubsidie-voorbeeld-administratie-automatiseren"
+}
+</script>
+
+    <style>
+        :root {
+            --dark-bg: #0f0f23;
+            --darker-bg: #0a0a16;
+            --primary-blue: #3b82f6;
+            --light-blue: #60a5fa;
+            --purple: #a855f7;
+            --pink: #ec4899;
+            --text-light: #e2e8f0;
+            --text-white: #ffffff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-light);
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+        }
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        nav a.logo {
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        nav a.book {
+            color: var(--light-blue);
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        .blog-article {
+            max-width: 760px;
+            margin: 6rem auto 4rem;
+            padding: 0 1.5rem;
+        }
+        .blog-meta {
+            color: rgba(226, 232, 240, 0.6);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        .blog-article h1 {
+            color: var(--text-white);
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        .blog-article h2 {
+            color: var(--text-white);
+            font-size: 1.8rem;
+            margin: 2.5rem 0 1rem;
+        }
+        .blog-article h3 {
+            color: var(--text-white);
+            font-size: 1.3rem;
+            margin: 2rem 0 0.75rem;
+        }
+        .blog-article p { margin-bottom: 1.2rem; }
+        .blog-article ul, .blog-article ol {
+            margin: 0 0 1.2rem 1.5rem;
+        }
+        .blog-article li { margin-bottom: 0.4rem; }
+        .blog-article a {
+            color: var(--light-blue);
+            text-decoration: underline;
+        }
+        .blog-article table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1.5rem 0;
+        }
+        .blog-article th, .blog-article td {
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            padding: 0.6rem 0.8rem;
+            text-align: left;
+        }
+        .blog-article th {
+            background: rgba(168, 85, 247, 0.1);
+            color: var(--text-white);
+        }
+        .blog-article strong { color: var(--text-white); }
+        .blog-article blockquote {
+            border-left: 3px solid var(--primary-blue);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            color: rgba(226, 232, 240, 0.8);
+            font-style: italic;
+        }
+        .blog-article iframe {
+            display: block;
+            width: 100%;
+            min-height: 480px;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        .video-placeholder {
+            background: var(--darker-bg);
+            border: 1px dashed rgba(168, 85, 247, 0.3);
+            border-radius: 8px;
+            padding: 3rem 1rem;
+            text-align: center;
+            color: rgba(226, 232, 240, 0.5);
+            margin: 1.5rem 0;
+        }
+        .author-bio {
+            max-width: 760px;
+            margin: 3rem auto;
+            padding: 2rem 1.5rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            border-top: 1px solid rgba(168, 85, 247, 0.2);
+            border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+        }
+        .author-bio img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .author-bio strong { color: var(--text-white); }
+        .author-bio a {
+            color: var(--light-blue);
+            text-decoration: none;
+        }
+        footer {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+            color: rgba(226, 232, 240, 0.5);
+            font-size: 0.9rem;
+        }
+        footer a {
+            color: var(--light-blue);
+            text-decoration: none;
+        }
+        @media (max-width: 600px) {
+            .blog-article h1 { font-size: 1.8rem; }
+            .blog-article h2 { font-size: 1.4rem; }
+            .author-bio { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/" class="logo">Alpaca Integrations</a>
+            <a href="https://outlook.office365.com/book/Alpacaintegrations1@alpacaintegrations.ai/" target="_blank" rel="noopener" class="book">Plan een gesprek</a>
+        </nav>
+    </header>
+
+    <article class="blog-article">
+        <h1>Sprintsubsidie voorbeeld: de complete administratie van een zakelijke opleider automatiseren</h1>
+        <div class="blog-meta">
+            Door Rick &middot; <time datetime="2026-05-12T11:00:00+02:00">12 mei 2026</time>
+        </div>
+        
+<p>Een zakelijke opleider die trainingen aanbiedt via verschillende leerportalen. Twee mensen die alles runnen. En &quot;alles&quot; betekent hier echt alles: boekingen verwerken die via vijf verschillende portalen binnenkomen, per deelnemer meerdere mails handmatig versturen, cursusinformatie op vijf plekken apart bijwerken, planning coordineren via eindeloze mailwisselingen met acht trainers, bijhouden hoeveel deelnemers er per training zijn, annuleringen regelen, certificaten aanmaken en facturen versturen. Allemaal handmatig. Elke keer opnieuw. Daar hadden ze beide een dagtaak aan.</p>
+<p>Dit is het verhaal van hoe we dat volledig hebben geautomatiseerd. Zonder AI. Met bestaande software, slimme koppelingen en workflows die automatisch draaien. Dit soort project is precies waar de <a href="/blog/sprintsubsidie-mkb-limburg-gids">Sprintsubsidie MKB</a> voor bedoeld is. Die Sprint subsidie is alleen voor MKB-bedrijven in Limburg en wordt betaald door de Provincie: tot 50% van de implementatiekosten vergoed.</p>
+<h2>Het probleem</h2>
+<p>Het probleem was niet dat het bedrijf niet groeide. Het probleem was dat elke nieuwe deelnemer meer handwerk betekende. Meer mails knippen en plakken, meer portalen bijwerken, meer kans op fouten. Hoe harder ze groeiden, hoe meer tijd ze kwijt waren aan administratief werk dat niks oplevert maar wel moet gebeuren. Het bedrijf zat gevangen in zijn eigen processen. Er waren drie grote pijnpunten.</p>
+<p><strong>Boekingen en communicatie.</strong> Boekingen kwamen binnen via vijf verschillende leerportalen en de eigen website, en elk portaal werkte op zijn eigen manier. Dat betekende dat alles handmatig geknipt en geplakt moest worden naar een spreadsheet. Vervolgens moest elke deelnemer meerdere keren gemaild worden: welkom, praktische informatie, details naar de trainer, follow-up achteraf en een certificaat. Per deelnemer dus elke keer handmatig een mail opstellen en versturen. En dan moest je ook nog bijhouden wie welke mail al had gehad, want dubbel mailen is net zo erg als vergeten te mailen.</p>
+<p><strong>Planning en cursusinfo.</strong> De planning met acht trainers ging volledig via mail. Dat betekende heen en weer mailen tot iedereen het eens was over de data, wat soms dagen duurde. Ondertussen moest alle cursusinformatie, dus datums, prijzen, beschrijvingen en beschikbare plekken, op alle vijf de portalen apart handmatig worden bijgewerkt. Dat zorgde ervoor dat elke wijziging vijf keer doorgevoerd moest worden. En als dat niet overal tegelijk gebeurde, dan kreeg je de situatie dat datums niet overal gelijk waren waardoor deelnemers op de verkeerde dag opdoken, of dat een training al vol was maar op een ander portaal nog openstond waardoor je overboekingen kreeg.</p>
+<p><strong>Administratie.</strong> Om te weten hoeveel deelnemers er per training waren, moest iemand alle portalen langs om de boekingen bij elkaar te tellen. Als er minder dan drie deelnemers waren veertien dagen voor de training, dan moest de training geannuleerd worden. Dat betekende dat je deelnemers moest mailen met een compensatie-aanbod, de trainer apart moest informeren, en vervolgens de training op alle vijf de portalen handmatig moest dichtzetten. Weer vijf keer hetzelfde werk. En de facturatie ging op dezelfde manier: per training handmatig een factuur aanmaken en versturen.</p>
+<iframe src="/blog/embeds/tafelgasten-voor.html" loading="lazy" title="Voor-diagram"></iframe>
+<h2>De aanpak</h2>
+<p>De eerste stap was het creeren van een centrale database. In plaats van informatie verspreid over vijf portalen, mailboxen en spreadsheets, moest alles op een plek staan. Daarvoor hebben we Airtable gekozen. Airtable is in de basis een slimme database die eruitziet als een spreadsheet maar zich gedraagt als een volwaardig systeem: je kunt er tabellen in koppelen, formules op loslaten, en er andere software aan verbinden via API&#39;s. Het werd de &quot;single source of truth&quot; voor alles: deelnemers, trainers, trainingen, boekingen en communicatie.</p>
+<p>De tweede stap was het koppelen van alle bestaande systemen aan die centrale database. Daarvoor gebruiken we n8n, een automatiseringsplatform dat werkt als een vertaallaag tussen al die verschillende tools. n8n zorgt ervoor dat Airtable, Outlook, de leerportalen, Certifier, Exact en Edudex met elkaar kunnen praten. Als er iets verandert in Airtable, dan vertelt n8n de juiste systemen wat ze moeten doen. Dat gebeurt via workflows die dagelijks automatisch draaien.</p>
+<h2>De oplossing</h2>
+<p><strong>Boekingen en communicatie.</strong> Boekingen komen nu via API-koppelingen automatisch in Airtable terecht. Vanuit daar gaan alle mails automatisch en op het juiste moment de deur uit. Alles wordt gepersonaliseerd met de juiste namen, datums en trainers. Het systeem houdt zelf bij wie welke mail al heeft gehad, dus als een workflow halverwege crasht en herstart wordt, krijgt niemand een dubbele mail.</p>
+<p><strong>Planning en cursusinfo.</strong> Trainers vullen nu zelf hun beschikbaarheid in via een planner tool in plaats van eindeloos te mailen. Na goedkeuring gaat alles automatisch naar Airtable. En voor de cursusinformatie hebben we Edudex gekoppeld: dat is een platform dat aansluit op alle leerportalen. Dat betekent dat je cursusinformatie maar op een plek hoeft aan te passen, in Airtable, en Edudex pusht het automatisch door naar alle vijf de portalen tegelijk. Een datum wijzigen is nu een handeling van dertig seconden in plaats van vijf keer inloggen en overtypen.</p>
+<p><strong>Administratie.</strong> Airtable telt nu automatisch het aantal deelnemers per training. Veertien dagen voor de training krijgen de eigenaren automatisch een notificatie als er minder dan drie deelnemers zijn, inclusief de deelnemerslijst zodat ze meteen een beslissing kunnen nemen. Als een training niet doorgaat, gaan de annuleringsmails automatisch de deur uit: deelnemers krijgen een nette mail met compensatie-aanbod en de trainer krijgt een apart bericht. Facturatie wordt automatisch doorgezet naar Exact na afronding van de training. En elke nacht maakt het systeem een automatische backup van alle data naar OneDrive.</p>
+<iframe src="/blog/embeds/tafelgasten-na.html" loading="lazy" title="Na-diagram"></iframe>
+<p>Het belangrijkste verschil is niet alleen de tijdsbesparing. Ze hebben nu een systeem dat meegroeit. Twee keer zoveel boekingen? Geen probleem, dat gaat allemaal vanzelf. Het systeem schaalt mee zonder dat er extra handjes bij moeten.</p>
+<h2>Geen AI nodig</h2>
+<p>Dit hele systeem draait op vaste logica: als dit, dan dat. Geen machine learning, geen ChatGPT, geen slimme algoritmes. Gewoon bestaande software die slim aan elkaar gekoppeld is. Dat is een belangrijk punt, want veel bedrijven denken dat ze AI nodig hebben om te automatiseren. Dat is lang niet altijd zo. De meeste bedrijfsprocessen volgen vaste patronen en zijn perfect te automatiseren met regelgebaseerde workflows.</p>
+<p>AI voegt pas waarde toe als de input onvoorspelbaar is, zoals mails die geinterpreteerd moeten worden of documenten die er elke keer anders uitzien. Bij dit project was de input voorspelbaar en de stappen vast, waardoor een simpele automatisering sneller, goedkoper en betrouwbaarder is. Lees meer over wanneer AI wel de juiste keuze is in onze blog over <a href="/blog/ai-implementeren-sprintsubsidie">AI implementeren met de Sprintsubsidie</a>, of lees hoe je <a href="/blog/beste-processen-automatiseren-bedrijf">de beste processen vindt om te automatiseren</a>.</p>
+<h2>Het resultaat</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Voor</th>
+<th>Na</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Mails versturen</td>
+<td>Handmatig per deelnemer</td>
+<td>Automatisch en op tijd</td>
+</tr>
+<tr>
+<td>Deelnemers bijhouden</td>
+<td>Handmatig vinkjes zetten</td>
+<td>Automatische tracking</td>
+</tr>
+<tr>
+<td>Trainer notificeren</td>
+<td>Handmatig deelnemerslijst samenstellen</td>
+<td>Automatisch gegroepeerd en verstuurd</td>
+</tr>
+<tr>
+<td>Cursusinfo updaten</td>
+<td>5x apart handmatig</td>
+<td>1x in Airtable, via Edudex overal bijgewerkt</td>
+</tr>
+<tr>
+<td>Deelnemerscheck</td>
+<td>Handmatig tellen over alle portalen</td>
+<td>14 dagen vooruit automatische check</td>
+</tr>
+<tr>
+<td>Planning trainers</td>
+<td>Mailen heen en weer</td>
+<td>Planner tool, zelf invullen</td>
+</tr>
+<tr>
+<td>Certificaten</td>
+<td>Per deelnemer handmatig</td>
+<td>Automatisch via API</td>
+</tr>
+<tr>
+<td>Facturatie</td>
+<td>Per training handmatig</td>
+<td>Automatisch naar Exact</td>
+</tr>
+<tr>
+<td>Tijdsinvestering</td>
+<td>Beide een dagtaak</td>
+<td>Paar uur per week, alleen uitzonderingen</td>
+</tr>
+</tbody></table>
+<h2>Past dit bij de Sprintsubsidie?</h2>
+<p>Dit soort project is precies waar de <a href="/blog/sprintsubsidie-mkb-limburg-gids">Sprintsubsidie MKB</a> voor bedoeld is. Je implementeert bestaande, bewezen software die nieuw is voor de onderneming, en het leidt tot een aantoonbare en meetbare verbetering van de bedrijfsvoering. Alle tools die we hebben gebruikt bestaan al en worden al bij andere bedrijven ingezet. De Sprint subsidie vergoedt tot 50% van de implementatiekosten, met een maximum van 24.500 euro per MKB-bedrijf in Limburg.</p>
+<p>De kosten die je opvoert bij de aanvraag zijn de uren van de externe specialist die de workflows configureert en de koppelingen bouwt, de eenmalige softwarekosten, de training van het team om met het nieuwe systeem te werken, en de interne uren die het bedrijf zelf besteedt aan de implementatie. Lees onze blog over <a href="/blog/sprintsubsidie-voorwaarden-wat-komt-in-aanmerking">wat wel en niet in aanmerking komt</a> voor de details, of bekijk het <a href="/blog/sprintsubsidie-aanvragen-stappenplan">complete stappenplan voor het aanvragen</a>.</p>
+<p>Herken je dit soort handmatig werk in jouw bedrijf? Stel je vraag aan onze <a href="#chatbot">subsidie-assistent</a> of <a href="https://outlook.office365.com/book/Alpacaintegrations1@alpacaintegrations.ai/" target="_blank" rel="noopener">plan een vrijblijvend gesprek</a>. Alpaca Integrations helpt je met het identificeren van het juiste proces en neemt de implementatie over.</p>
+
+    </article>
+
+    <aside class="author-bio">
+        <img src="/images/rick-avatar.svg" alt="Rick van Alpaca Integrations">
+        <div>
+            <p><strong>Rick</strong> &mdash; Alpaca Integrations</p>
+            <p>Helpt MKB-bedrijven met automatisering en AI-implementatie. Geen jargon, gewoon dingen die werken.</p>
+            <a href="https://www.linkedin.com/in/rickalpacaintegrations" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+        </div>
+    </aside>
+
+    <footer>
+        <p>&copy; Alpaca Integrations &middot; <a href="mailto:letstalk@alpacaintegrations.ai">letstalk@alpacaintegrations.ai</a></p>
+    </footer>
+
+    <!-- chatbot widget snippet komt hier in sub-project 2 -->
+</body>
+</html>
