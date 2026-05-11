@@ -7,7 +7,7 @@ const MAPPINGS = [
   { match: /administratie van een zakelijke opleider|ander voorbeeldproject/i, url: '/blog/sprintsubsidie-voorbeeld-administratie-automatiseren' },
   { match: /klantenservice automatiseren met ai|voorbeeldproject: klantenservice/i, url: '/blog/sprintsubsidie-voorbeeld-klantenservice-ai' },
   { match: /stappenplan|aanvragen.*sprintsubsidie/i, url: '/blog/sprintsubsidie-aanvragen-stappenplan' },
-  { match: /subsidie-assistent/i, url: '#chatbot' },
+  { match: /subsidie[- ]assistent/i, url: '#chatbot' },
   { match: /plan een( vrijblijvend)? gesprek/i, url: 'https://outlook.office365.com/book/Alpacaintegrations1@alpacaintegrations.ai/' },
   { match: /ai quickscan/i, url: 'https://www.alpacaintegrations.ai/scorecard' },
   { match: /^(de\s+)?sprintsubsidie(\s+mkb)?$/i, url: '/blog/sprintsubsidie-mkb-limburg-gids' },

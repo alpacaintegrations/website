@@ -53,10 +53,12 @@ async function buildBlog(blog, template) {
 
   const cleaned = cleanText(rawMd);
 
-  const signals = findAiSignals(cleaned);
+  const renamed = cleaned.replace(/subsidie-assistent/g, 'AI subsidie assistent');
+
+  const signals = findAiSignals(renamed);
   reportSignals(signals, blog.sourceFile);
 
-  const linkedMd = mapPlaceholderLinks(cleaned);
+  const linkedMd = mapPlaceholderLinks(renamed);
 
   let html = marked.parse(linkedMd);
 
