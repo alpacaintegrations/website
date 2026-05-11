@@ -28,33 +28,16 @@ Als je nog geen API key hebt:
 
 **Tip:** zet bij Settings → Billing een lage daily-limit (bv. $5) om afwijkingen vroeg te zien. Een normaal gesprek kost ~5-15 cent.
 
-## Stap 3 — System prompt naar n8n server
-
-Het bestand `docs/chatbot/system-prompt.md` moet op de n8n server staan op pad **`/data/chatbot/system-prompt.md`** (zo verwijst de workflow-node "Read system prompt" ernaar).
-
-Twee opties:
-
-**A. Via filesystem-mount** (als n8n bij hostingsecure.com met Docker draait en je filesystem-toegang hebt):
-- SSH naar de hostingsecure server, of gebruik hun control panel
-- Zorg dat `/data/chatbot/` bestaat
-- Upload `docs/chatbot/system-prompt.md` ernaartoe
-
-**B. Via een Set-node in n8n** (alternatief als A niet mogelijk):
-- Open de workflow na stap 4
-- Verwijder de "Read system prompt"-node
-- Voeg een Set-node toe met één string-veld `systemPrompt` waarin je de inhoud van `system-prompt.md` plakt (cmd-A in het editorveld, plakken)
-- Pas de Anthropic-node aan: vervang `$('Read system prompt').first().binary.data.toString('utf8')` door `$('Set').first().json.systemPrompt`
-
-(Bij twijfel: probeer eerst optie A. Lukt het niet, dan B — geef mij een seintje en ik genereer een alternatieve workflow.)
-
-## Stap 4 — n8n workflow importeren
+## Stap 3 — n8n workflow importeren
 
 1. Open je n8n instance
 2. **Workflows → Add workflow → Import from File**
 3. Kies `docs/chatbot/n8n-workflow.json` uit dit project
 4. De workflow verschijnt met 9 nodes en rode credentials-icoontjes
 
-## Stap 5 — Credentials in n8n inrichten
+De system prompt zit al **inline** in de "System Prompt"-node (een Code-node). Geen file-upload of SSH nodig. Wil je de bot later aanpassen? Open die node en edit de string daar.
+
+## Stap 4 — Credentials in n8n inrichten
 
 Drie credentials nodig. Per node klik je op het rode icoontje en richt je hem in.
 
@@ -85,7 +68,7 @@ Drie credentials nodig. Per node klik je op het rode icoontje en richt je hem in
 - Port: `587`
 - Secure: STARTTLS (niet TLS direct)
 
-## Stap 6 — Workflow activeren
+## Stap 5 — Workflow activeren
 
 1. Klik bovenin op de **Active**-toggle (grijs → groen)
 2. n8n geeft je nu een productie-webhook URL — kopieer die. Ziet er ongeveer zo uit:
@@ -93,7 +76,7 @@ Drie credentials nodig. Per node klik je op het rode icoontje en richt je hem in
    https://alpacaintegrations.n8p1.hostingsecure.com/webhook/abc123-def456-...
    ```
 
-## Stap 7 — Webhook URL doorgeven
+## Stap 6 — Webhook URL doorgeven
 
 Geef de webhook URL door (plak 'm in een nieuw chatbericht naar Claude Code).
 
@@ -104,7 +87,7 @@ export const WEBHOOK_URL = 'https://alpacaintegrations.n8p1.hostingsecure.com/we
 
 Run `npm run build` om de blogs opnieuw te bouwen, en commit.
 
-## Stap 8 — Lokale eind-test (echte n8n)
+## Stap 7 — Lokale eind-test (echte n8n)
 
 1. Start de lokale server:
    ```bash
@@ -123,7 +106,7 @@ Run `npm run build` om de blogs opnieuw te bouwen, en commit.
 
 Als één van deze stappen faalt, zie Troubleshooting onderaan.
 
-## Stap 9 — Live zetten
+## Stap 8 — Live zetten
 
 Beide sub-projecten (blogs + chatbot) zijn nu klaar.
 
@@ -133,7 +116,7 @@ git push origin main
 
 Netlify deployt automatisch. Na ±2 minuten staat alles live op alpacaintegrations.ai.
 
-## Stap 10 — Post-launch checks
+## Stap 9 — Post-launch checks
 
 Eenmalig na live deploy:
 
@@ -150,13 +133,12 @@ Eenmalig na live deploy:
 
 ### "Sorry, er ging iets mis" in de chat
 Check n8n **Executions** tab in de workflow. Eerste failing execution toont de exacte fout. Vaakste oorzaken:
-- Anthropic API key fout of niet ingevuld → check stap 5
+- Anthropic API key fout of niet ingevuld → check stap 4
 - Supabase credentials fout → check service_role key, niet anon
-- System prompt niet vindbaar op `/data/chatbot/system-prompt.md` → ga over op optie B in stap 3
 
 ### Chat opent maar reageert niet
 - Browser DevTools → Network tab → kijk of er een POST naar de webhook URL gaat
-- Zo niet: `WEBHOOK_URL` in `js/chatbot/config.js` is leeg → ga terug naar stap 7
+- Zo niet: `WEBHOOK_URL` in `js/chatbot/config.js` is leeg → ga terug naar stap 6
 - Zo wel maar krijg je 404: workflow is niet **Active** in n8n → toggle activeren
 
 ### E-mail komt niet aan op rick@alpacaintegrations.ai
@@ -165,9 +147,9 @@ Check n8n **Executions** tab in de workflow. Eerste failing execution toont de e
 - Check je Office 365 → admin → message trace voor de outgoing email
 
 ### Bot geeft verkeerde info
-- De system prompt staat op `/data/chatbot/system-prompt.md` op de n8n server (of in de Set-node bij optie B)
-- Pas die aan en de wijziging is direct actief in de volgende chat
-- Voor structurele updates: pas `docs/chatbot/knowledge/*.md` of `scripts/build-system-prompt.js` aan, run `node scripts/build-system-prompt.js`, en re-upload naar de n8n server
+- De system prompt zit inline in de "System Prompt" Code-node in de n8n workflow
+- Quick fix: open die node in n8n, edit de string, save de workflow — direct actief
+- Voor structurele updates uit de kennisbank-bronnen: pas `docs/chatbot/knowledge/*.md` aan, run lokaal `node scripts/build-system-prompt.js && node scripts/build-n8n-workflow.js`, en herimporteer de nieuwe `n8n-workflow.json` in n8n (let op: opnieuw credentials inrichten)
 
 ### Lokale UI testen zonder n8n
 Zet in `js/chatbot/config.js`:
