@@ -75,7 +75,7 @@ async function build() {
           },
           "sendBody": true,
           "specifyBody": "json",
-          "jsonBody": "={{ $('System Prompt').first().json.requestBody }}",
+          "jsonBody": "={{ JSON.stringify($('System Prompt').first().json.requestBody) }}",
           "options": {}
         },
         "name": "Anthropic API",
