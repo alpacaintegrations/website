@@ -1,0 +1,17 @@
+{
+  "name": "alpaca-website",
+  "version": "1.0.0",
+  "description": "Alpaca Integrations website + blog publish pipeline",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-blogs.js",
+    "test": "node --test \"scripts/tests/*.test.js\""
+  },
+  "dependencies": {
+    "marked": "^14.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
