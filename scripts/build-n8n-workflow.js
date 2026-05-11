@@ -64,31 +64,13 @@ async function build() {
       },
       {
         "parameters": {
-          "method": "POST",
-          "url": "https://api.anthropic.com/v1/messages",
-          "sendHeaders": true,
-          "headerParameters": {
-            "parameters": [
-              { "name": "anthropic-version", "value": "2023-06-01" },
-              { "name": "content-type", "value": "application/json" }
-            ]
-          },
-          "sendBody": true,
-          "contentType": "raw",
-          "rawContentType": "application/json",
-          "body": "=JSON.stringify($('System Prompt').first().json.requestBody)",
-          "options": {}
+          "jsCode": "// Vervang YOUR_KEY_HERE met je daadwerkelijke Anthropic API key.\n// Voor productie: verplaats naar een environment variable en lees met process.env.\nconst apiKey = 'YOUR_KEY_HERE';\n\nconst requestBody = $('System Prompt').first().json.requestBody;\n\nconst response = await fetch('https://api.anthropic.com/v1/messages', {\n  method: 'POST',\n  headers: {\n    'x-api-key': apiKey,\n    'anthropic-version': '2023-06-01',\n    'content-type': 'application/json'\n  },\n  body: JSON.stringify(requestBody)\n});\n\nif (!response.ok) {\n  const errorText = await response.text();\n  throw new Error(`Anthropic ${response.status}: ${errorText}`);\n}\n\nconst data = await response.json();\nreturn [{ json: data }];"
         },
         "name": "Anthropic API",
-        "type": "n8n-nodes-base.httpRequest",
-        "typeVersion": 4.2,
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
         "position": [900, 300],
-        "id": "node-anthropic",
-        "credentials": {
-          "httpHeaderAuth": {
-            "name": "Anthropic API key"
-          }
-        }
+        "id": "node-anthropic"
       },
       {
         "parameters": {
