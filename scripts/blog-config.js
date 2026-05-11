@@ -7,7 +7,14 @@ export const BLOGS = [
     ogImage: 'og-sprintsubsidie-mkb-limburg-gids.png',
     datePublished: '2026-05-11T09:00:00+02:00',
     dateModified: '2026-05-11T09:00:00+02:00',
-    embedsVideoPlaceholder: true
+    embedsVideoPlaceholder: true,
+    faqItems: [
+      { q: 'Wat is de Sprintsubsidie?', a: 'Een subsidie van de Provincie Limburg waarmee MKB-bedrijven in Limburg tot 24.500 euro kunnen krijgen voor het implementeren van bewezen technologie die nieuw is voor hun bedrijf.' },
+      { q: 'Hoeveel subsidie kan ik krijgen?', a: 'Minimaal 5.000 en maximaal 24.500 euro, met een maximum van 50% van de projectkosten. De rest financier je zelf, waarvan minimaal 25% uit eigen middelen.' },
+      { q: 'Wie kan de Sprintsubsidie aanvragen?', a: 'MKB-bedrijven in Limburg met minder dan 250 medewerkers en een jaaromzet onder de 50 miljoen euro. Niet voor zzp\'ers en niet voor agrarische bedrijven met SBI-code A.' },
+      { q: 'Wanneer kan ik aanvragen?', a: 'In 2026 tussen 11 mei en 11 juni en tussen 21 september en 21 oktober. In 2027 tussen 4 januari en 4 februari en tussen 3 mei en 3 juni.' },
+      { q: 'Mag ik meerdere keren aanvragen?', a: 'Nee, je kunt maar een keer aanvragen gedurende de hele looptijd van de regeling (2026-2027). Kies dus zorgvuldig welk project je indient.' }
+    ]
   },
   {
     sourceFile: 'sprintsubsidie-voorwaarden-blog.md',
@@ -16,7 +23,13 @@ export const BLOGS = [
     description: 'Welke projecten komen in aanmerking voor de Sprintsubsidie? Concrete voorbeelden van wat wel past, wat niet past, en waar de grens ligt.',
     ogImage: 'og-sprintsubsidie-voorwaarden-wat-komt-in-aanmerking.png',
     datePublished: '2026-05-11T13:00:00+02:00',
-    dateModified: '2026-05-11T13:00:00+02:00'
+    dateModified: '2026-05-11T13:00:00+02:00',
+    faqItems: [
+      { q: 'Wat komt in aanmerking voor de Sprintsubsidie?', a: 'Implementatie van bewezen technologie die nieuw is voor jouw bedrijf en je processen meetbaar verbetert. Binnen de thema\'s digitalisering, verduurzaming, circulariteit of arbeidsproductiviteit.' },
+      { q: 'Wat komt niet in aanmerking?', a: 'Eigen ontwikkeling, experimenten, proof-of-concepts zonder daadwerkelijke ingebruikname, en productontwikkeling. De regeling is voor implementatie, niet voor onderzoek of innovatie.' },
+      { q: 'Tellen trainingskosten mee?', a: 'Ja. De training van je team om met de nieuwe tools te leren werken is subsidiabel, zolang het direct samenhangt met de implementatie.' },
+      { q: 'Moet de oplossing al ergens anders draaien?', a: 'Ja. Het moet gaan om bewezen technologie die al bij andere bedrijven succesvol in gebruik is. Niet om iets dat nog ontwikkeld of getest moet worden.' }
+    ]
   },
   {
     sourceFile: 'sprintsubsidie-aanvragen-blog.md',
@@ -25,7 +38,16 @@ export const BLOGS = [
     description: 'Compleet stappenplan voor het aanvragen van de Sprintsubsidie MKB. Van voorbereiding tot indiening, vraag voor vraag uitgelegd.',
     ogImage: 'og-sprintsubsidie-aanvragen-stappenplan.png',
     datePublished: '2026-05-11T14:30:00+02:00',
-    dateModified: '2026-05-11T14:30:00+02:00'
+    dateModified: '2026-05-11T14:30:00+02:00',
+    howToName: 'Sprintsubsidie MKB aanvragen',
+    howToSteps: [
+      { name: 'Voorbereiding', text: 'Regel eHerkenning (niveau 2+) voor je bedrijf, vraag een MKB-verklaring aan bij RVO, vul de de-minimisverklaring in, en zorg dat je een duidelijk projectidee hebt met een meetbaar doel.' },
+      { name: 'Checklist doorlopen', text: 'Controleer of je voldoet aan de basisvoorwaarden: MKB in Limburg, geen zzp\'er of agrarisch bedrijf, project is implementatie van bewezen technologie, en valt binnen een van de vier thema\'s.' },
+      { name: 'Activiteitenplan opstellen', text: 'Beschrijf je project in heldere taal. Wat is het probleem nu, welke bewezen oplossing implementeer je, en welke meetbare verbetering verwacht je? Houd het concreet en specifiek.' },
+      { name: 'Begroting maken', text: 'Vul het officiele begrotingsformat in. Voer alle subsidiabele kosten op: externe uren, software-aanschaf, training en interne uren. Eigen bijdrage moet minimaal 25% zijn en niet uit andere subsidies komen.' },
+      { name: 'Nulmeting documenteren', text: 'Leg vast hoe je proces er nu uitziet, met cijfers. Hoeveel uur, hoeveel fouten, hoe lange doorlooptijd. Zonder nulmeting kun je later geen verbetering aantonen.' },
+      { name: 'Digitaal indienen via eHerkenning', text: 'Log in op het klantportaal van de Provincie Limburg met eHerkenning en dien je complete aanvraag in. Eerst compleet, dan snel: het budget gaat op volgorde van binnenkomst van volledige aanvragen.' }
+    ]
   },
   {
     sourceFile: 'sprintsubsidie-ai-blog.md',
