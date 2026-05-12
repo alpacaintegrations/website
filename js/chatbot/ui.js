@@ -82,35 +82,12 @@ function renderInline(text) {
     });
 }
 
-// Detecteer of de bot een contact-vraag stelt (mail/telefoon-voorkeur),
-// zodat we de knoppen ook tonen als de bot vergeet de QUICK_REPLIES markup
-// toe te voegen.
-function detectContactQuestion(text) {
-  const patterns = [
-    /per\s+(e-?\s?mail|telefoon)\s+of\s+(e-?\s?mail|telefoon)/i,
-    /telefoon\s+of\s+(e-?\s?mail)/i,
-    /(e-?\s?mail)\s+of\s+telefoon/i,
-    /bellen\s+of\s+mailen/i,
-    /mail\s+of\s+bel/i,
-    /(wat|hoe)\s+heeft\s+je\s+voorkeur/i,
-    /wil\s+je\s+(dat\s+)?(we|een\s+collega|een\s+(van\s+onze\s+)?expert)/i
-  ];
-  return patterns.some(p => p.test(text));
-}
-
 function extractQuickReplies(content) {
   const match = content.match(/\[QUICK_REPLIES:\s*([^\]]+)\]/);
-  if (match) {
-    const replies = match[1].split('|').map(r => r.trim()).filter(Boolean);
-    const text = content.replace(match[0], '').trim();
-    return { text, replies };
-  }
-  // Fallback: bot vergat de markup maar stelt wel een contact-vraag.
-  // Toon dan default knoppen zodat de UX consistent blijft.
-  if (detectContactQuestion(content)) {
-    return { text: content, replies: ['bel mij', 'mail mij', 'nog niet'] };
-  }
-  return { text: content, replies: null };
+  if (!match) return { text: content, replies: null };
+  const replies = match[1].split('|').map(r => r.trim()).filter(Boolean);
+  const text = content.replace(match[0], '').trim();
+  return { text, replies };
 }
 
 function renderMessage(content) {
