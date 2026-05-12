@@ -199,6 +199,19 @@ async function build() {
 
   const sizeKB = (Buffer.byteLength(JSON.stringify(workflow), 'utf8') / 1024).toFixed(1);
   console.log(`n8n-workflow.json geschreven (${sizeKB} KB, system prompt inline)`);
+
+  // Genereer ook een leesbaar .js bestand dat 1-op-1 in de n8n System Prompt
+  // Code-node kan worden geplakt. Bevat exact dezelfde code als in de workflow,
+  // alleen geformatteerd als plain JS (geen JSON-escapes).
+  const nodeJsPath = path.join(ROOT, 'docs', 'chatbot', 'system-prompt-node.js');
+  const codeNodeContent = workflow.nodes.find(n => n.name === 'System Prompt').parameters.jsCode;
+  const header = '// VOLLEDIGE CODE VOOR DE "System Prompt" CODE-NODE IN N8N\n' +
+                 '// Kopieer dit hele bestand (Cmd+A, Cmd+C) en plak in de Code-node\n' +
+                 '// (vervang wat daar nu staat).\n' +
+                 '// Gegenereerd door scripts/build-n8n-workflow.js — niet handmatig editen.\n\n';
+  await fs.writeFile(nodeJsPath, header + codeNodeContent + '\n', 'utf8');
+  const nodeKB = (Buffer.byteLength(codeNodeContent, 'utf8') / 1024).toFixed(1);
+  console.log(`system-prompt-node.js geschreven (${nodeKB} KB)`);
 }
 
 build().catch(err => {
