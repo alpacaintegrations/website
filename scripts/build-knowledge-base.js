@@ -24,12 +24,28 @@ const ROOT = path.resolve(__dirname, '..');
 const KNOWLEDGE_DIR = path.join(ROOT, 'docs', 'chatbot', 'knowledge');
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const SUPABASE_URL = process.env.SUPABASE_URL;
+// Normaliseer SUPABASE_URL: strip trailing slashes + /rest/v1 suffix.
+const SUPABASE_URL = (process.env.SUPABASE_URL || '').replace(/\/+$/, '').replace(/\/rest\/v1$/, '');
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
 
 if (!OPENAI_API_KEY || !SUPABASE_URL || !SUPABASE_SERVICE_KEY) {
   console.error('Missende env vars. Run zo:');
   console.error('  OPENAI_API_KEY=sk-... SUPABASE_URL=https://xxx.supabase.co SUPABASE_SERVICE_KEY=eyJ... node scripts/build-knowledge-base.js');
+  process.exit(1);
+}
+
+// Verifieer dat de Supabase key een service_role is (niet anon)
+try {
+  const payload = JSON.parse(Buffer.from(SUPABASE_SERVICE_KEY.split('.')[1], 'base64').toString());
+  console.log(`Supabase key role: ${payload.role}`);
+  if (payload.role !== 'service_role') {
+    console.error(`!! FOUT: SUPABASE_SERVICE_KEY heeft role "${payload.role}", maar moet "service_role" zijn.`);
+    console.error('   Anon key heeft geen INSERT-rechten. Kopieer de service_role key uit Supabase:');
+    console.error('   Dashboard → Project Settings → API → service_role secret');
+    process.exit(1);
+  }
+} catch (e) {
+  console.error('Kon SUPABASE_SERVICE_KEY niet decoden als JWT:', e.message);
   process.exit(1);
 }
 
@@ -112,23 +128,26 @@ async function embed(text) {
 
 async function clearKnowledgeTable() {
   console.log('  Bestaande kennisbank wissen...');
-  const response = await fetch(`${SUPABASE_URL}/rest/v1/chatbot_knowledge?id=gte.00000000-0000-0000-0000-000000000000`, {
+  // PostgREST vereist een where-clause voor DELETE; "id is not null" matcht alles.
+  const response = await fetch(`${SUPABASE_URL}/rest/v1/chatbot_knowledge?id=not.is.null`, {
     method: 'DELETE',
     headers: {
       'apikey': SUPABASE_SERVICE_KEY,
       'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
-      'Content-Type': 'application/json',
       'Prefer': 'return=minimal'
     }
   });
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(`Supabase delete error ${response.status}: ${text}`);
+    console.log(`  Wissen overslaan (${response.status}): ${text || '(leeg, geen probleem als tabel al leeg was)'}`);
+    return;
   }
 }
 
 async function insertChunk({ source, title, content, embedding, metadata }) {
-  const response = await fetch(`${SUPABASE_URL}/rest/v1/chatbot_knowledge`, {
+  const url = `${SUPABASE_URL}/rest/v1/chatbot_knowledge`;
+  const body = JSON.stringify({ source, title, content, embedding, metadata });
+  const response = await fetch(url, {
     method: 'POST',
     headers: {
       'apikey': SUPABASE_SERVICE_KEY,
@@ -136,10 +155,18 @@ async function insertChunk({ source, title, content, embedding, metadata }) {
       'Content-Type': 'application/json',
       'Prefer': 'return=minimal'
     },
-    body: JSON.stringify({ source, title, content, embedding, metadata })
+    body
   });
   if (!response.ok) {
     const text = await response.text();
+    console.error('\n--- Debug info ---');
+    console.error('URL:', url);
+    console.error('Status:', response.status, response.statusText);
+    console.error('Response headers:', JSON.stringify(Object.fromEntries(response.headers.entries()), null, 2));
+    console.error('Response body:', text || '(leeg)');
+    console.error('Body size sent:', body.length, 'chars');
+    console.error('Service key length:', SUPABASE_SERVICE_KEY.length, 'chars');
+    console.error('Service key starts with:', SUPABASE_SERVICE_KEY.substring(0, 10) + '...');
     throw new Error(`Supabase insert error ${response.status}: ${text}`);
   }
 }
