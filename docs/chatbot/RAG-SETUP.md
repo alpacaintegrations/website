@@ -19,14 +19,32 @@ Eenmalige inrichting om van "alles in system prompt" naar echte retrieval te gaa
 
 ## Stap 3 — Kennisbank embedden en uploaden (eenmalig + telkens als bronnen veranderen)
 
-In je terminal (vanuit de website-folder):
+**3a. Maak `.env` bestand aan**
 
-```bash
-OPENAI_API_KEY=sk-jouw-key \
-SUPABASE_URL=https://jouw-project.supabase.co \
-SUPABASE_SERVICE_KEY=jouw-service-role-key \
-node scripts/build-knowledge-base.js
+In de website-folder zit een `.env.example` bestand. Kopieer dat naar `.env`:
+
 ```
+copy .env.example .env
+```
+
+(of in Mac/Linux: `cp .env.example .env`)
+
+Open `.env` in je editor en vul de echte waarden in:
+- `OPENAI_API_KEY` — uit OpenAI (stap 2 hierboven)
+- `SUPABASE_URL` — uit Supabase dashboard → **Project Settings → Data API → Project URL**
+- `SUPABASE_SERVICE_KEY` — uit Supabase dashboard → **Project Settings → API → service_role key**
+
+`.env` is geignored in git, dus je keys komen nooit in de repo.
+
+**3b. Run het script**
+
+In je terminal (vanuit de website-folder), gewoon:
+
+```
+node --env-file=.env scripts/build-knowledge-base.js
+```
+
+Eén regel. Geen lange env-vars om te typen — die staan in `.env`.
 
 Het script:
 - Extract tekst uit alle .md, .docx en .pdf in `docs/chatbot/knowledge/`
