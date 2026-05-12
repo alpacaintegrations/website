@@ -8,16 +8,58 @@ const KNOWLEDGE_DIR = path.join(ROOT, 'docs', 'chatbot', 'knowledge');
 const BLOGS_DIR = path.join(ROOT, 'content', 'blogs');
 const OUTPUT_PATH = path.join(ROOT, 'docs', 'chatbot', 'system-prompt.md');
 
-const BLOG_TITLES = {
-  'sprintsubsidie-pillar-blog.md':           { title: 'Sprintsubsidie MKB Limburg 2026-2027: alles wat je moet weten', slug: 'sprintsubsidie-mkb-limburg-gids' },
-  'sprintsubsidie-voorwaarden-blog.md':      { title: 'Wat komt wel en niet in aanmerking voor de Sprintsubsidie?', slug: 'sprintsubsidie-voorwaarden-wat-komt-in-aanmerking' },
-  'sprintsubsidie-aanvragen-blog.md':        { title: 'Sprintsubsidie aanvragen: compleet stappenplan', slug: 'sprintsubsidie-aanvragen-stappenplan' },
-  'sprintsubsidie-ai-blog.md':               { title: 'AI implementeren met de Sprintsubsidie', slug: 'ai-implementeren-sprintsubsidie' },
-  'sprintsubsidie-automatisering-blog.md':   { title: 'Bedrijfsprocessen automatiseren met de Sprintsubsidie', slug: 'bedrijfsprocessen-automatiseren-sprintsubsidie' },
-  'sprintsubsidie-processen-blog.md':        { title: 'Hoe vind je de beste processen om te automatiseren', slug: 'beste-processen-automatiseren-bedrijf' },
-  'sprintsubsidie-tafelgasten-blog.md':      { title: 'Voorbeeld: administratie van een zakelijke opleider automatiseren', slug: 'sprintsubsidie-voorbeeld-administratie-automatiseren' },
-  'sprintsubsidie-ecommerce-blog.md':        { title: 'Voorbeeld: klantenservice automatiseren met AI', slug: 'sprintsubsidie-voorbeeld-klantenservice-ai' }
-};
+// Per blog: titel, slug en korte samenvatting (geen volledige content meer).
+// De bot weet WANNEER relevant te verwijzen, voor details verwijst hij gebruikers door.
+const BLOGS = [
+  {
+    file: 'sprintsubsidie-pillar-blog.md',
+    title: 'Sprintsubsidie MKB Limburg 2026-2027: alles wat je moet weten',
+    slug: 'sprintsubsidie-mkb-limburg-gids',
+    summary: 'De complete gids over de regeling: wat het is, voor wie, hoeveel je kunt krijgen, waarvoor je het kunt gebruiken, wat niet past, deadlines en hoe je het aanvraagt. Het overzichtsartikel — voor wie de regeling nog niet kent of een totaalbeeld wil.'
+  },
+  {
+    file: 'sprintsubsidie-voorwaarden-blog.md',
+    title: 'Wat komt wel en niet in aanmerking voor de Sprintsubsidie?',
+    slug: 'sprintsubsidie-voorwaarden-wat-komt-in-aanmerking',
+    summary: 'Diepgaande uitleg van de criteria: bewezen oplossing, nieuw voor jouw bedrijf, meetbare procesverbetering, vier thema\'s. Met concrete voorbeelden van wat WEL past (factuurverwerking, planningssoftware, AI-classificatie) en wat NIET past (eigen ontwikkeling, experimenten, productinnovatie) plus de grijze zone.'
+  },
+  {
+    file: 'sprintsubsidie-aanvragen-blog.md',
+    title: 'Sprintsubsidie aanvragen: compleet stappenplan',
+    slug: 'sprintsubsidie-aanvragen-stappenplan',
+    summary: 'Stap-voor-stap aanvraagproces: voorbereiding (eHerkenning, MKB-verklaring, de-minimisverklaring), het aanvraagformulier (alle 11 vragen toegelicht), activiteitenplan, begroting, nulmeting, indiening en deadlines per tranche.'
+  },
+  {
+    file: 'sprintsubsidie-ai-blog.md',
+    title: 'AI implementeren met de Sprintsubsidie',
+    slug: 'ai-implementeren-sprintsubsidie',
+    summary: 'Welke AI-toepassingen passen bij de regeling: documentverwerking, classificatie, slimme klantenservice, capaciteitsvoorspelling, kwaliteitscontrole, kennisontsluiting. Waar de grens ligt tussen implementatie (past) en ontwikkeling (past niet). Plus: wanneer is AI eigenlijk overkill en is simpele automatisering beter.'
+  },
+  {
+    file: 'sprintsubsidie-automatisering-blog.md',
+    title: 'Bedrijfsprocessen automatiseren met de Sprintsubsidie',
+    slug: 'bedrijfsprocessen-automatiseren-sprintsubsidie',
+    summary: 'Automatisering ZONDER AI — vaak goedkoper en betrouwbaarder. Veelvoorkomende kandidaten: orderverwerking, facturatie, voorraadbeheer, klantcommunicatie, planning, rapportage. Hoe je het project framet voor de aanvraag.'
+  },
+  {
+    file: 'sprintsubsidie-processen-blog.md',
+    title: 'Hoe vind je de beste processen om te automatiseren',
+    slug: 'beste-processen-automatiseren-bedrijf',
+    summary: 'Praktisch framework om in je eigen bedrijf de processen te vinden waar automatisering de meeste impact heeft. Welke vragen stel je, hoe meet je nulsituatie, hoe prioriteer je. Vooral relevant voor wie nog geen concreet project heeft.'
+  },
+  {
+    file: 'sprintsubsidie-tafelgasten-blog.md',
+    title: 'Voorbeeld: administratie van een zakelijke opleider automatiseren',
+    slug: 'sprintsubsidie-voorbeeld-administratie-automatiseren',
+    summary: 'Casus van een zakelijke opleider die de complete administratie heeft geautomatiseerd ZONDER AI. Van twee dagtaken naar minuten per week, met bestaande tools en slimme koppelingen. Inclusief proceskaart voor en na, en uitleg waarom dit project past bij de Sprintsubsidie.'
+  },
+  {
+    file: 'sprintsubsidie-ecommerce-blog.md',
+    title: 'Voorbeeld: klantenservice automatiseren met AI',
+    slug: 'sprintsubsidie-voorbeeld-klantenservice-ai',
+    summary: 'Casus van een e-commerce verkoper die klantenservice automatiseerde MET AI. 80% van de vragen automatisch beantwoord, in de juiste toon per merk. Uitleg waarom AI hier wel zinvol is (ongestructureerde input, toonvariatie) terwijl het in de andere case (tafelgasten) overbodig was.'
+  }
+];
 
 const PERSONA = `# AI subsidie assistent — system prompt
 
@@ -217,15 +259,13 @@ async function build() {
   sections.push('\n\n---\n\n## Kennisbank: Achtergrondonderzoek Sprintsubsidie\n\n');
   sections.push(await fs.readFile(path.join(KNOWLEDGE_DIR, 'deep-research-report.md'), 'utf8'));
 
-  // Alpaca expertise via blogs
-  sections.push('\n\n---\n\n## Kennisbank: Alpaca expertise — automatiseren en AI-implementatie\n\n');
-  sections.push('De volgende artikelen zijn op alpacaintegrations.ai gepubliceerd. Gebruik deze inhoud bij vragen over automatisering, AI vs. vaste logica, project-framing voor de subsidie, en als bron voor verwijzingen.\n\n');
+  // Blog-overzicht: titel + URL + samenvatting (geen volledige content meer).
+  // Voor verdieping verwijst de bot gebruikers door via verwijs_blog of markdown-link.
+  sections.push('\n\n---\n\n## Beschikbare blogs op alpacaintegrations.ai\n\n');
+  sections.push('Verwijs gebruikers naar deze blogs voor verdieping. Citeer de inhoud NIET — verwijs door met een korte samenvatting waarom de blog relevant is, en plak een link naar /blog/<slug> of gebruik de verwijs_blog tool.\n\n');
 
-  for (const [filename, meta] of Object.entries(BLOG_TITLES)) {
-    const content = await fs.readFile(path.join(BLOGS_DIR, filename), 'utf8');
-    sections.push(`\n### ${meta.title}\nURL: /blog/${meta.slug}\n\n`);
-    sections.push(content);
-    sections.push('\n');
+  for (const blog of BLOGS) {
+    sections.push(`### ${blog.title}\nURL: /blog/${blog.slug}\n${blog.summary}\n\n`);
   }
 
   const output = sections.join('');
