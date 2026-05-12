@@ -54,4 +54,4 @@ Dit project past bij de [Sprintsubsidie MKB](link) omdat het gaat om de implemen
 
 De Sprint subsidie vergoedt tot 50% van de implementatiekosten, met een maximum van 24.500 euro per MKB-bedrijf in Limburg. De kosten die je opvoert zijn de uren van de externe specialist die het systeem configureert, de eenmalige softwarekosten, en de training van het team. Lees onze blog over [wat wel en niet in aanmerking komt](link) voor de details, of bekijk het [complete stappenplan voor het aanvragen](link).
 
-Herken je dit soort situatie in jouw bedrijf? Stel je vraag aan onze [subsidie-assistent](link) of [plan een vrijblijvend gesprek](link). Alpaca Integrations helpt je met het identificeren van het juiste proces en neemt de implementatie over.
+Herken je dit soort situatie in jouw bedrijf? Alpaca Integrations helpt je met het identificeren van het juiste proces en neemt de implementatie over.

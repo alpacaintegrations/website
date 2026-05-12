@@ -26,8 +26,6 @@ Nog een belangrijk punt: je kunt als bedrijf maar een keer subsidie krijgen uit 
 
 Samenwerkingsverbanden van minimaal twee MKB-bedrijven kunnen ook aanvragen. In dat geval is het maximale subsidiebedrag 100.000 euro voor het geheel, maar nog steeds maximaal 24.500 euro per deelnemend bedrijf.
 
-*Twijfel je of jouw bedrijf en project in aanmerking komen? Stel je vraag aan onze [subsidie-assistent](link). Die kent de regeling van binnen en buiten en geeft je direct antwoord.*
-
 ## Hoeveel subsidie kun je krijgen?
 
 De bedragen zijn helder:

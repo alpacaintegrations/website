@@ -60,4 +60,4 @@ Dit soort project is precies waar de [Sprintsubsidie MKB](link) voor bedoeld is.
 
 De kosten die je opvoert bij de aanvraag zijn de uren van de externe specialist die de workflows configureert en de koppelingen bouwt, de eenmalige softwarekosten, de training van het team om met het nieuwe systeem te werken, en de interne uren die het bedrijf zelf besteedt aan de implementatie. Lees onze blog over [wat wel en niet in aanmerking komt](link) voor de details, of bekijk het [complete stappenplan voor het aanvragen](link).
 
-Herken je dit soort handmatig werk in jouw bedrijf? Stel je vraag aan onze [subsidie-assistent](link) of [plan een vrijblijvend gesprek](link). Alpaca Integrations helpt je met het identificeren van het juiste proces en neemt de implementatie over.
+Herken je dit soort handmatig werk in jouw bedrijf? Alpaca Integrations helpt je met het identificeren van het juiste proces en neemt de implementatie over.

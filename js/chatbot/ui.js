@@ -203,7 +203,13 @@ export function buildCtaBlock(onClick) {
   block.className = 'chatbot-cta-block';
   block.innerHTML = `
     <p><strong>${escapeHtml(CTA_TITLE)}</strong><br>${escapeHtml(CTA_SUBTITLE)}</p>
-    <button class="chatbot-cta-btn" type="button">${escapeHtml(CTA_BUTTON)}</button>
+    <div class="chatbot-cta-actions">
+      <button class="chatbot-cta-btn" type="button">${escapeHtml(CTA_BUTTON)}</button>
+      <p class="chatbot-cta-alt">Of liever direct contact?
+        <a href="https://outlook.office365.com/book/Alpacaintegrations1@alpacaintegrations.ai/" target="_blank" rel="noopener">Plan een gesprek</a>
+        of <a href="mailto:letstalk@alpacaintegrations.ai">stuur een mailtje</a>.
+      </p>
+    </div>
   `;
   block.querySelector('.chatbot-cta-btn').addEventListener('click', onClick);
   return block;

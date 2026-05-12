@@ -64,4 +64,4 @@ Noem de bestaande tools en software bij naam. Niet "we gaan AI inzetten" maar "w
 
 Vergeet de training niet in je begroting. De uren die je team besteedt aan het leren werken met de nieuwe AI-tools zijn subsidiabel. Dat is een substantieel deel van een AI-implementatie en het laat de beoordelaar zien dat je nadenkt over daadwerkelijke ingebruikname, niet alleen over techniek.
 
-Benieuwd of jouw AI-project in aanmerking komt? Lees eerst [hoe je de beste processen vindt om te automatiseren](link), stel je vraag aan onze [subsidie-assistent](link) die gespecialiseerd is in de Sprintsubsidie, of [plan een vrijblijvend gesprek](link).
+Benieuwd of jouw AI-project in aanmerking komt? Lees eerst [hoe je de beste processen vindt om te automatiseren](link).

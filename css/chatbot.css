@@ -263,3 +263,22 @@
   text-decoration: none;
 }
 .chatbot-cta-btn:hover { background: var(--chat-pink-dark); }
+
+.chatbot-cta-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  align-items: flex-start;
+}
+.chatbot-cta-alt {
+  font-size: 0.95rem;
+  color: var(--chat-text-light);
+  margin: 0;
+}
+.chatbot-cta-alt a {
+  color: #60a5fa;
+  text-decoration: underline;
+}
+.chatbot-cta-alt a:hover {
+  color: #93c5fd;
+}

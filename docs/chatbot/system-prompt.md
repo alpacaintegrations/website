@@ -771,8 +771,6 @@ Nog een belangrijk punt: je kunt als bedrijf maar een keer subsidie krijgen uit 
 
 Samenwerkingsverbanden van minimaal twee MKB-bedrijven kunnen ook aanvragen. In dat geval is het maximale subsidiebedrag 100.000 euro voor het geheel, maar nog steeds maximaal 24.500 euro per deelnemend bedrijf.
 
-*Twijfel je of jouw bedrijf en project in aanmerking komen? Stel je vraag aan onze [subsidie-assistent](link). Die kent de regeling van binnen en buiten en geeft je direct antwoord.*
-
 ## Hoeveel subsidie kun je krijgen?
 
 De bedragen zijn helder:
@@ -984,7 +982,7 @@ De regeling is geschreven in subsidietaal. Jij denkt in tools en processen. Die 
 
 **Gebruik de taal van de regeling.** Woorden als "implementatie", "ingebruikname", "configuratie", "bestaande oplossing" en "procesverbetering" sluiten aan bij hoe de regeling leest. Woorden als "experiment", "pilot", "proof-of-concept", "innovatieproject" of "doorontwikkeling" horen bij andere regelingen en sturen de beoordelaar de verkeerde kant op. En laat het interessante technische jargon achterwege. De beoordelaar is geen developer. Schrijf niet over API-koppelingen, webhooks of RAG-pipelines, maar over wat het doet: "automatische gegevensuitwisseling tussen systemen" of "slimme documentverwerking". Duidelijke taal, het beestje bij zijn naam.
 
-Twijfel je nog steeds of jouw project past? Lees dan ook het [complete stappenplan voor het aanvragen van de Sprintsubsidie](link). Of stel je vraag aan onze [subsidie-assistent](link) of [plan een vrijblijvend gesprek](link). We kijken samen of het past en helpen je het helder op papier te zetten.
+Twijfel je nog steeds of jouw project past? Lees dan ook het [complete stappenplan voor het aanvragen van de Sprintsubsidie](link).
 
 
 ### Sprintsubsidie aanvragen: compleet stappenplan
@@ -1108,7 +1106,6 @@ De Sprintsubsidie valt onder arrangement 1 (subsidie tot 25.000 euro): dat betek
 
 De Sprintsubsidie betaalt voor de implementatie, maar je hebt wel iemand nodig die het werk doet. Alpaca Integrations helpt MKB-bedrijven met precies het soort projecten waar deze subsidie voor bedoeld is. We helpen je met het identificeren van het juiste proces, nemen de implementatie en training over, en zorgen dat je project voldoet aan de eisen van de regeling.
 
-Benieuwd of jouw project past? Stel je vraag aan onze [subsidie-assistent](link) of [plan een vrijblijvend gesprek](link).
 
 
 ### AI implementeren met de Sprintsubsidie
@@ -1180,7 +1177,7 @@ Noem de bestaande tools en software bij naam. Niet "we gaan AI inzetten" maar "w
 
 Vergeet de training niet in je begroting. De uren die je team besteedt aan het leren werken met de nieuwe AI-tools zijn subsidiabel. Dat is een substantieel deel van een AI-implementatie en het laat de beoordelaar zien dat je nadenkt over daadwerkelijke ingebruikname, niet alleen over techniek.
 
-Benieuwd of jouw AI-project in aanmerking komt? Lees eerst [hoe je de beste processen vindt om te automatiseren](link), stel je vraag aan onze [subsidie-assistent](link) die gespecialiseerd is in de Sprintsubsidie, of [plan een vrijblijvend gesprek](link).
+Benieuwd of jouw AI-project in aanmerking komt? Lees eerst [hoe je de beste processen vindt om te automatiseren](link).
 
 
 ### Bedrijfsprocessen automatiseren met de Sprintsubsidie
@@ -1259,7 +1256,7 @@ Je kunt als bedrijf maar een keer subsidie krijgen uit de Sprintsubsidie. Dat be
 
 Alpaca Integrations is gespecialiseerd in het identificeren van de processen waar de meeste winst zit, en het implementeren van de automatisering die daar het beste bij past. We kijken samen naar je bedrijfsvoering, kiezen het project met de hoogste impact, en nemen de bouw, implementatie en training over. Jij krijgt de subsidie, wij doen het werk.
 
-Benieuwd waar voor jou de grootste winst zit? Lees eerst [hoe je de beste processen vindt om te automatiseren](link), stel je vraag aan onze [subsidie-assistent](link) of [plan een vrijblijvend gesprek](link).
+Benieuwd waar voor jou de grootste winst zit? Lees eerst [hoe je de beste processen vindt om te automatiseren](link).
 
 
 ### Hoe vind je de beste processen om te automatiseren
@@ -1344,7 +1341,7 @@ Neem de taken die je hebt geidentificeerd en breek ze op in losse stappen. Bekij
 
 In Claude kun je hier skills voor maken: specifieke instructies voor een bepaalde taak die Claude opslaat en automatisch gebruikt zodra het relevant is. Je maakt ze een keer aan en daarna hoef je bij elke vergelijkbare taak niks meer uit te leggen. De output is in een keer goed. Een training om je team hiermee te laten werken is trouwens ook subsidiabel via de Sprintsubsidie.
 
-Benieuwd welke processen in jouw bedrijf het meeste opleveren? Stel je vraag aan onze [subsidie-assistent](link) of [plan een vrijblijvend gesprek](link). Alpaca Integrations helpt je met het vinden van de juiste kansen en neemt de implementatie over. En als je in Limburg zit, kun je daar met de Sprintsubsidie tot de helft van de kosten voor terugkrijgen.
+Benieuwd welke processen in jouw bedrijf het meeste opleveren? Alpaca Integrations helpt je met het vinden van de juiste kansen en neemt de implementatie over. En als je in Limburg zit, kun je daar met de Sprintsubsidie tot de helft van de kosten voor terugkrijgen.
 
 
 ### Voorbeeld: administratie van een zakelijke opleider automatiseren
@@ -1412,7 +1409,7 @@ Dit soort project is precies waar de [Sprintsubsidie MKB](link) voor bedoeld is.
 
 De kosten die je opvoert bij de aanvraag zijn de uren van de externe specialist die de workflows configureert en de koppelingen bouwt, de eenmalige softwarekosten, de training van het team om met het nieuwe systeem te werken, en de interne uren die het bedrijf zelf besteedt aan de implementatie. Lees onze blog over [wat wel en niet in aanmerking komt](link) voor de details, of bekijk het [complete stappenplan voor het aanvragen](link).
 
-Herken je dit soort handmatig werk in jouw bedrijf? Stel je vraag aan onze [subsidie-assistent](link) of [plan een vrijblijvend gesprek](link). Alpaca Integrations helpt je met het identificeren van het juiste proces en neemt de implementatie over.
+Herken je dit soort handmatig werk in jouw bedrijf? Alpaca Integrations helpt je met het identificeren van het juiste proces en neemt de implementatie over.
 
 
 ### Voorbeeld: klantenservice automatiseren met AI
@@ -1474,5 +1471,5 @@ Dit project past bij de [Sprintsubsidie MKB](link) omdat het gaat om de implemen
 
 De Sprint subsidie vergoedt tot 50% van de implementatiekosten, met een maximum van 24.500 euro per MKB-bedrijf in Limburg. De kosten die je opvoert zijn de uren van de externe specialist die het systeem configureert, de eenmalige softwarekosten, en de training van het team. Lees onze blog over [wat wel en niet in aanmerking komt](link) voor de details, of bekijk het [complete stappenplan voor het aanvragen](link).
 
-Herken je dit soort situatie in jouw bedrijf? Stel je vraag aan onze [subsidie-assistent](link) of [plan een vrijblijvend gesprek](link). Alpaca Integrations helpt je met het identificeren van het juiste proces en neemt de implementatie over.
+Herken je dit soort situatie in jouw bedrijf? Alpaca Integrations helpt je met het identificeren van het juiste proces en neemt de implementatie over.
 

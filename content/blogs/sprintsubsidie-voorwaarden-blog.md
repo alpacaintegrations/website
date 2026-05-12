@@ -92,4 +92,4 @@ De regeling is geschreven in subsidietaal. Jij denkt in tools en processen. Die 
 
 **Gebruik de taal van de regeling.** Woorden als "implementatie", "ingebruikname", "configuratie", "bestaande oplossing" en "procesverbetering" sluiten aan bij hoe de regeling leest. Woorden als "experiment", "pilot", "proof-of-concept", "innovatieproject" of "doorontwikkeling" horen bij andere regelingen en sturen de beoordelaar de verkeerde kant op. En laat het interessante technische jargon achterwege. De beoordelaar is geen developer. Schrijf niet over API-koppelingen, webhooks of RAG-pipelines, maar over wat het doet: "automatische gegevensuitwisseling tussen systemen" of "slimme documentverwerking". Duidelijke taal, het beestje bij zijn naam.
 
-Twijfel je nog steeds of jouw project past? Lees dan ook het [complete stappenplan voor het aanvragen van de Sprintsubsidie](link). Of stel je vraag aan onze [subsidie-assistent](link) of [plan een vrijblijvend gesprek](link). We kijken samen of het past en helpen je het helder op papier te zetten.
+Twijfel je nog steeds of jouw project past? Lees dan ook het [complete stappenplan voor het aanvragen van de Sprintsubsidie](link).

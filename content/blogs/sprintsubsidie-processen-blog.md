@@ -77,4 +77,4 @@ Neem de taken die je hebt geidentificeerd en breek ze op in losse stappen. Bekij
 
 In Claude kun je hier skills voor maken: specifieke instructies voor een bepaalde taak die Claude opslaat en automatisch gebruikt zodra het relevant is. Je maakt ze een keer aan en daarna hoef je bij elke vergelijkbare taak niks meer uit te leggen. De output is in een keer goed. Een training om je team hiermee te laten werken is trouwens ook subsidiabel via de Sprintsubsidie.
 
-Benieuwd welke processen in jouw bedrijf het meeste opleveren? Stel je vraag aan onze [subsidie-assistent](link) of [plan een vrijblijvend gesprek](link). Alpaca Integrations helpt je met het vinden van de juiste kansen en neemt de implementatie over. En als je in Limburg zit, kun je daar met de Sprintsubsidie tot de helft van de kosten voor terugkrijgen.
+Benieuwd welke processen in jouw bedrijf het meeste opleveren? Alpaca Integrations helpt je met het vinden van de juiste kansen en neemt de implementatie over. En als je in Limburg zit, kun je daar met de Sprintsubsidie tot de helft van de kosten voor terugkrijgen.

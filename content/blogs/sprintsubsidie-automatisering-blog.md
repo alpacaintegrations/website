@@ -71,4 +71,4 @@ Je kunt als bedrijf maar een keer subsidie krijgen uit de Sprintsubsidie. Dat be
 
 Alpaca Integrations is gespecialiseerd in het identificeren van de processen waar de meeste winst zit, en het implementeren van de automatisering die daar het beste bij past. We kijken samen naar je bedrijfsvoering, kiezen het project met de hoogste impact, en nemen de bouw, implementatie en training over. Jij krijgt de subsidie, wij doen het werk.
 
-Benieuwd waar voor jou de grootste winst zit? Lees eerst [hoe je de beste processen vindt om te automatiseren](link), stel je vraag aan onze [subsidie-assistent](link) of [plan een vrijblijvend gesprek](link).
+Benieuwd waar voor jou de grootste winst zit? Lees eerst [hoe je de beste processen vindt om te automatiseren](link).

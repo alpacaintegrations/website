@@ -116,4 +116,3 @@ De Sprintsubsidie valt onder arrangement 1 (subsidie tot 25.000 euro): dat betek
 
 De Sprintsubsidie betaalt voor de implementatie, maar je hebt wel iemand nodig die het werk doet. Alpaca Integrations helpt MKB-bedrijven met precies het soort projecten waar deze subsidie voor bedoeld is. We helpen je met het identificeren van het juiste proces, nemen de implementatie en training over, en zorgen dat je project voldoet aan de eisen van de regeling.
 
-Benieuwd of jouw project past? Stel je vraag aan onze [subsidie-assistent](link) of [plan een vrijblijvend gesprek](link).
