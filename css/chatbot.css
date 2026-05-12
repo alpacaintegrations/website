@@ -141,6 +141,32 @@
 }
 .chatbot-msg-user strong { color: var(--chat-text-white); }
 
+/* Quick reply knoppen (bel/mail/nog niet etc) */
+.chatbot-quick-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0 4px 12px;
+  align-self: flex-start;
+  max-width: 90%;
+}
+.chatbot-quick-reply-btn {
+  background: transparent;
+  color: var(--chat-pink);
+  border: 1.5px solid var(--chat-pink);
+  border-radius: 18px;
+  padding: 7px 14px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.chatbot-quick-reply-btn:hover {
+  background: var(--chat-pink);
+  color: var(--chat-text-white);
+}
+
 /* Typing indicator */
 .chatbot-typing {
   display: inline-block;

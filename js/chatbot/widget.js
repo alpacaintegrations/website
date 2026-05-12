@@ -25,9 +25,9 @@ function init() {
     if (messagesContainer.children.length === 0) {
       const existing = state.getMessages();
       if (existing.length === 0) {
-        appendMessage(panel, 'assistant', WELCOME_MESSAGE);
+        appendMessage(panel, 'assistant', WELCOME_MESSAGE, handleSend);
       } else {
-        existing.forEach(m => appendMessage(panel, m.role, m.content));
+        existing.forEach(m => appendMessage(panel, m.role, m.content, handleSend));
       }
     }
     panel.querySelector('.chatbot-input').focus();
@@ -51,12 +51,13 @@ function init() {
         history: state.getMessages().slice(0, -1)
       });
       hideTyping(panel);
-      appendMessage(panel, 'assistant', result.assistant_message);
+      appendMessage(panel, 'assistant', result.assistant_message, handleSend);
       state.addMessage('assistant', result.assistant_message);
     } catch (err) {
       hideTyping(panel);
       appendMessage(panel, 'assistant',
-        'Sorry, er ging iets mis. Probeer het zo nog eens — of stuur een mailtje naar [letstalk@alpacaintegrations.ai](mailto:letstalk@alpacaintegrations.ai).'
+        'Sorry, er ging iets mis. Probeer het zo nog eens — of stuur een mailtje naar [letstalk@alpacaintegrations.ai](mailto:letstalk@alpacaintegrations.ai).',
+        handleSend
       );
       console.error('Chatbot error:', err);
     }

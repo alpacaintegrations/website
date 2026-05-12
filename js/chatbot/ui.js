@@ -82,6 +82,14 @@ function renderInline(text) {
     });
 }
 
+function extractQuickReplies(content) {
+  const match = content.match(/\[QUICK_REPLIES:\s*([^\]]+)\]/);
+  if (!match) return { text: content, replies: null };
+  const replies = match[1].split('|').map(r => r.trim()).filter(Boolean);
+  const text = content.replace(match[0], '').trim();
+  return { text, replies };
+}
+
 function renderMessage(content) {
   const escaped = escapeHtml(content);
   const lines = escaped.split('\n');
@@ -111,12 +119,41 @@ function renderMessage(content) {
   return blocks.join('');
 }
 
-export function appendMessage(panel, role, content) {
+export function appendMessage(panel, role, content, onQuickReply) {
   const messages = panel.querySelector('.chatbot-messages');
   const div = document.createElement('div');
   div.className = `chatbot-msg chatbot-msg-${role}`;
-  div.innerHTML = renderMessage(content);
+
+  // Strip quick-replies markup uit assistant berichten; toon ze als knoppen
+  let textPart = content;
+  let replies = null;
+  if (role === 'assistant') {
+    const extracted = extractQuickReplies(content);
+    textPart = extracted.text;
+    replies = extracted.replies;
+  }
+
+  div.innerHTML = renderMessage(textPart);
   messages.appendChild(div);
+
+  if (replies && replies.length > 0 && onQuickReply) {
+    const wrap = document.createElement('div');
+    wrap.className = 'chatbot-quick-replies';
+    for (const r of replies) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'chatbot-quick-reply-btn';
+      btn.textContent = r;
+      btn.addEventListener('click', () => {
+        // Verwijder de knoppen na klik (eenmalig)
+        wrap.remove();
+        onQuickReply(r);
+      });
+      wrap.appendChild(btn);
+    }
+    messages.appendChild(wrap);
+  }
+
   messages.scrollTop = messages.scrollHeight;
 }
 
