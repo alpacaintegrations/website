@@ -36,13 +36,47 @@ async function build() {
       },
       {
         "parameters": {
-          "jsCode": `// System prompt voor de AI subsidie assistent.\n// Pas hier de tekst aan als je de bot wil herprogrammeren.\nconst systemPrompt = ${promptJson};\n\n// Bouw het volledige Anthropic request-body hier zodat de HTTP Request\n// node geen JSON-string-escaping hoeft te doen voor de $() calls.\nconst history = $('Webhook').first().json.body.history || [];\nconst userMessage = $('Webhook').first().json.body.user_message;\n\nconst requestBody = {\n  model: 'claude-opus-4-7',\n  max_tokens: 1024,\n  system: [{\n    type: 'text',\n    text: systemPrompt,\n    cache_control: { type: 'ephemeral' }\n  }],\n  messages: history.concat([{ role: 'user', content: userMessage }]),\n  tools: [\n    {\n      name: 'lead_capture',\n      description: 'Sla contactgegevens op van een potentiele lead. Gebruik alleen nadat de gebruiker expliciet heeft aangegeven dat ze contact willen.',\n      input_schema: {\n        type: 'object',\n        properties: {\n          naam: { type: 'string' },\n          contact_voorkeur: { type: 'string', enum: ['email', 'telefoon'] },\n          email: { type: 'string' },\n          telefoon: { type: 'string' },\n          beste_moment: { type: 'string' },\n          context: { type: 'string' }\n        },\n        required: ['naam', 'contact_voorkeur', 'context']\n      }\n    },\n    {\n      name: 'verwijs_blog',\n      description: 'Verwijs de gebruiker naar een relevante blogpost voor meer informatie.',\n      input_schema: {\n        type: 'object',\n        properties: {\n          blog: { type: 'string', enum: ['pillar', 'voorwaarden', 'ai', 'automatisering', 'processen', 'tafelgasten', 'ecommerce', 'aanvragen'] }\n        },\n        required: ['blog']\n      }\n    }\n  ]\n};\n\nreturn [{ json: { systemPrompt, requestBody } }];`
+          "jsCode": `// System prompt voor de AI subsidie assistent.\nconst systemPrompt = ${promptJson};\n\n// Retrieved kennisbank-chunks van Retrieve Knowledge node (Supabase RPC).\n// De response is een JSON-array van chunks met { id, source, title, content, similarity }.\nconst retrieveResp = $('Retrieve Knowledge').first().json;\nconst retrievedChunks = Array.isArray(retrieveResp) ? retrieveResp : [];\nconst contextBlocks = retrievedChunks\n  .filter(c => c && c.content)\n  .map((c, i) => \`[Chunk \${i + 1}] Bron: \${c.source || 'onbekend'}\${c.title ? ' - ' + c.title : ''}\\n\${c.content}\`)\n  .join('\\n\\n---\\n\\n');\n\nconst kennisbankContext = contextBlocks\n  ? \`Hier zijn de meest relevante stukken uit de officiele kennisbank voor deze vraag. Gebruik deze als primaire bron:\\n\\n\${contextBlocks}\`\n  : 'Geen specifieke kennisbank-context gevonden voor deze vraag. Antwoord op basis van basis-feiten en bied aan om door te verwijzen.';\n\nconst history = $('Webhook').first().json.body.history || [];\nconst userMessage = $('Webhook').first().json.body.user_message;\n\n// Injecteer kennisbank als extra user message vlak voor de echte vraag\nconst messages = [\n  ...history,\n  { role: 'user', content: \`<kennisbank>\\n\${kennisbankContext}\\n</kennisbank>\\n\\n\${userMessage}\` }\n];\n\nconst requestBody = {\n  model: 'claude-opus-4-7',\n  max_tokens: 1024,\n  system: [{\n    type: 'text',\n    text: systemPrompt,\n    cache_control: { type: 'ephemeral' }\n  }],\n  messages,\n  tools: [\n    {\n      name: 'lead_capture',\n      description: 'Sla contactgegevens op van een potentiele lead. Gebruik alleen nadat de gebruiker expliciet heeft aangegeven dat ze contact willen.',\n      input_schema: {\n        type: 'object',\n        properties: {\n          naam: { type: 'string' },\n          contact_voorkeur: { type: 'string', enum: ['email', 'telefoon'] },\n          email: { type: 'string' },\n          telefoon: { type: 'string' },\n          beste_moment: { type: 'string' },\n          context: { type: 'string' }\n        },\n        required: ['naam', 'contact_voorkeur', 'context']\n      }\n    },\n    {\n      name: 'verwijs_blog',\n      description: 'Verwijs de gebruiker naar een relevante blogpost voor meer informatie.',\n      input_schema: {\n        type: 'object',\n        properties: {\n          blog: { type: 'string', enum: ['pillar', 'voorwaarden', 'ai', 'automatisering', 'processen', 'tafelgasten', 'ecommerce', 'aanvragen'] }\n        },\n        required: ['blog']\n      }\n    }\n  ]\n};\n\nreturn [{ json: { systemPrompt, requestBody } }];`
         },
         "name": "System Prompt",
         "type": "n8n-nodes-base.code",
         "typeVersion": 2,
-        "position": [460, 300],
+        "position": [900, 300],
         "id": "node-system-prompt"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Embed user message via OpenAI text-embedding-3-small.\n// Vereist OpenAI credential met API key (zie SETUP).\nconst openaiKey = 'YOUR_OPENAI_KEY';\n\nconst userMessage = $('Webhook').first().json.body.user_message;\n\nconst response = await this.helpers.httpRequest({\n  method: 'POST',\n  url: 'https://api.openai.com/v1/embeddings',\n  headers: {\n    'Authorization': `Bearer ${openaiKey}`,\n    'Content-Type': 'application/json'\n  },\n  body: {\n    input: userMessage,\n    model: 'text-embedding-3-small'\n  },\n  json: true\n});\n\nconst embedding = response.data[0].embedding;\nreturn [{ json: { embedding, userMessage } }];"
+        },
+        "name": "Embed Query",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [460, 300],
+        "id": "node-embed-query"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "={{ $vars.SUPABASE_URL }}/rest/v1/rpc/match_chunks",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              { "name": "apikey", "value": "={{ $vars.SUPABASE_SERVICE_KEY }}" },
+              { "name": "Authorization", "value": "=Bearer {{ $vars.SUPABASE_SERVICE_KEY }}" },
+              { "name": "Content-Type", "value": "application/json" }
+            ]
+          },
+          "sendBody": true,
+          "contentType": "raw",
+          "rawContentType": "application/json",
+          "body": "=JSON.stringify({ query_embedding: $('Embed Query').first().json.embedding, match_count: 5 })",
+          "options": {}
+        },
+        "name": "Retrieve Knowledge",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [680, 300],
+        "id": "node-retrieve"
       },
       {
         "parameters": {
@@ -171,6 +205,12 @@ async function build() {
     ],
     "connections": {
       "Webhook": {
+        "main": [[{ "node": "Embed Query", "type": "main", "index": 0 }]]
+      },
+      "Embed Query": {
+        "main": [[{ "node": "Retrieve Knowledge", "type": "main", "index": 0 }]]
+      },
+      "Retrieve Knowledge": {
         "main": [[{ "node": "System Prompt", "type": "main", "index": 0 }]]
       },
       "System Prompt": {

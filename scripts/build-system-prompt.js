@@ -252,21 +252,18 @@ Roep deze tool aan om de gebruiker te verwijzen naar een specifiek blog voor ver
 async function build() {
   const sections = [PERSONA];
 
-  // Subsidie kennisbank
-  sections.push('\n---\n\n## Kennisbank: Sprintsubsidie regelgeving\n\n');
-  sections.push(await fs.readFile(path.join(KNOWLEDGE_DIR, 'sprintsubsidie-ruwe-kennisbank.md'), 'utf8'));
-
-  sections.push('\n\n---\n\n## Kennisbank: Achtergrondonderzoek Sprintsubsidie\n\n');
-  sections.push(await fs.readFile(path.join(KNOWLEDGE_DIR, 'deep-research-report.md'), 'utf8'));
-
-  // Blog-overzicht: titel + URL + samenvatting (geen volledige content meer).
+  // Blog-overzicht: titel + URL + samenvatting.
   // Voor verdieping verwijst de bot gebruikers door via verwijs_blog of markdown-link.
+  // De kennisbank zelf zit in Supabase pgvector — wordt per query opgehaald.
   sections.push('\n\n---\n\n## Beschikbare blogs op alpacaintegrations.ai\n\n');
   sections.push('Verwijs gebruikers naar deze blogs voor verdieping. Citeer de inhoud NIET — verwijs door met een korte samenvatting waarom de blog relevant is, en plak een link naar /blog/<slug> of gebruik de verwijs_blog tool.\n\n');
 
   for (const blog of BLOGS) {
     sections.push(`### ${blog.title}\nURL: /blog/${blog.slug}\n${blog.summary}\n\n`);
   }
+
+  // Belangrijke kennisbank-instructie aan het einde
+  sections.push('\n\n---\n\n## Kennisbank — retrieval\n\nVoor elke vraag krijg je AUTOMATISCH de meest relevante stukken uit de officiele kennisbank meegestuurd in een extra "Kennisbank context"-bericht. Gebruik die context als bron voor je antwoord — dat zijn de officiele teksten van de Provincie Limburg (regeltekst, FAQs, aanvraagformulier, de-minimis verklaring) plus achtergrondonderzoek. Citeer en parafraseer daaruit, niet uit eigen kennis.\n\nAls de context geen antwoord bevat op de vraag, zeg dat dan eerlijk en bied aan om de gebruiker door te verwijzen naar het officiele subsidieloket of een collega.\n');
 
   const output = sections.join('');
   await fs.writeFile(OUTPUT_PATH, output, 'utf8');
@@ -276,11 +273,6 @@ async function build() {
   console.log(`system-prompt.md geschreven`);
   console.log(`  Karakters: ${chars.toLocaleString()}`);
   console.log(`  Geschatte tokens: ${estimatedTokens.toLocaleString()}`);
-
-  if (estimatedTokens > 80000) {
-    console.error('WAARSCHUWING: system prompt > 80k tokens, te groot voor effectieve caching.');
-    process.exit(1);
-  }
 }
 
 build().catch(err => {
