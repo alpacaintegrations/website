@@ -227,6 +227,84 @@
             color: rgba(226, 232, 240, 0.5);
             margin: 1.5rem 0;
         }
+        .blog-video-banner {
+            background: var(--darker-bg);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-left: 4px solid var(--pink);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 0 0 2rem;
+        }
+        .blog-video-meta {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: rgba(226, 232, 240, 0.7);
+            margin-bottom: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .blog-video-intro {
+            font-size: 1.05rem;
+            margin: 0 0 1rem;
+            color: var(--text-white);
+            line-height: 1.45;
+        }
+        .blog-video-play {
+            position: relative;
+            display: block;
+            width: 100%;
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+            padding: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+        }
+        .blog-video-play img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .blog-video-play::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(15, 15, 35, 0.25) 100%);
+        }
+        .blog-video-playbtn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 72px;
+            height: 72px;
+            background: var(--pink);
+            border-radius: 50%;
+            color: var(--text-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(236, 72, 153, 0.55);
+            transition: transform 0.2s ease;
+            z-index: 1;
+        }
+        .blog-video-playbtn svg {
+            width: 26px;
+            height: 26px;
+            margin-left: 4px;
+        }
+        .blog-video-play:hover .blog-video-playbtn {
+            transform: translate(-50%, -50%) scale(1.08);
+        }
+        .blog-video-iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: 0;
+            border-radius: 8px;
+            display: block;
+        }
         .author-bio {
             max-width: 760px;
             margin: 3rem auto;
@@ -287,7 +365,20 @@
         </div>
         
 <p>De Provincie Limburg legt tot 24.500 euro per bedrijf op tafel voor MKB&#39;ers die hun bedrijfsprocessen willen verbeteren. 50% van je projectkosten, geen terugbetaling, geen lening. Gewoon subsidie. De regeling wordt vier keer opengesteld: mei 2026, september 2026, januari 2027 en mei 2027. Het budget is beperkt en werkt op volgorde van binnenkomst. Wie het eerst komt, wie het eerst maalt.</p>
-<div class="video-placeholder" aria-label="Video volgt">Video volgt</div>
+<div class="blog-video-banner">
+  <div class="blog-video-meta">
+    <span>&#128214; Leestijd: 12 min</span>
+    <span>&middot;</span>
+    <span>&#127916; Video: 5 min</span>
+  </div>
+  <p class="blog-video-intro">Geen zin om te lezen? Het belangrijkste zie je hier in 5 min.</p>
+  <button class="blog-video-play" type="button" data-video-id="pv3v1hVLwR4" aria-label="Speel video af">
+    <img src="/images/video-thumbnail.png" alt="Video preview" loading="lazy">
+    <span class="blog-video-playbtn" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    </span>
+  </button>
+</div>
 <p>De regeling heet de Sprintsubsidie MKB heeft een heel simpel doel: Limburgse bedrijven helpen om sneller te digitaliseren, automatiseren en efficienter te werken. De provincie doet dit niet uit liefdadigheid. Ze doen het omdat bedrijven die niet meegaan met digitalisering om efficiënter worden. Hun concurrentiepositie zien verzwakken, medewerkers kwijtraken en uiteindelijk omvallen. En dat kost werkgelegenheid. De Sprint subsidie is hun manier om dat te voorkomen: een financiele duw in de rug zodat je die stap naar slimmer werken nu zet, in plaats van over drie jaar als het te laat is.</p>
 <p>In dit artikel leggen we alles uit. Geen juridisch geneuzel, geen subsidietaal. Gewoon: wat is het, voor wie, hoeveel, waarvoor, hoe vraag je het aan en waarom wil je dit?</p>
 <h2>Wat is de Sprintsubsidie?</h2>
@@ -461,5 +552,22 @@
     </footer>
 
     <!-- chatbot widget snippet komt hier in sub-project 2 -->
+
+    <script>
+      // Lazy-load YouTube embed bij klik op thumbnail
+      document.querySelectorAll('.blog-video-play').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var id = btn.getAttribute('data-video-id');
+          if (!id) return;
+          var iframe = document.createElement('iframe');
+          iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+          iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+          iframe.setAttribute('allowfullscreen', '');
+          iframe.className = 'blog-video-iframe';
+          iframe.title = 'Video';
+          btn.replaceWith(iframe);
+        });
+      });
+    </script>
 </body>
 </html>

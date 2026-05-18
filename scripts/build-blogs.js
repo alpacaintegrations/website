@@ -24,6 +24,30 @@ function displayDate(iso) {
   return d.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
+function calcReadingMinutes(text) {
+  // Strip markdown opmaak voor accuratere telling
+  const cleaned = text.replace(/```[\s\S]*?```/g, ' ').replace(/[#*_>\-`]/g, ' ');
+  const words = cleaned.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+}
+
+function buildVideoBanner(video, readingMinutes) {
+  return `<div class="blog-video-banner">
+  <div class="blog-video-meta">
+    <span>&#128214; Leestijd: ${readingMinutes} min</span>
+    <span>&middot;</span>
+    <span>&#127916; Video: ${video.minutes} min</span>
+  </div>
+  <p class="blog-video-intro">Geen zin om te lezen? Het belangrijkste zie je hier in ${video.minutes} min.</p>
+  <button class="blog-video-play" type="button" data-video-id="${video.id}" aria-label="Speel video af">
+    <img src="/images/video-thumbnail.png" alt="Video preview" loading="lazy">
+    <span class="blog-video-playbtn" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    </span>
+  </button>
+</div>`;
+}
+
 function injectDiagrams(html, diagrams) {
   if (!diagrams) return html;
   let out = html;
@@ -34,9 +58,10 @@ function injectDiagrams(html, diagrams) {
   return out;
 }
 
-function injectVideoPlaceholder(html, hasPlaceholder) {
-  if (!hasPlaceholder) return html;
-  return html.replace(/(<\/p>)/, '$1\n<div class="video-placeholder" aria-label="Video volgt">Video volgt</div>');
+function injectVideoBanner(html, banner) {
+  if (!banner) return html;
+  // Plak de banner direct na het eerste paragraaf (vlak onder de H1/meta-strip).
+  return html.replace(/(<\/p>)/, '$1\n' + banner);
 }
 
 function fillTemplate(template, vars) {
@@ -66,7 +91,9 @@ async function buildBlog(blog, template) {
 
   html = injectDiagrams(html, blog.diagrams);
 
-  html = injectVideoPlaceholder(html, blog.embedsVideoPlaceholder);
+  const readingMinutes = calcReadingMinutes(rawMd);
+  const videoBanner = blog.video ? buildVideoBanner(blog.video, readingMinutes) : null;
+  html = injectVideoBanner(html, videoBanner);
 
   html = html.replace(/<h1[^>]*>[\s\S]*?<\/h1>/, '');
 

@@ -179,6 +179,84 @@
             color: rgba(226, 232, 240, 0.5);
             margin: 1.5rem 0;
         }
+        .blog-video-banner {
+            background: var(--darker-bg);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-left: 4px solid var(--pink);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 0 0 2rem;
+        }
+        .blog-video-meta {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: rgba(226, 232, 240, 0.7);
+            margin-bottom: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .blog-video-intro {
+            font-size: 1.05rem;
+            margin: 0 0 1rem;
+            color: var(--text-white);
+            line-height: 1.45;
+        }
+        .blog-video-play {
+            position: relative;
+            display: block;
+            width: 100%;
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+            padding: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 16 / 9;
+        }
+        .blog-video-play img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .blog-video-play::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(15, 15, 35, 0.25) 100%);
+        }
+        .blog-video-playbtn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 72px;
+            height: 72px;
+            background: var(--pink);
+            border-radius: 50%;
+            color: var(--text-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(236, 72, 153, 0.55);
+            transition: transform 0.2s ease;
+            z-index: 1;
+        }
+        .blog-video-playbtn svg {
+            width: 26px;
+            height: 26px;
+            margin-left: 4px;
+        }
+        .blog-video-play:hover .blog-video-playbtn {
+            transform: translate(-50%, -50%) scale(1.08);
+        }
+        .blog-video-iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: 0;
+            border-radius: 8px;
+            display: block;
+        }
         .author-bio {
             max-width: 760px;
             margin: 3rem auto;
@@ -239,6 +317,20 @@
         </div>
         
 <p>Je weet dat je team te veel tijd kwijt is aan handmatig werk. Orders overtypen, planningen bijwerken in Excel, dezelfde gegevens op drie plekken invoeren, herinneringen sturen die net zo goed automatisch zouden kunnen. Je weet ook dat het anders kan. Maar het kost geld, het kost tijd om het in te richten, en er zijn altijd urgentere dingen. De Sprintsubsidie haalt die drempel weg: de Provincie Limburg betaalt tot 50% van de kosten, met een maximum van 24.500 euro per bedrijf. De regeling is specifiek voor MKB-bedrijven in Limburg. Je vindt de regeling op het <a href="https://www.limburg.nl/loket/subsidies/actuele-subsidies/" target="_blank" rel="noopener">subsidieloket van de Provincie Limburg</a>. Meer weten over de regeling? Lees de <a href="/blog/sprintsubsidie-mkb-limburg-gids">complete gids over de Sprintsubsidie MKB</a>.</p>
+<div class="blog-video-banner">
+  <div class="blog-video-meta">
+    <span>&#128214; Leestijd: 7 min</span>
+    <span>&middot;</span>
+    <span>&#127916; Video: 2 min</span>
+  </div>
+  <p class="blog-video-intro">Geen zin om te lezen? Het belangrijkste zie je hier in 2 min.</p>
+  <button class="blog-video-play" type="button" data-video-id="xtZfb1H7eN4" aria-label="Speel video af">
+    <img src="/images/video-thumbnail.png" alt="Video preview" loading="lazy">
+    <span class="blog-video-playbtn" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+    </span>
+  </button>
+</div>
 <p>In dit artikel leggen we uit welke bedrijfsprocessen je kunt automatiseren met de subsidie, wat het oplevert, en hoe je het aanpakt. We hebben het hier bewust over automatisering, niet over AI. Soms is AI de juiste keuze, maar voor veel processen werkt een automatisering met vaste regels sneller, goedkoper en betrouwbaarder. Lees onze blog over <a href="/blog/ai-implementeren-sprintsubsidie">AI implementeren met de Sprintsubsidie</a> als je wilt weten wanneer AI wel de betere optie is.</p>
 <h2>Welke processen kun je automatiseren?</h2>
 <p>De Sprint subsidie is bedoeld voor de implementatie van bewezen technologie die nieuw is voor jouw bedrijf. Bij automatisering gaat het om processen die nu handmatig lopen en die je met bestaande software kunt stroomlijnen. De regeling noemt vier thema&#39;s, maar voor automatisering zijn er twee die direct relevant zijn: digitalisering en arbeidsproductiviteit.</p>
@@ -321,5 +413,22 @@
     </footer>
 
     <!-- chatbot widget snippet komt hier in sub-project 2 -->
+
+    <script>
+      // Lazy-load YouTube embed bij klik op thumbnail
+      document.querySelectorAll('.blog-video-play').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var id = btn.getAttribute('data-video-id');
+          if (!id) return;
+          var iframe = document.createElement('iframe');
+          iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+          iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+          iframe.setAttribute('allowfullscreen', '');
+          iframe.className = 'blog-video-iframe';
+          iframe.title = 'Video';
+          btn.replaceWith(iframe);
+        });
+      });
+    </script>
 </body>
 </html>

@@ -7,7 +7,7 @@ export const BLOGS = [
     ogImage: 'og-sprintsubsidie-mkb-limburg-gids.png',
     datePublished: '2026-05-11T09:00:00+02:00',
     dateModified: '2026-05-11T09:00:00+02:00',
-    embedsVideoPlaceholder: true,
+    video: { id: 'pv3v1hVLwR4', minutes: 5 },
     faqItems: [
       { q: 'Wat is de Sprintsubsidie?', a: 'Een subsidie van de Provincie Limburg waarmee MKB-bedrijven in Limburg tot 24.500 euro kunnen krijgen voor het implementeren van bewezen technologie die nieuw is voor hun bedrijf.' },
       { q: 'Hoeveel subsidie kan ik krijgen?', a: 'Minimaal 5.000 en maximaal 24.500 euro, met een maximum van 50% van de projectkosten. De rest financier je zelf, waarvan minimaal 25% uit eigen middelen.' },
@@ -24,6 +24,7 @@ export const BLOGS = [
     ogImage: 'og-sprintsubsidie-voorwaarden-wat-komt-in-aanmerking.png',
     datePublished: '2026-05-11T13:00:00+02:00',
     dateModified: '2026-05-11T13:00:00+02:00',
+    video: { id: '51GYIgSPvhw', minutes: 2 },
     faqItems: [
       { q: 'Wat komt in aanmerking voor de Sprintsubsidie?', a: 'Implementatie van bewezen technologie die nieuw is voor jouw bedrijf en je processen meetbaar verbetert. Binnen de thema\'s digitalisering, verduurzaming, circulariteit of arbeidsproductiviteit.' },
       { q: 'Wat komt niet in aanmerking?', a: 'Eigen ontwikkeling, experimenten, proof-of-concepts zonder daadwerkelijke ingebruikname, en productontwikkeling. De regeling is voor implementatie, niet voor onderzoek of innovatie.' },
@@ -39,6 +40,7 @@ export const BLOGS = [
     ogImage: 'og-sprintsubsidie-aanvragen-stappenplan.png',
     datePublished: '2026-05-11T14:30:00+02:00',
     dateModified: '2026-05-11T14:30:00+02:00',
+    video: { id: 'jICERR_Cjjg', minutes: 2 },
     howToName: 'Sprintsubsidie MKB aanvragen',
     howToSteps: [
       { name: 'Voorbereiding', text: 'Regel eHerkenning (niveau 2+) voor je bedrijf, vraag een MKB-verklaring aan bij RVO, vul de de-minimisverklaring in, en zorg dat je een duidelijk projectidee hebt met een meetbaar doel.' },
@@ -56,7 +58,8 @@ export const BLOGS = [
     description: 'Welke AI-toepassingen zijn subsidiabel via de Sprintsubsidie? Dit moet je weten over AI implementeren met subsidie in Limburg.',
     ogImage: 'og-ai-implementeren-sprintsubsidie.png',
     datePublished: '2026-05-11T16:00:00+02:00',
-    dateModified: '2026-05-11T16:00:00+02:00'
+    dateModified: '2026-05-11T16:00:00+02:00',
+    video: { id: '54NpHmu1Eok', minutes: 2 }
   },
   {
     sourceFile: 'sprintsubsidie-automatisering-blog.md',
@@ -65,7 +68,8 @@ export const BLOGS = [
     description: 'Van handmatig werk naar automatische workflows met de Sprintsubsidie. Welke bedrijfsprocessen kun je automatiseren en wat levert het op?',
     ogImage: 'og-bedrijfsprocessen-automatiseren-sprintsubsidie.png',
     datePublished: '2026-05-11T17:00:00+02:00',
-    dateModified: '2026-05-11T17:00:00+02:00'
+    dateModified: '2026-05-11T17:00:00+02:00',
+    video: { id: 'xtZfb1H7eN4', minutes: 2 }
   },
   {
     sourceFile: 'sprintsubsidie-processen-blog.md',
@@ -74,7 +78,8 @@ export const BLOGS = [
     description: 'Hoe vind je de taken en processen in jouw bedrijf die het meest opleveren als je ze automatiseert? Het systeem dat wij gebruiken.',
     ogImage: 'og-beste-processen-automatiseren-bedrijf.png',
     datePublished: '2026-05-12T09:30:00+02:00',
-    dateModified: '2026-05-12T09:30:00+02:00'
+    dateModified: '2026-05-12T09:30:00+02:00',
+    video: { id: 'UxN3LGcUv-k', minutes: 2 }
   },
   {
     sourceFile: 'sprintsubsidie-tafelgasten-blog.md',
