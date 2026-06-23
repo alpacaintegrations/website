@@ -87,6 +87,24 @@
     <link rel="stylesheet" href="/css/chatbot.css">
     <script type="module" src="/js/chatbot/widget.js" defer></script>
 
+    <!-- Google tag (gtag.js) — cookieless tracking, geen banner nodig -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GT-T945Z9VG"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'GT-T945Z9VG', {
+        client_storage: 'none',
+        anonymize_ip: true,
+        ads_data_redaction: true
+      });
+      gtag('config', 'G-E350VE0RSC', {
+        client_storage: 'none',
+        anonymize_ip: true,
+        ads_data_redaction: true
+      });
+    </script>
+
     <style>
         :root {
             --dark-bg: #0f0f23;
